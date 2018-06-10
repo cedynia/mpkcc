@@ -1,0 +1,13 @@
+--- include/mapnik/geometry/strategy.hpp	2018-06-09 18:58:11.883538787 +0200
++++ strategy.patched	2018-06-09 19:05:24.398723555 +0200
+@@ -185,8 +185,8 @@
+         using p2_type = typename boost::geometry::coordinate_type<P2>::type;
+         double x = (boost::geometry::get<0>(p1) * scale_) + offset_;
+         double y = (boost::geometry::get<1>(p1) * scale_) + offset_;
+-        boost::geometry::set<0>(p2, static_cast<p2_type>(std::round(x)));
+-        boost::geometry::set<1>(p2, static_cast<p2_type>(std::round(y)));
++        boost::geometry::set<0>(p2, static_cast<p2_type>(round(x)));
++        boost::geometry::set<1>(p2, static_cast<p2_type>(round(y)));
+         return true;
+     }
+ 

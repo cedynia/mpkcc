@@ -1,0 +1,11 @@
+--- src/text/color_font_renderer.cpp	2018-06-09 18:58:12.019537214 +0200
++++ ../color_font_renderer.mapnik	2018-06-09 19:10:44.690370227 +0200
+@@ -161,7 +161,7 @@
+     transform *= agg::trans_affine_translation(-bitmap_bbox.minx(), -bitmap_bbox.miny());
+     render_pos = render_pos +
+                  pixel_position(glyph.pos.x, -glyph.pos.y) +
+-                 pixel_position(std::round(bitmap_bbox.minx()), std::round(bitmap_bbox.miny()));
++                 pixel_position(round(bitmap_bbox.minx()), round(bitmap_bbox.miny()));
+     composite_color_glyph(glyph_image, bitmap, transform, 1, dst_over);
+     return glyph_image;
+ }

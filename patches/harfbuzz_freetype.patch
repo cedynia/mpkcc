@@ -1,0 +1,10 @@
+--- harfbuzz-1.8.0/configure	2018-06-10 10:39:11.207005295 +0200
++++ ./harfbuzz.patched	2018-06-10 10:39:30.094879687 +0200
+@@ -20821,6 +20821,7 @@
+ if test "x$with_freetype" = "xyes" -a "x$have_freetype" != "xtrue"; then
+ 	as_fn_error $? "FreeType support requested but libfreetype2 not found" "$LINENO" 5
+ fi
++have_freetype=true
+ if $have_freetype; then
+ 
+ $as_echo "#define HAVE_FREETYPE 1" >>confdefs.h
