@@ -1,0 +1,14 @@
+--- icu/source/common/ucnvmbcs.c	2013-01-11 01:23:18.000000000 +0100
++++ ./ucnvmbcs.c.patched	2018-06-12 09:32:50.228364529 +0200
+@@ -62,6 +62,11 @@
+ #define MBCS_UNROLL_SINGLE_TO_BMP 1
+ #define MBCS_UNROLL_SINGLE_FROM_BMP 0
+ 
++/* si_value is defined as a macro in some POSIX implementations' standard headers. */
++#ifdef si_value
++#undef si_value
++#endif
++
+ /*
+  * _MBCSHeader versions 5.3 & 4.3
+  * (Note that the _MBCSHeader version is in addition to the converter formatVersion.)

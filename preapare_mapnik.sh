@@ -5,13 +5,13 @@ NDK_ROOT=
 API_VERSION=
 MYPWD=${PWD}
 TOOLCHAIN_FOLDER=
-TOOLCHAIN_PATH=${PWD}/$TOOLCHAIN_FOLDER
-CC_COMPILER=$TOOLCHAIN_PATH/bin/clang
-CXX_COMPILER=$TOOLCHAIN_PATH/bin/clang++
-BUIL=arm-linux-androideabi
+TOOLCHAIN_PATH=
+CC_COMPILER=
+CXX_COMPILER=
+BUILD=arm-linux-androideabi
 
-BOOST_FOLDER=boost_1_63_0
-BOOST_VERSION=1.63.0
+BOOST_FOLDER=boost_1_64_0
+BOOST_VERSION=1.64.0
 BOOST_OUTPUT=boost
 
 ZLIB_FOLDER=zlib-1.2.11
@@ -26,7 +26,8 @@ LIBTIFF_OUTPUT=libtiff
 LIBJPEG_FOLDER=jpegsrc.v9c
 LIBJPEG_OUTPUT=libjpeg
 
-LIBPNG_FOLDER=libpng-1.6.34
+#hardcoded ftp link
+LIBPNG_FOLDER=libpng-1.2.59
 LIBPNG_OUTPUT=libpng
 
 LIBPROJ_FOLDER=proj-4.5.0
@@ -38,7 +39,7 @@ LIBFREETYPE_OUTPUT=libfreetype
 LIBHARFBUZZ_FOLDER=harfbuzz-1.8.0
 LIBHARFBUZZ_OUTPUT=libharfbuzz
 
-LIBICU_FOLDER=icu4c-61_1-src
+LIBICU_FOLDER=icu4c-50_1_2-src
 LIBICU_OUTPUT=libicu
 
 MAPNIK_VERSION=3.0.20
@@ -64,8 +65,11 @@ echo "the standalone toolchain will be build in this directory... in:"  $TOOLCHA
 
 $NDK_ROOT/build/tools/make_standalone_toolchain.py --arch=arm --api=$API_VERSION --stl=libc++ --force --verbose --install-dir=$MYPWD/$TOOLCHAIN_FOLDER
 
-export CC=$CC_COMPILER
-export CXX=$CXX_COMPILER
+TOOLCHAIN_PATH=$MYPWD/$TOOLCHAIN_FOLDER/bin/
+export CC_COMPILER=$TOOLCHAIN_PATH/clang
+export CXX_COMPILER=$TOOLCHAIN_PATH/clang++
+
+echo "toolchain path is: " $TOOLCHAIN_PATH
 
 echo "downloading the actual boost lirary...."
 
@@ -77,12 +81,9 @@ tar -xvf $BOOST_FOLDER.tar.gz
 
 cd $BOOST_FOLDER
 
-export path to clang compiler..
-export PATH=$TOOLCHAIN_PATH/bin/:$PATH
+export PATH=$TOOLCHAIN_PATH:$PATH
 
-#patching files...
 patch libs/filesystem/src/operations.cpp < ../patches/boost_filesystem.patch
-patch boost/thread/detail/config.hpp < ../patches/boost_thread.patch
 
 ./bootstrap.sh
 
@@ -90,7 +91,7 @@ patch boost/thread/detail/config.hpp < ../patches/boost_thread.patch
 
 cd $MYPWD
 
-#downloading zlib
+
 wget https://zlib.net/$ZLIB_FOLDER.tar.xz
 
 tar -xvf $ZLIB_FOLDER.tar.xz
@@ -103,18 +104,17 @@ make install -j2
 
 cd $MYPWD
 
-xml2lib
 wget ftp://xmlsoft.org/libxml2/$LIBXML_FOLDER.tar.gz
 
 tar -xvf $LIBXML_FOLDER.tar.gz
-#make will fail because android < 28 doesnt have glob and globfree functions
-#but they are required only for tests, so we have to manually copy static libs from .lib folder
-#to our libxml2 folder
+# #make will fail because android < 28 doesnt have glob and globfree functions
+# #but they are required only for tests, so we have to manually copy static libs from .lib folder
+# #to our libxml2 folder
 mkdir $MYPWD/$LIBXML_OUTPUT/
 mkdir $MYPWD/$LIBXML_OUTPUT/lib
 
 cd $LIBXML_FOLDER
-./configure --host=arm-linux-androideabi --prefix=$MYPWD/$LIBXML_OUTPUT
+./configure --host=$BUILD --prefix=$MYPWD/$LIBXML_OUTPUT
 
 make install -j2
 
@@ -122,7 +122,6 @@ cp .libs/libxml2.a $MYPWD/$LIBXML_OUTPUT/lib/
 
 cd $MYPWD
 
-#tiff lib
 
 wget https://download.osgeo.org/libtiff/$LIBTIFF_FOLDER.tar.gz
 
@@ -149,8 +148,8 @@ make install -j2
 
 cd $MYPWD
 
-#png lib
-wget ftp://ftp-osl.osuosl.org/pub/libpng/src/libpng16/$LIBPNG_FOLDER.tar.gz
+
+wget ftp://ftp-osl.osuosl.org/pub/libpng/src/libpng12/$LIBPNG_FOLDER.tar.gz
 
 tar -xvf $LIBPNG_FOLDER.tar.gz
 
@@ -184,7 +183,7 @@ cd $LIBFREETYPE_FOLDER
 
 make install -j2
 
-#harfbuzz hack allows to find freetype includes
+# #harfbuzz hack allows to find freetype includes
 cp -r $MYPWD/$LIBFREETYPE_OUTPUT/include/freetype2/* $MYPWD/$LIBFREETYPE_OUTPUT/include/
 
 cd $MYPWD
@@ -207,8 +206,11 @@ wget http://download.icu-project.org/files/icu4c/61.1/$LIBICU_FOLDER.tgz
 
 tar -xvf $LIBICU_FOLDER.tgz
 
-#!!!!!!!!!!!!!!!!HARDCODING ALERT
+# #!!!!!!!!!!!!!!!!HARDCODING ALERT
 cd icu
+
+patch source/common/ucnvmbcs.c < ../patches/icu_50_1_2_ucnvmbcs.patch
+patch source/i18n/uspoof.cpp < ../patches/icu_50_1_2_uspoof.patch
 
 mkdir dirA
 mkdir dirB
@@ -217,7 +219,7 @@ cd dirA
 
 export CC=
 export CXX=
-../source/runConfigureICU Linux
+../source/runConfigureICU Linux --enable-static --disable-shared
 
 make
 
@@ -226,7 +228,7 @@ cd ../dirB
 export CC=$CC_COMPILER
 export CXX=$CXX_COMPILER
 
-../source/configure --host=arm-linux-androideabi --with-cross-build=$MYPWD/icu/dirA/ --enable-static --prefix=$MYPWD/libicu
+../source/configure --host=arm-linux-androideabi --with-cross-build=$MYPWD/icu/dirA/ --enable-static --disable-shared --prefix=$MYPWD/libicu
 
 make install -j2
 
@@ -248,7 +250,9 @@ CC='$CC_COMPILER'
 CXX='$CXX_COMPILER'
 CUSTOM_LDFLAGS='-static-libstdc++'
 RUNTIME_LINK='static'
+LINKING='static'
 INPUT_PLUGINS='shape'
+PREFIX='$MYPWD/mapnik-lib/'
 BOOST_INCLUDES ='$MYPWD/$BOOST_OUTPUT/include'
 BOOST_LIBS ='$MYPWD/$BOOST_OUTPUT/lib'
 ICU_INCLUDES ='$MYPWD/$LIBICU_OUTPUT/include/'
@@ -280,3 +284,28 @@ ENABLE_SONAME = False
 MAPNIK_INDEX = False
 
 " > config.py
+
+./configure
+
+make
+
+cd $MYPWD
+find $MYPWD/$BOOST_OUTPUT/lib/*.a \
+$MYPWD/$LIBICU_OUTPUT/lib/*.a \
+$MYPWD/$LIBICU_OUTPUT/lib/*.a \
+$MYPWD/$LIBHARFBUZZ_OUTPUT/lib/*.a \
+$MYPWD/$LIBPNG_OUTPUT/lib/*.a \
+$MYPWD/$LIBPNG_OUTPUT/lib/*.a \
+$MYPWD/$LIBJPEG_OUTPUT/lib/*.a \
+$MYPWD/$LIBTIFF_OUTPUT/lib/*.a \
+$MYPWD/$LIBPROJ_OUTPUT/lib/*.a \
+$MYPWD/$LIBFREETYPE_OUTPUT/lib/*.a \
+$MYPWD/$LIBXML_OUTPUT/lib/*.a \
+$MYPWD/$ZLIB_OUTPUT/lib/*.a \
+$MYPWD/mapnik/src/*.a \
+-exec cp {} $MYPWD/mapnik-lib/lib/ ";"
+
+# cp -r $MYPWD/mapnik/include/  $MYPWD/mapnik-lib/
+# cp -r $MYPWD/$BOOST_OUTPUT/include/  $MYPWD/mapnik-lib/
+# cp -r $MYPWD/$LIBHARFBUZZ_OUTPUT/include/ $MYPWD/mapnik-lib/
+# cp -r $MYPWD/$LIBICU_OUTPUT/include/ $MYPWD/mapnik-lib/
