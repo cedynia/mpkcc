@@ -219,8 +219,9 @@ mkdir dirB
 
 cd dirA
 
-export CC=
-export CXX=
+export CC=gcc
+export CXX=g++
+
 ../source/runConfigureICU Linux --enable-static --disable-shared
 
 make
@@ -253,7 +254,6 @@ CXX='$CXX_COMPILER'
 RUNTIME_LINK='static'
 LINKING='static'
 INPUT_PLUGINS='shape'
-PREFIX='$MYPWD/mapnik-lib/'
 BOOST_INCLUDES ='$MYPWD/$BOOST_OUTPUT/include'
 BOOST_LIBS ='$MYPWD/$BOOST_OUTPUT/lib'
 ICU_INCLUDES ='$MYPWD/$LIBICU_OUTPUT/include/'
@@ -288,7 +288,14 @@ MAPNIK_INDEX = False
 
 ./configure
 
-make install
+make
+
+cd $MYPWD
+
+mkdir -p $MYPWD/mapnik-lib/lib/
+mkdir -p $MYPWD/mapnik-lib/include/mapbox/
+mkdir -p $MYPWD/mapnik-lib/include/mapbox/geometry/
+mkdir -p $MYPWD/mapnik-lib/include/mapbox/variant/
 
 cd $MYPWD
 find $MYPWD/$BOOST_OUTPUT/lib/*.a \
@@ -307,9 +314,12 @@ $MYPWD/mapnik/src/*.a \
 -exec cp {} $MYPWD/mapnik-lib/lib/ ";"
 
 cp -r $MYPWD/mapnik/include/  $MYPWD/mapnik-lib/
+cp -r $MYPWD/mapnik/deps/mapbox/variant/include/mapbox/*  $MYPWD/mapnik-lib/include/mapbox/variant/
+cp -r $MYPWD/mapnik/deps/mapbox/geometry/include/mapbox/geometry/*  $MYPWD/mapnik-lib/include/mapbox/geometry/
 cp -r $MYPWD/$BOOST_OUTPUT/include/  $MYPWD/mapnik-lib/
 cp -r $MYPWD/$LIBHARFBUZZ_OUTPUT/include/ $MYPWD/mapnik-lib/
 cp -r $MYPWD/$LIBICU_OUTPUT/include/ $MYPWD/mapnik-lib/
+
 
 cd $MYPWD/mapnik-lib/lib/
 
