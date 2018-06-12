@@ -1,5 +1,6 @@
 #!/bin/sh
 #this script build the mapnik c++ library for the android system
+#there will be an error while building xml it's ok.... libs are generated
 
 NDK_ROOT=
 API_VERSION=
@@ -40,6 +41,7 @@ LIBHARFBUZZ_FOLDER=harfbuzz-1.8.0
 LIBHARFBUZZ_OUTPUT=libharfbuzz
 
 LIBICU_FOLDER=icu4c-50_1_2-src
+LIBICU_VERSION=50.1.2
 LIBICU_OUTPUT=libicu
 
 MAPNIK_VERSION=3.0.20
@@ -149,7 +151,7 @@ make install -j2
 cd $MYPWD
 
 
-wget ftp://ftp-osl.osuosl.org/pub/libpng/src/libpng12/$LIBPNG_FOLDER.tar.gz
+wget http://ftp-osl.osuosl.org/pub/libpng/src/libpng12/$LIBPNG_FOLDER.tar.gz
 
 tar -xvf $LIBPNG_FOLDER.tar.gz
 
@@ -202,7 +204,7 @@ make install -j2
 
 cd $MYPWD
 
-wget http://download.icu-project.org/files/icu4c/61.1/$LIBICU_FOLDER.tgz
+wget http://download.icu-project.org/files/icu4c/$LIBICU_VERSION/$LIBICU_FOLDER.tgz
 
 tar -xvf $LIBICU_FOLDER.tgz
 
@@ -248,7 +250,6 @@ patch SConstruct < $MYPWD/patches/mapnik_sconstruct.patch
 echo "
 CC='$CC_COMPILER'
 CXX='$CXX_COMPILER'
-CUSTOM_LDFLAGS='-static-libstdc++'
 RUNTIME_LINK='static'
 LINKING='static'
 INPUT_PLUGINS='shape'
@@ -287,7 +288,7 @@ MAPNIK_INDEX = False
 
 ./configure
 
-make
+make install
 
 cd $MYPWD
 find $MYPWD/$BOOST_OUTPUT/lib/*.a \
@@ -305,7 +306,52 @@ $MYPWD/$ZLIB_OUTPUT/lib/*.a \
 $MYPWD/mapnik/src/*.a \
 -exec cp {} $MYPWD/mapnik-lib/lib/ ";"
 
-# cp -r $MYPWD/mapnik/include/  $MYPWD/mapnik-lib/
-# cp -r $MYPWD/$BOOST_OUTPUT/include/  $MYPWD/mapnik-lib/
-# cp -r $MYPWD/$LIBHARFBUZZ_OUTPUT/include/ $MYPWD/mapnik-lib/
-# cp -r $MYPWD/$LIBICU_OUTPUT/include/ $MYPWD/mapnik-lib/
+cp -r $MYPWD/mapnik/include/  $MYPWD/mapnik-lib/
+cp -r $MYPWD/$BOOST_OUTPUT/include/  $MYPWD/mapnik-lib/
+cp -r $MYPWD/$LIBHARFBUZZ_OUTPUT/include/ $MYPWD/mapnik-lib/
+cp -r $MYPWD/$LIBICU_OUTPUT/include/ $MYPWD/mapnik-lib/
+
+cd $MYPWD/mapnik-lib/lib/
+
+echo "
+create libmapnik4android.a
+addlib libboost_filesystem.a
+addlib libboost_program_options.a
+addlib libboost_regex.a
+addlib libboost_system.a
+addlib libboost_thread.a
+addlib libfreetype.a
+addlib libharfbuzz-subset.a
+addlib libharfbuzz.a
+addlib libicudata.a
+addlib libicui18n.a
+addlib libicuio.a
+addlib libicule.a
+addlib libiculx.a
+addlib libicutest.a
+addlib libicutu.a
+addlib libicuuc.a
+addlib libjpeg.a
+addlib libmapnik.a
+addlib libpng.a
+addlib libproj.a
+addlib libtiff.a
+addlib libxml2.a
+addlib libz.a
+save
+end
+" > mri_script
+
+ar -M < mri_script
+
+echo "*****************ADD THIS TO YOUR CMAKELISTS IN ANDROIDSTUDIO PROJECT*****************"
+echo "**************************************************************************************"
+echo "
+################################################################
+add_library(mapnik STATIC IMPORTED)
+set_target_properties(mapnik PROPERTIES IMPORTED_LOCATION
+    $MYPWD/libmapnik-lib/lib/libmapnik4android.a)
+include_directories($MYPWD/libmapnik-lib/include/)
+################################################################
+"
+echo "**************************************************************************************"
