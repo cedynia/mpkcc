@@ -124,7 +124,6 @@ cp .libs/libxml2.a $MYPWD/$LIBXML_OUTPUT/lib/
 
 cd $MYPWD
 
-
 wget https://download.osgeo.org/libtiff/$LIBTIFF_FOLDER.tar.gz
 
 tar -xvf $LIBTIFF_FOLDER.tar.gz

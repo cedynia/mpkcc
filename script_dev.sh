@@ -1,59 +1,8 @@
 #! /bin/bash
 
-
-pattern_match ()
-{
-    echo "$2" | grep -q -E -e "$1"
-}
-
-function validateLink(){
-
-	# Is this HTTP, HTTPS?
-	if pattern_match "^(http|https):.*" "$1"; then
-		if [[ `wget -S --spider $1  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
-			true;
-		else
-			false;
-		fi
-	#Is this FTP?
-	elif pattern_match "^(ftp):/*" "$1"; then
-		if [[ `wget -S --spider $1  2>&1 | grep 'exists'` ]]; then
-			true;
-		else
-			false;
-		fi
-	else
-		false;
-	fi
-
-}
-
-function cdIntoFold(){
-
-	#local foldName=$(echo $1 | sed 's/\(.*\)\.\(.*\)\.\(.*\)/\1/g')
-	local foldName=$(echo $1 | awk -F. '{ print $1 }')
-
-	if [ -d "$foldName" ];then
-		cd $foldName
-	else
-		mkdir $foldName
-		tar -xvf .arch/$1 --strip-components 1 -C $foldName
-		cd $foldName
-	fi
-}
-
-# echo "downloading..."
-#
-# for arch in ${!archArray[@]};
-# do
-# 	if [ ${archArray[$arch]} = false ];then
-# 		wget -P .arch ${linksArray[$arch]}
-# 	fi
-# done
-
 NDK_ROOT=
 API_VERSION=
-MYPWD=${PWD}
+MYPWD=$(pwd)
 TOOLCHAIN_FOLDER=
 TOOLCHAIN_PATH=
 CC_COMPILER=
@@ -94,6 +43,58 @@ LIBICU_VERSION=50.1.2
 LIBICU_OUTPUT=libicu
 
 MAPNIK_VERSION=3.0.20
+
+pattern_match ()
+{
+    echo "$2" | grep -q -E -e "$1"
+}
+
+function validateLink(){
+
+	# Is this HTTP, HTTPS?
+	if pattern_match "^(http|https):.*" "$1"; then
+		if [[ `wget -S --spider $1  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
+			true;
+		else
+			false;
+		fi
+	#Is this FTP?
+	elif pattern_match "^(ftp):/*" "$1"; then
+		if [[ `wget -S --spider $1  2>&1 | grep 'exists'` ]]; then
+			true;
+		else
+			false;
+		fi
+	else
+		false;
+	fi
+
+}
+
+function cdIntoFold(){
+
+	#local foldName=$(echo $1 | sed 's/\(.*\)\.\(.*\)\.\(.*\)/\1/g')
+	local foldName=$(echo $1 | awk -F. '{ print $1 }')
+	echo $foldName
+
+	if [ -d "$MYPWD/build/$foldName" ];then
+		cd "$MYPWD/build/$foldName"
+	else
+		mkdir -p "$MYPWD/build/$foldName"
+		tar -xvf "$MYPWD/.arch/$1" --strip-components 1 -C "$MYPWD/build/$foldName"
+		cd "$MYPWD/build/$foldName"
+	fi
+}
+
+# echo "downloading..."
+#
+# for arch in ${!archArray[@]};
+# do
+# 	if [ ${archArray[$arch]} = false ];then
+# 		wget -P .arch ${linksArray[$arch]}
+# 	fi
+# done
+
 
 #uncoment the line if you want to try to build the official master
 MAPNIK_MASTER=https://github.com/mapnik/mapnik.git
@@ -194,12 +195,12 @@ else
 fi
 
 TOOLCHAIN_PATH=$MYPWD/$TOOLCHAIN_FOLDER/bin/
-export CC_COMPILER=$TOOLCHAIN_PATH/clang
-export CXX_COMPILER=$TOOLCHAIN_PATH/clang++
+CC_COMPILER=$TOOLCHAIN_PATH/clang
+CXX_COMPILER=$TOOLCHAIN_PATH/clang++
 export CC=$CC_COMPILER
 export CXX=$CXX_COMPILER
 
-##############BOOST
+#############BOOST
 cd $MYPWD
 
 if [ ${archArray[$BOOST_FOLDER]} = false ];then
@@ -209,7 +210,7 @@ fi
 cdIntoFold "$BOOST_FOLDER"
 
 export PATH=$TOOLCHAIN_PATH:$PATH
-patch libs/filesystem/src/operations.cpp < ../patches/boost_filesystem.patch
+patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_filesystem.patch
 
 ./bootstrap.sh
 ./b2 install \
@@ -222,7 +223,7 @@ patch libs/filesystem/src/operations.cpp < ../patches/boost_filesystem.patch
 		--with-program_options \
 		--with-filesystem
 
-############ZLIB
+###########ZLIB
 cd $MYPWD
 
 if [ ${archArray[$ZLIB_FOLDER]} = false ];then
@@ -237,7 +238,7 @@ cdIntoFold "$ZLIB_FOLDER"
 
 make install -j2
 
-############LIBXML
+###########LIBXML
 cd $MYPWD
 
 if [ ${archArray[$LIBXML_FOLDER]} = false ];then
@@ -254,11 +255,15 @@ cdIntoFold "$LIBXML_FOLDER"
 
 ./configure \
 		--host=$BUILD \
-		--prefix=$MYPWD/$LIBXML_OUTPUT
+		--prefix=$MYPWD/$LIBXML_OUTPUT \
+		CC=$CC_COMPILER \
+		CXX=$CXX_COMPILER
+
+cp .libs/libxml2.a $MYPWD/$LIBXML_OUTPUT/lib/
 
 make install -j2
 
-#############LIBTIFF
+############LIBTIFF
 cd $MYPWD
 
 if [ ${archArray[$LIBTIFF_FOLDER]} = false ];then
@@ -270,11 +275,13 @@ cdIntoFold "$LIBTIFF_FOLDER"
 ./configure \
 		--host=arm-linux \
 		--enable-static \
-		--prefix=$MYPWD/$LIBTIFF_OUTPUT
+		--prefix=$MYPWD/$LIBTIFF_OUTPUT \
+		CC=$CC_COMPILER \
+		CXX=$CXX_COMPILER
 
 make install -j2
 
-############LIBJPEG
+###########LIBJPEG
 cd $MYPWD
 
 if [ ${archArray[$LIBJPEG_FOLDER]} = false ];then
@@ -286,7 +293,9 @@ cdIntoFold "$LIBJPEG_FOLDER"
 ./configure \
 		--host=arm-linux \
 		--enable-static \
-		--prefix=$MYPWD/$LIBJPEG_OUTPUT
+		--prefix=$MYPWD/$LIBJPEG_OUTPUT \
+		CC=$CC_COMPILER \
+		CXX=$CXX_COMPILER
 
 make install -j2
 
@@ -302,7 +311,9 @@ cdIntoFold "$LIBPNG_FOLDER"
 ./configure \
 		--enable-static \
 		--prefix=$MYPWD/$LIBPNG_OUTPUT \
-		--host=arm-linux-androideabi
+		--host=arm-linux-androideabi \
+		CC=$CC_COMPILER \
+		CXX=$CXX_COMPILER
 
 make install -j2
 
@@ -318,7 +329,9 @@ cdIntoFold "$LIBPROJ_FOLDER"
 ./configure \
 			--enable-static \
 			--prefix=$MYPWD/$LIBPROJ_OUTPUT \
-			--host=arm-linux
+			--host=arm-linux \
+			CC=$CC_COMPILER \
+			CXX=$CXX_COMPILER
 
 make install -j2
 
@@ -337,7 +350,9 @@ cdIntoFold "$LIBFREETYPE_FOLDER"
 			--host=arm-linux-androideabi  \
 			--without-harfbuzz \
 			--without-zlib \
-			--without-png
+			--without-png \
+			CC=$CC_COMPILER \
+			CXX=$CXX_COMPILER
 
 make install -j2
 
@@ -353,7 +368,7 @@ fi
 
 cdIntoFold "$LIBHARFBUZZ_FOLDER"
 
-patch ./configure < ../patches/harfbuzz_freetype.patch
+patch ./configure < $MYPWD/patches/harfbuzz_freetype.patch
 
 ./configure \
 		--prefix=$MYPWD/$LIBHARFBUZZ_OUTPUT \
@@ -363,7 +378,9 @@ patch ./configure < ../patches/harfbuzz_freetype.patch
 		LDFLAGS=-L$MYPWD/$LIBFREETYPE_OUTPUT/lib/ \
 		FREETYPE_LIBS=$MYPWD/$LIBFREETYPE_OUTPUT/lib/libfreetype.so  \
 		--enable-static  \
-		--without-icu
+		--without-icu \
+		CC=$CC_COMPILER \
+		CXX=$CXX_COMPILER
 
 make install -j2
 
@@ -376,8 +393,8 @@ fi
 
 cdIntoFold "$LIBICU_FOLDER"
 
-patch source/common/ucnvmbcs.c < ../patches/icu_50_1_2_ucnvmbcs.patch
-patch source/i18n/uspoof.cpp < ../patches/icu_50_1_2_uspoof.patch
+patch source/common/ucnvmbcs.c < $MYPWD/patches/icu_50_1_2_ucnvmbcs.patch
+patch source/i18n/uspoof.cpp < $MYPWD/patches/icu_50_1_2_uspoof.patch
 
 mkdir dirA
 mkdir dirB
@@ -485,7 +502,7 @@ $MYPWD/mapnik/src/*.a \
 -exec cp {} $MYPWD/mapnik-lib/lib/ ";"
 
 cp -r $MYPWD/mapnik/include/  $MYPWD/mapnik-lib/
-cp -r $MYPWD/mapnik/deps/mapbox/variant/include/mapbox/*  $MYPWD/mapnik-lib/include/mapbox/variant/
+cp -r $MYPWD/mapnik/deps/mapbox/variant/include/mapbox/*  $MYPWD/mapnik-lib/include/mapbox/
 cp -r $MYPWD/mapnik/deps/mapbox/geometry/include/mapbox/geometry/*  $MYPWD/mapnik-lib/include/mapbox/geometry/
 cp -r $MYPWD/$BOOST_OUTPUT/include/  $MYPWD/mapnik-lib/
 cp -r $MYPWD/$LIBHARFBUZZ_OUTPUT/include/ $MYPWD/mapnik-lib/
