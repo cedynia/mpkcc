@@ -140,6 +140,13 @@ else
 	echo ".arch exist"
 fi
 
+if [ ! -d build ];then
+	echo ".arch doesnt exist!";
+	mkdir  build
+else
+	echo "build exist"
+fi
+
 for A in ${!archArray[@]};
 do
 	echo ${A}
