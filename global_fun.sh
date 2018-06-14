@@ -1,3 +1,5 @@
+#! /bin/bash
+
 pattern_match ()
 {
     echo "$2" | grep -q -E -e "$1"
@@ -25,7 +27,11 @@ function validateLink(){
 
 }
 
-function cdIntoFold(){
+function cdIntoSrc(){
+
+  if [ ${archArray[$1]} = false ];then
+  	wget -P .arch ${linksArray[$1]}
+  fi
 
 	#local foldName=$(echo $1 | sed 's/\(.*\)\.\(.*\)\.\(.*\)/\1/g')
 	local foldName=$(echo $1 | awk -F. '{ print $1 }')

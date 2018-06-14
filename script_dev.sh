@@ -1,137 +1,9 @@
 #! /bin/bash
 
-NDK_ROOT=
-API_VERSION=
-MYPWD=$(pwd)
-TOOLCHAIN_FOLDER=
-TOOLCHAIN_PATH=
-CC_COMPILER=
-CXX_COMPILER=
-BUILD=arm-linux-androideabi
-
-BOOST_FOLDER=boost_1_64_0.tar.gz
-BOOST_VERSION=1.64.0
-BOOST_OUTPUT=boost
-
-ZLIB_FOLDER=zlib-1.2.11.tar.xz
-ZLIB_OUTPUT=zlib
-
-LIBXML_FOLDER=libxml2-2.9.0.tar.gz
-LIBXML_OUTPUT=libxml2
-
-LIBTIFF_FOLDER=tiff-4.0.9.tar.gz
-LIBTIFF_OUTPUT=libtiff
-
-LIBJPEG_FOLDER=jpegsrc.v9c.tar.gz
-LIBJPEG_OUTPUT=libjpeg
-
-#hardcoded ftp link
-LIBPNG_FOLDER=libpng-1.2.59.tar.gz
-LIBPNG_OUTPUT=libpng
-
-LIBPROJ_FOLDER=proj-4.5.0.tar.gz
-LIBPROJ_OUTPUT=libproj
-
-LIBFREETYPE_FOLDER=freetype-2.9.tar.gz
-LIBFREETYPE_OUTPUT=libfreetype
-
-LIBHARFBUZZ_FOLDER=harfbuzz-1.8.0.tar.bz2
-LIBHARFBUZZ_OUTPUT=libharfbuzz
-
-LIBICU_FOLDER=icu4c-50_1_2-src.tgz
-LIBICU_VERSION=50.1.2
-LIBICU_OUTPUT=libicu
-
-MAPNIK_VERSION=3.0.20
-
-pattern_match ()
-{
-    echo "$2" | grep -q -E -e "$1"
-}
-
-function validateLink(){
-
-	# Is this HTTP, HTTPS?
-	if pattern_match "^(http|https):.*" "$1"; then
-		if [[ `wget -S --spider $1  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
-			true;
-		else
-			false;
-		fi
-	#Is this FTP?
-	elif pattern_match "^(ftp):/*" "$1"; then
-		if [[ `wget -S --spider $1  2>&1 | grep 'exists'` ]]; then
-			true;
-		else
-			false;
-		fi
-	else
-		false;
-	fi
-
-}
-
-function cdIntoFold(){
-
-	#local foldName=$(echo $1 | sed 's/\(.*\)\.\(.*\)\.\(.*\)/\1/g')
-	local foldName=$(echo $1 | awk -F. '{ print $1 }')
-	echo $foldName
-
-	if [ -d "$MYPWD/build/$foldName" ];then
-		cd "$MYPWD/build/$foldName"
-	else
-		mkdir -p "$MYPWD/build/$foldName"
-		tar -xvf "$MYPWD/.arch/$1" --strip-components 1 -C "$MYPWD/build/$foldName"
-		cd "$MYPWD/build/$foldName"
-	fi
-}
-
-# echo "downloading..."
-#
-# for arch in ${!archArray[@]};
-# do
-# 	if [ ${archArray[$arch]} = false ];then
-# 		wget -P .arch ${linksArray[$arch]}
-# 	fi
-# done
-
-
-#uncoment the line if you want to try to build the official master
-MAPNIK_MASTER=https://github.com/mapnik/mapnik.git
-#...or the snapshot master from VI 2018
-#MAPNIK_MASTER=https://gitlab.com/czysty/mapnik_snapshot_master.git
-
-################################################################################
-
-declare -A archArray
-
-archArray=(
-						["$BOOST_FOLDER"]=false
-						["$ZLIB_FOLDER"]=false
-						["$LIBXML_FOLDER"]=false
-						["$LIBTIFF_FOLDER"]=false
-						["$LIBJPEG_FOLDER"]=false
-						["$LIBPNG_FOLDER"]=false
-						["$LIBPROJ_FOLDER"]=false
-						["$LIBFREETYPE_FOLDER"]=false
-						["$LIBHARFBUZZ_FOLDER"]=false
-						["$LIBICU_FOLDER"]=false
-	  			)
-
-declare -A linksArray
-
-linksArray=(
-						["$BOOST_FOLDER"]="https://dl.bintray.com/boostorg/release/$BOOST_VERSION/source/$BOOST_FOLDER"
-						["$ZLIB_FOLDER"]="https://zlib.net/$ZLIB_FOLDER"
-						["$LIBXML_FOLDER"]="ftp://xmlsoft.org/libxml2/$LIBXML_FOLDER"
-						["$LIBTIFF_FOLDER"]="https://download.osgeo.org/libtiff/$LIBTIFF_FOLDER"
-						["$LIBJPEG_FOLDER"]="http://www.ijg.org/files/$LIBJPEG_FOLDER"
-						["$LIBPNG_FOLDER"]="http://ftp-osl.osuosl.org/pub/libpng/src/libpng12/$LIBPNG_FOLDER"
-						["$LIBPROJ_FOLDER"]="https://download.osgeo.org/proj/$LIBPROJ_FOLDER"
-						["$LIBFREETYPE_FOLDER"]="https://download.savannah.gnu.org/releases/freetype/$LIBFREETYPE_FOLDER"
-						["$LIBHARFBUZZ_FOLDER"]="https://www.freedesktop.org/software/harfbuzz/release/$LIBHARFBUZZ_FOLDER"
-						["$LIBICU_FOLDER"]="http://download.icu-project.org/files/icu4c/$LIBICU_VERSION/$LIBICU_FOLDER"
-					)
+global_var="$(dirname "$0")"
+. "$global_var/global_var.sh"
+global_fun="$(dirname "$0")"
+. "$global_fun/global_fun.sh"
 
 if [ ! -d .arch ];then
 	echo ".arch doesnt exist!";
@@ -162,7 +34,10 @@ echo "checking links availability..."
 
 for arch in ${!archArray[@]};
 do
-	if [ ${archArray[$arch]} = false ] && ! validateLink ${linksArray[$arch]} ;then echo "the download link for $arch is not responding, please download $arch manually to .arch folder"; exit 1;fi
+	if [ ${archArray[$arch]} = false ] && ! validateLink ${linksArray[$arch]} ;then
+		echo "the download link for $arch is not responding, please download $arch manually to .arch folder";
+		exit 1;
+	fi
 done
 
 for i in "$@"
@@ -210,11 +85,7 @@ export CXX=$CXX_COMPILER
 #############BOOST
 cd $MYPWD
 
-if [ ${archArray[$BOOST_FOLDER]} = false ];then
-	wget -P .arch ${linksArray[$BOOST_FOLDER]}
-fi
-
-cdIntoFold "$BOOST_FOLDER"
+cdIntoSrc "$BOOST_FOLDER"
 
 export PATH=$TOOLCHAIN_PATH:$PATH
 patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_filesystem.patch
@@ -233,11 +104,8 @@ patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_filesystem.patch
 ###########ZLIB
 cd $MYPWD
 
-if [ ${archArray[$ZLIB_FOLDER]} = false ];then
-	wget -P .arch ${linksArray[$ZLIB_FOLDER]}
-fi
 
-cdIntoFold "$ZLIB_FOLDER"
+cdIntoSrc "$ZLIB_FOLDER"
 
 ./configure \
 	--prefix=$MYPWD/$ZLIB_OUTPUT \
@@ -248,36 +116,24 @@ make install -j2
 ###########LIBXML
 cd $MYPWD
 
-if [ ${archArray[$LIBXML_FOLDER]} = false ];then
-	wget -P .arch ${linksArray[$LIBXML_FOLDER]}
-fi
-
-# #make will fail because android < 28 doesnt have glob and globfree functions
-# #but they are required only for tests, so we have to manually copy static libs from .lib folder
-# #to our libxml2 folder
-mkdir $MYPWD/$LIBXML_OUTPUT/
-mkdir $MYPWD/$LIBXML_OUTPUT/lib
-
-cdIntoFold "$LIBXML_FOLDER"
+cdIntoSrc "$LIBXML_FOLDER"
 
 ./configure \
 		--host=$BUILD \
 		--prefix=$MYPWD/$LIBXML_OUTPUT \
+		--without-zlib \
+		--without-lzma \
+		--without-python \
 		CC=$CC_COMPILER \
 		CXX=$CXX_COMPILER
-
-cp .libs/libxml2.a $MYPWD/$LIBXML_OUTPUT/lib/
 
 make install -j2
 
 ############LIBTIFF
 cd $MYPWD
 
-if [ ${archArray[$LIBTIFF_FOLDER]} = false ];then
-	wget -P .arch ${linksArray[$LIBTIFF_FOLDER]}
-fi
 
-cdIntoFold "$LIBTIFF_FOLDER"
+cdIntoSrc "$LIBTIFF_FOLDER"
 
 ./configure \
 		--host=arm-linux \
@@ -291,11 +147,7 @@ make install -j2
 ###########LIBJPEG
 cd $MYPWD
 
-if [ ${archArray[$LIBJPEG_FOLDER]} = false ];then
-	wget -P .arch ${linksArray[$LIBJPEG_FOLDER]}
-fi
-
-cdIntoFold "$LIBJPEG_FOLDER"
+cdIntoSrc "$LIBJPEG_FOLDER"
 
 ./configure \
 		--host=arm-linux \
@@ -309,11 +161,7 @@ make install -j2
 ############LIBPNG
 cd $MYPWD
 
-if [ ${archArray[$LIBPNG_FOLDER]} = false ];then
-	wget -P .arch ${linksArray[$LIBPNG_FOLDER]}
-fi
-
-cdIntoFold "$LIBPNG_FOLDER"
+cdIntoSrc "$LIBPNG_FOLDER"
 
 ./configure \
 		--enable-static \
@@ -327,11 +175,7 @@ make install -j2
 #############LIBPROJ
 cd $MYPWD
 
-if [ ${archArray[$LIBPROJ_FOLDER]} = false ];then
-	wget -P .arch ${linksArray[$LIBPROJ_FOLDER]}
-fi
-
-cdIntoFold "$LIBPROJ_FOLDER"
+cdIntoSrc "$LIBPROJ_FOLDER"
 
 ./configure \
 			--enable-static \
@@ -345,11 +189,8 @@ make install -j2
 #############LIBFREETYPE
 cd $MYPWD
 
-if [ ${archArray[$LIBFREETYPE_FOLDER]} = false ];then
-	wget -P .arch ${linksArray[$LIBFREETYPE_FOLDER]}
-fi
 
-cdIntoFold "$LIBFREETYPE_FOLDER"
+cdIntoSrc "$LIBFREETYPE_FOLDER"
 
 ./configure \
 			--enable-static \
@@ -369,11 +210,8 @@ cp -r $MYPWD/$LIBFREETYPE_OUTPUT/include/freetype2/* $MYPWD/$LIBFREETYPE_OUTPUT/
 ############LIBHARFBUZZ
 cd $MYPWD
 
-if [ ${archArray[$LIBHARFBUZZ_FOLDER]} = false ];then
-	wget -P .arch ${linksArray[$LIBHARFBUZZ_FOLDER]}
-fi
 
-cdIntoFold "$LIBHARFBUZZ_FOLDER"
+cdIntoSrc "$LIBHARFBUZZ_FOLDER"
 
 patch ./configure < $MYPWD/patches/harfbuzz_freetype.patch
 
@@ -394,11 +232,7 @@ make install -j2
 #############LIBICU
 cd $MYPWD
 
-if [ ${archArray[$LIBICU_FOLDER]} = false ];then
-	wget -P .arch ${linksArray[$LIBICU_FOLDER]}
-fi
-
-cdIntoFold "$LIBICU_FOLDER"
+cdIntoSrc "$LIBICU_FOLDER"
 
 patch source/common/ucnvmbcs.c < $MYPWD/patches/icu_50_1_2_ucnvmbcs.patch
 patch source/i18n/uspoof.cpp < $MYPWD/patches/icu_50_1_2_uspoof.patch

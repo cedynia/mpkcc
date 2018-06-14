@@ -16,7 +16,7 @@ BOOST_OUTPUT=boost
 ZLIB_FOLDER=zlib-1.2.11.tar.xz
 ZLIB_OUTPUT=zlib
 
-LIBXML_FOLDER=libxml2-2.9.0.tar.gz
+LIBXML_FOLDER=libxml2-2.9.8.tar.gz
 LIBXML_OUTPUT=libxml2
 
 LIBTIFF_FOLDER=tiff-4.0.9.tar.gz
@@ -47,3 +47,33 @@ MAPNIK_VERSION=3.0.20
 MAPNIK_MASTER=https://github.com/mapnik/mapnik.git
 #...or the snapshot master from VI 2018
 #MAPNIK_MASTER=https://gitlab.com/czysty/mapnik_snapshot_master.git
+
+declare -A archArray
+
+archArray=(
+						["$BOOST_FOLDER"]=false
+						["$ZLIB_FOLDER"]=false
+						["$LIBXML_FOLDER"]=false
+						["$LIBTIFF_FOLDER"]=false
+						["$LIBJPEG_FOLDER"]=false
+						["$LIBPNG_FOLDER"]=false
+						["$LIBPROJ_FOLDER"]=false
+						["$LIBFREETYPE_FOLDER"]=false
+						["$LIBHARFBUZZ_FOLDER"]=false
+						["$LIBICU_FOLDER"]=false
+	  			)
+
+declare -A linksArray
+
+linksArray=(
+						["$BOOST_FOLDER"]="https://dl.bintray.com/boostorg/release/$BOOST_VERSION/source/$BOOST_FOLDER"
+						["$ZLIB_FOLDER"]="https://zlib.net/$ZLIB_FOLDER"
+						["$LIBXML_FOLDER"]="ftp://xmlsoft.org/libxml2/$LIBXML_FOLDER"
+						["$LIBTIFF_FOLDER"]="https://download.osgeo.org/libtiff/$LIBTIFF_FOLDER"
+						["$LIBJPEG_FOLDER"]="http://www.ijg.org/files/$LIBJPEG_FOLDER"
+						["$LIBPNG_FOLDER"]="http://ftp-osl.osuosl.org/pub/libpng/src/libpng12/$LIBPNG_FOLDER"
+						["$LIBPROJ_FOLDER"]="https://download.osgeo.org/proj/$LIBPROJ_FOLDER"
+						["$LIBFREETYPE_FOLDER"]="https://download.savannah.gnu.org/releases/freetype/$LIBFREETYPE_FOLDER"
+						["$LIBHARFBUZZ_FOLDER"]="https://www.freedesktop.org/software/harfbuzz/release/$LIBHARFBUZZ_FOLDER"
+						["$LIBICU_FOLDER"]="http://download.icu-project.org/files/icu4c/$LIBICU_VERSION/$LIBICU_FOLDER"
+					)

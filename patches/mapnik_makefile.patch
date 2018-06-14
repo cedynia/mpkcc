@@ -1,11 +1,11 @@
---- Makefile	2018-06-09 18:58:11.663541339 +0200
-+++ Makefile_patched	2018-06-09 18:58:45.367152795 +0200
-@@ -42,7 +42,7 @@
+--- Makefile	2018-06-14 12:49:02.196757055 +0200
++++ ../Makefile.patched	2018-06-14 12:48:32.364995937 +0200
+@@ -51,7 +51,7 @@
  		src/svg/svg_transform_parser.os \
  
  
 -mapnik: src/json/libmapnik-json.a
-+mapnik: 
++mapnik: #src/json/libmapnik-json.a
  	# then install the rest with -j$(JOBS)
  	$(PYTHON) scons/scons.py -j$(JOBS) --config=cache --implicit-cache --max-drift=1
  
