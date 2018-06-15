@@ -1,0 +1,26 @@
+--- include/mapnik/value_types.hpp	2018-06-15 22:25:10.869251315 +0200
++++ ../mapnik_types.patch	2018-06-15 22:29:20.127827879 +0200
+@@ -43,17 +43,17 @@
+ }
+ 
+ namespace mapnik  {
+-
+-#ifdef BIGINT
++//Can't set custom cpp flags in the androidstudio, so force to use bigint here.
++//#ifdef BIGINT
+ //using value_integer = boost::long_long_type;
+ //using value_integer = long long;
+ using value_integer = std::int64_t;
+ using value_integer_pixel = gray64s_t;
+-#else
++//#else
+ //using value_integer = int;
+-using value_integer = std::int32_t;
+-using value_integer_pixel = gray32s_t;
+-#endif
++//using value_integer = std::int32_t;
++//using value_integer_pixel = gray32s_t;
++//#endif
+ 
+ using value_double = double;
+ using value_unicode_string = U_NAMESPACE_QUALIFIER UnicodeString;

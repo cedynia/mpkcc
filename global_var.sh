@@ -9,6 +9,12 @@ CC_COMPILER=
 CXX_COMPILER=
 BUILD=arm-linux-androideabi
 
+BUILD_FOLDER='build'
+OUTPUT_FOLDER='output'
+ARCHIVE_FOLDER='.arch'
+
+MAPNIK_OUTPUT=mapnik-lib
+
 BOOST_FOLDER=boost_1_64_0.tar.gz
 BOOST_VERSION=1.64.0
 BOOST_OUTPUT=boost

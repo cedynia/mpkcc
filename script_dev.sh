@@ -92,7 +92,7 @@ patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_filesystem.patch
 
 ./bootstrap.sh
 ./b2 install \
-		--prefix=$MYPWD/$BOOST_OUTPUT \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT \
 	  toolset=clang-android \
 		target-os=android \
 		--with-system \
@@ -108,7 +108,7 @@ cd $MYPWD
 cdIntoSrc "$ZLIB_FOLDER"
 
 ./configure \
-	--prefix=$MYPWD/$ZLIB_OUTPUT \
+	--prefix=$MYPWD/$OUTPUT_FOLDER/$ZLIB_OUTPUT \
 	--static
 
 make install -j2
@@ -120,7 +120,7 @@ cdIntoSrc "$LIBXML_FOLDER"
 
 ./configure \
 		--host=$BUILD \
-		--prefix=$MYPWD/$LIBXML_OUTPUT \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBXML_OUTPUT \
 		--without-zlib \
 		--without-lzma \
 		--without-python \
@@ -132,13 +132,12 @@ make install -j2
 ############LIBTIFF
 cd $MYPWD
 
-
 cdIntoSrc "$LIBTIFF_FOLDER"
 
 ./configure \
 		--host=arm-linux \
 		--enable-static \
-		--prefix=$MYPWD/$LIBTIFF_OUTPUT \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT \
 		CC=$CC_COMPILER \
 		CXX=$CXX_COMPILER
 
@@ -152,7 +151,7 @@ cdIntoSrc "$LIBJPEG_FOLDER"
 ./configure \
 		--host=arm-linux \
 		--enable-static \
-		--prefix=$MYPWD/$LIBJPEG_OUTPUT \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT \
 		CC=$CC_COMPILER \
 		CXX=$CXX_COMPILER
 
@@ -165,7 +164,7 @@ cdIntoSrc "$LIBPNG_FOLDER"
 
 ./configure \
 		--enable-static \
-		--prefix=$MYPWD/$LIBPNG_OUTPUT \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT \
 		--host=arm-linux-androideabi \
 		CC=$CC_COMPILER \
 		CXX=$CXX_COMPILER
@@ -179,7 +178,7 @@ cdIntoSrc "$LIBPROJ_FOLDER"
 
 ./configure \
 			--enable-static \
-			--prefix=$MYPWD/$LIBPROJ_OUTPUT \
+			--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT \
 			--host=arm-linux \
 			CC=$CC_COMPILER \
 			CXX=$CXX_COMPILER
@@ -194,7 +193,7 @@ cdIntoSrc "$LIBFREETYPE_FOLDER"
 
 ./configure \
 			--enable-static \
-			--prefix=$MYPWD/$LIBFREETYPE_OUTPUT \
+			--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT \
 			--host=arm-linux-androideabi  \
 			--without-harfbuzz \
 			--without-zlib \
@@ -205,23 +204,22 @@ cdIntoSrc "$LIBFREETYPE_FOLDER"
 make install -j2
 
 # #harfbuzz hack allows to find freetype includes
-cp -r $MYPWD/$LIBFREETYPE_OUTPUT/include/freetype2/* $MYPWD/$LIBFREETYPE_OUTPUT/include/
+cp -r $MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/freetype2/* $MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/
 
 ############LIBHARFBUZZ
 cd $MYPWD
-
 
 cdIntoSrc "$LIBHARFBUZZ_FOLDER"
 
 patch ./configure < $MYPWD/patches/harfbuzz_freetype.patch
 
 ./configure \
-		--prefix=$MYPWD/$LIBHARFBUZZ_OUTPUT \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT \
 		--host=arm-linux-androideabi \
 		PKG_CONFIG='' \
-		CPPFLAGS=-I$MYPWD/$LIBFREETYPE_OUTPUT/include/  \
-		LDFLAGS=-L$MYPWD/$LIBFREETYPE_OUTPUT/lib/ \
-		FREETYPE_LIBS=$MYPWD/$LIBFREETYPE_OUTPUT/lib/libfreetype.so  \
+		CPPFLAGS=-I$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/  \
+		LDFLAGS=-L$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/lib/ \
+		FREETYPE_LIBS=$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/lib/libfreetype.so  \
 		--enable-static  \
 		--without-icu \
 		CC=$CC_COMPILER \
@@ -268,41 +266,40 @@ cd $MYPWD
 
 git clone $MAPNIK_MASTER mapnik
 cd $MYPWD/mapnik/
+git checkout v3.0.20
 git submodule update --init deps/mapbox/
 
-patch include/mapnik/css_color_grammar_x3_def.hpp < $MYPWD/patches/mapnik_css.patch
-patch include/mapnik/geometry/strategy.hpp < $MYPWD/patches/mapnik_strategy.patch
-patch src/agg/process_line_pattern_symbolizer.cpp < $MYPWD/patches/mapnik_process.patch
-patch src/text/color_font_renderer.cpp < $MYPWD/patches/mapnik_color.patch
-patch Makefile < $MYPWD/patches/mapnik_makefile.patch
-patch SConstruct < $MYPWD/patches/mapnik_sconstruct.patch
+patch SConstruct < $MYPWD/patches/mapnik_scons.patch
+patch Makefile <  $MYPWD/patches/mapnik_makefile.patch
+patch include/mapnik/value_types.hpp <  $MYPWD/patches/mapnik_value_types.patch
 
 echo "
 CC='$CC_COMPILER'
 CXX='$CXX_COMPILER'
 RUNTIME_LINK='static'
+CUSTOM_CXXFLAGS = '-DU_HAVE_STD_STRING=1'
 LINKING='static'
 INPUT_PLUGINS='shape'
-BOOST_INCLUDES ='$MYPWD/$BOOST_OUTPUT/include'
-BOOST_LIBS ='$MYPWD/$BOOST_OUTPUT/lib'
-ICU_INCLUDES ='$MYPWD/$LIBICU_OUTPUT/include/'
-ICU_LIBS = '$MYPWD/$LIBICU_OUTPUT/lib/'
-HB_INCLUDES = '$MYPWD/$LIBHARFBUZZ_OUTPUT/include/'
-HB_LIBS = '$MYPWD/$LIBHARFBUZZ_OUTPUT/lib'
-PNG_INCLUDES = '$MYPWD/$LIBPNG_OUTPUT/include'
-PNG_LIBS = '$MYPWD/$LIBPNG_OUTPUT/lib'
-JPEG_INCLUDES = '$MYPWD/$LIBJPEG_OUTPUT/include'
-JPEG_LIBS = '$MYPWD/$LIBJPEG_OUTPUT/lib'
-TIFF_INCLUDES = '$MYPWD/$LIBTIFF_OUTPUT/include'
-TIFF_LIBS = '$MYPWD/$LIBTIFF_OUTPUT/lib'
+BOOST_INCLUDES ='$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/include'
+BOOST_LIBS ='$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/lib'
+ICU_INCLUDES ='$MYPWD/$OUTPUT_FOLDER/$LIBICU_OUTPUT/include/'
+ICU_LIBS = '$MYPWD/$OUTPUT_FOLDER/$LIBICU_OUTPUT/lib/'
+HB_INCLUDES = '$MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT/include/'
+HB_LIBS = '$MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT/lib'
+PNG_INCLUDES = '$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT/include'
+PNG_LIBS = '$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT/lib'
+JPEG_INCLUDES = '$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT/include'
+JPEG_LIBS = '$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT/lib'
+TIFF_INCLUDES = '$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT/include'
+TIFF_LIBS = '$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT/lib'
 WEBP_INCLUDES = ''
 WEBP_LIBS = ''
-PROJ_INCLUDES = '$MYPWD/$LIBPROJ_OUTPUT/include'
-PROJ_LIBS = '$MYPWD/$LIBPROJ_OUTPUT/lib'
-FREETYPE_INCLUDES = '$MYPWD/$LIBFREETYPE_OUTPUT/include/freetype2'
-FREETYPE_LIBS = '$MYPWD/$LIBFREETYPE_OUTPUT/lib/'
-XML2_INCLUDES = '$MYPWD/$LIBXML_OUTPUT/include'
-XML2_LIBS = '$MYPWD/$LIBXML_OUTPUT/lib'
+PROJ_INCLUDES = '$MYPWD/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT/include'
+PROJ_LIBS = '$MYPWD/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT/lib'
+FREETYPE_INCLUDES = '$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/freetype2'
+FREETYPE_LIBS = '$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/lib/'
+XML2_INCLUDES = '$MYPWD/$OUTPUT_FOLDER/$LIBXML_OUTPUT/include'
+XML2_LIBS = '$MYPWD/$OUTPUT_FOLDER/$LIBXML_OUTPUT/lib'
 CPP_TESTS = False
 OCCI_INCLUDES = ''
 OCCI_LIBS = ''
@@ -321,36 +318,34 @@ make
 
 cd $MYPWD
 
-mkdir -p $MYPWD/mapnik-lib/lib/
-mkdir -p $MYPWD/mapnik-lib/include/mapbox/
-mkdir -p $MYPWD/mapnik-lib/include/mapbox/geometry/
-mkdir -p $MYPWD/mapnik-lib/include/mapbox/variant/
+mkdir -p $MYPWD/$MAPNIK_OUTPUT/lib/
+mkdir -p $MYPWD/$MAPNIK_OUTPUT/include/mapbox/variant/
 
 cd $MYPWD
-find $MYPWD/$BOOST_OUTPUT/lib/*.a \
-$MYPWD/$LIBICU_OUTPUT/lib/*.a \
-$MYPWD/$LIBICU_OUTPUT/lib/*.a \
-$MYPWD/$LIBHARFBUZZ_OUTPUT/lib/*.a \
-$MYPWD/$LIBPNG_OUTPUT/lib/*.a \
-$MYPWD/$LIBPNG_OUTPUT/lib/*.a \
-$MYPWD/$LIBJPEG_OUTPUT/lib/*.a \
-$MYPWD/$LIBTIFF_OUTPUT/lib/*.a \
-$MYPWD/$LIBPROJ_OUTPUT/lib/*.a \
-$MYPWD/$LIBFREETYPE_OUTPUT/lib/*.a \
-$MYPWD/$LIBXML_OUTPUT/lib/*.a \
-$MYPWD/$ZLIB_OUTPUT/lib/*.a \
-$MYPWD/mapnik/src/*.a \
--exec cp {} $MYPWD/mapnik-lib/lib/ ";"
-
-cp -r $MYPWD/mapnik/include/  $MYPWD/mapnik-lib/
-cp -r $MYPWD/mapnik/deps/mapbox/variant/include/mapbox/*  $MYPWD/mapnik-lib/include/mapbox/
-cp -r $MYPWD/mapnik/deps/mapbox/geometry/include/mapbox/geometry/*  $MYPWD/mapnik-lib/include/mapbox/geometry/
-cp -r $MYPWD/$BOOST_OUTPUT/include/  $MYPWD/mapnik-lib/
-cp -r $MYPWD/$LIBHARFBUZZ_OUTPUT/include/ $MYPWD/mapnik-lib/
-cp -r $MYPWD/$LIBICU_OUTPUT/include/ $MYPWD/mapnik-lib/
+find $MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/lib/*.a \
+		$MYPWD/$OUTPUT_FOLDER/$LIBICU_OUTPUT/lib/*.a \
+		$MYPWD/$OUTPUT_FOLDER/$LIBICU_OUTPUT/lib/*.a \
+		$MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT/lib/*.a \
+		$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT/lib/*.a \
+		$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT/lib/*.a \
+		$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT/lib/*.a \
+		$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT/lib/*.a \
+		$MYPWD/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT/lib/*.a \
+		$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/lib/*.a \
+		$MYPWD/$OUTPUT_FOLDER/$LIBXML_OUTPUT/lib/*.a \
+		$MYPWD/$OUTPUT_FOLDER/$ZLIB_OUTPUT/lib/*.a \
+		$MYPWD/mapnik/src/*.a \
+-exec cp {} $MYPWD/$MAPNIK_OUTPUT/lib/ ";"
 
 
-cd $MYPWD/mapnik-lib/lib/
+cp -r $MYPWD/mapnik/include/  $MYPWD/$MAPNIK_OUTPUT/
+cp -r $MYPWD/mapnik/deps/mapbox/variant/include/mapbox/*  $MYPWD/$MAPNIK_OUTPUT/include/mapbox/
+cp -r $MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/include/  $MYPWD/$MAPNIK_OUTPUT/
+cp -r $MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT/include/ $MYPWD/$MAPNIK_OUTPUT/
+cp -r $MYPWD/$OUTPUT_FOLDER/$LIBICU_OUTPUT/include/ $MYPWD/$MAPNIK_OUTPUT/
+
+
+cd $MYPWD/$MAPNIK_OUTPUT/lib/
 
 echo "
 create libmapnik4android.a

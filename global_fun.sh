@@ -30,18 +30,18 @@ function validateLink(){
 function cdIntoSrc(){
 
   if [ ${archArray[$1]} = false ];then
-  	wget -P .arch ${linksArray[$1]}
+  	wget -P $ARCHIVE_FOLDER ${linksArray[$1]}
   fi
 
 	#local foldName=$(echo $1 | sed 's/\(.*\)\.\(.*\)\.\(.*\)/\1/g')
 	local foldName=$(echo $1 | awk -F. '{ print $1 }')
 	echo $foldName
 
-	if [ -d "$MYPWD/build/$foldName" ];then
-		cd "$MYPWD/build/$foldName"
+	if [ -d "$MYPWD/$BUILD_FOLDER/$foldName" ];then
+		cd "$MYPWD/$BUILD_FOLDER/$foldName"
 	else
-		mkdir -p "$MYPWD/build/$foldName"
-		tar -xvf "$MYPWD/.arch/$1" --strip-components 1 -C "$MYPWD/build/$foldName"
-		cd "$MYPWD/build/$foldName"
+		mkdir -p "$MYPWD/$BUILD_FOLDER/$foldName"
+		tar -xvf "$MYPWD/$ARCHIVE_FOLDER/$1" --strip-components 1 -C "$MYPWD/$BUILD_FOLDER/$foldName"
+		cd "$MYPWD/$BUILD_FOLDER/$foldName"
 	fi
 }
