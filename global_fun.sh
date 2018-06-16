@@ -29,8 +29,13 @@ function validateLink(){
 
 function cdIntoSrc(){
 
+  #FIXME:no connection handling
   if [ ${archArray[$1]} = false ];then
   	wget -P $ARCHIVE_FOLDER ${linksArray[$1]}
+    if [ $? -ne 0 ];then
+      echo "Can't download $1, please download $1 manually to .arch folder"
+      exit 1;
+    fi
   fi
 
 	#local foldName=$(echo $1 | sed 's/\(.*\)\.\(.*\)\.\(.*\)/\1/g')
@@ -44,4 +49,16 @@ function cdIntoSrc(){
 		tar -xvf "$MYPWD/$ARCHIVE_FOLDER/$1" --strip-components 1 -C "$MYPWD/$BUILD_FOLDER/$foldName"
 		cd "$MYPWD/$BUILD_FOLDER/$foldName"
 	fi
+}
+
+function checkFold(){
+
+  if [ ! -d "$MYPWD/$1" ];then
+    echo "$MYPWD/$1 doesnt exist!"
+    mkdir $MYPWD/$1
+  else
+    echo "$MYPWD/$1 exist"
+    rm -rf $MYPWD/$1
+  fi
+
 }

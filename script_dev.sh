@@ -5,24 +5,35 @@ global_var="$(dirname "$0")"
 global_fun="$(dirname "$0")"
 . "$global_fun/global_fun.sh"
 
-if [ ! -d .arch ];then
-	echo ".arch doesnt exist!";
-	mkdir  .arch
-else
-	echo ".arch exist"
-fi
+# if [ ! -d $ARCHIVE_FOLDER ];then
+# 	echo ".arch doesnt exist!";
+# 	mkdir  $ARCHIVE_FOLDER
+# else
+# 	echo ".arch exist"
+# fi
+#
+# if [ ! -d $BUILD_FOLDER ];then
+# 	echo ".build doesnt exist!";
+# 	mkdir  $BUILD_FOLDER
+# else
+# 	echo "build exist"
+# fi
+#
+# if [ ! -d $OUTPUT_FOLDER ];then
+# 	echo "output doesnt exist!"
+# 	mkdir $OUTPUT_FOLDER
+# else
+# 	echo "output exist"
+# fi
 
-if [ ! -d build ];then
-	echo ".arch doesnt exist!";
-	mkdir  build
-else
-	echo "build exist"
-fi
+checkFold "$ARCHIVE_FOLDER"
+checkFold "$BUILD_FOLDER"
+checkFold "$OUTPUT_FOLDER"
 
 for A in ${!archArray[@]};
 do
 	echo ${A}
-	if [ -f .arch/$A ];then echo $A 'exist!';archArray[$A]=true; fi
+	if [ -f $ARCHIVE_FOLDER/$A ];then echo $A 'exist!';archArray[$A]=true; fi
 done
 
 for A in ${archArray[@]};
@@ -35,7 +46,7 @@ echo "checking links availability..."
 for arch in ${!archArray[@]};
 do
 	if [ ${archArray[$arch]} = false ] && ! validateLink ${linksArray[$arch]} ;then
-		echo "the download link for $arch is not responding, please download $arch manually to .arch folder";
+		echo "the download link for $arch is not responding, please download $arch manually to $ARCHIVE_FOLDER folder";
 		exit 1;
 	fi
 done
@@ -257,7 +268,7 @@ export CXX=$CXX_COMPILER
 		--with-cross-build=$(pwd)/../dirA/ \
 		--enable-static \
 		--disable-shared \
-		--prefix=$MYPWD/libicu
+		--prefix=$MYPWD/$OUTPUT_FOLDER/libicu
 
 make install -j2
 
