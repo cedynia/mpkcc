@@ -31,7 +31,7 @@ function cdIntoSrc(){
 
   #FIXME:no connection handling
   if [ ${archArray[$1]} = false ];then
-  	wget -P $ARCHIVE_FOLDER ${linksArray[$1]}
+  	wget -O $ARCHIVE_FOLDER/$1 ${linksArray[$1]} 
     if [ $? -ne 0 ];then
       echo "Can't download $1, please download $1 manually to .arch folder"
       exit 1;

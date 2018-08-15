@@ -1,10 +1,16 @@
 #! /bin/bash
-## DODAC KOPIOWANIE INCLUDOW AGG DO FOLDERU MAPNIK-LIB/INCLUDE/MAPNIK
+
 
 global_var="$(dirname "$0")"
 . "$global_var/global_var.sh"
 global_fun="$(dirname "$0")"
 . "$global_fun/global_fun.sh"
+
+if [ $# -eq 0 ]
+  then
+    echo "No arguments supplied. The following arguments are required: --ndk-root= --api= "
+		exit 1;
+fi
 
 checkFold "$ARCHIVE_FOLDER"
 checkFold "$BUILD_FOLDER"
@@ -30,12 +36,6 @@ do
 		exit 1;
 	fi
 done
-
-if [ $# -eq 0 ]
-  then
-    echo "No arguments supplied"
-		exit 1;
-fi
 
 for i in "$@"
 do
@@ -341,6 +341,7 @@ cp -r $MYPWD/mapnik/deps/mapbox/variant/include/mapbox/*  $MYPWD/$MAPNIK_OUTPUT/
 cp -r $MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/include/  $MYPWD/$MAPNIK_OUTPUT/
 cp -r $MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT/include/ $MYPWD/$MAPNIK_OUTPUT/
 cp -r $MYPWD/$OUTPUT_FOLDER/$LIBICU_OUTPUT/include/ $MYPWD/$MAPNIK_OUTPUT/
+cp    $MYPWD/mapnik/deps/agg/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
 
 
 cd $MYPWD/$MAPNIK_OUTPUT/lib/

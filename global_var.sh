@@ -72,7 +72,7 @@ archArray=(
 declare -A linksArray
 
 linksArray=(
-						["$BOOST_FOLDER"]="https://dl.bintray.com/boostorg/release/$BOOST_VERSION/source/$BOOST_FOLDER"
+						["$BOOST_FOLDER"]="https://sourceforge.net/projects/boost/files/boost/$BOOST_VERSION/$BOOST_FOLDER/download"
 						["$ZLIB_FOLDER"]="https://zlib.net/$ZLIB_FOLDER"
 						["$LIBXML_FOLDER"]="ftp://xmlsoft.org/libxml2/$LIBXML_FOLDER"
 						["$LIBTIFF_FOLDER"]="https://download.osgeo.org/libtiff/$LIBTIFF_FOLDER"
