@@ -58,7 +58,9 @@ function checkFold(){
     mkdir $MYPWD/$1
   else
     echo "$MYPWD/$1 exist"
-    rm -rf $MYPWD/$1
+    if [ $1 != $ARCHIVE_FOLDER ];then
+      rm -rf $MYPWD/$1
+    fi
   fi
 
 }
