@@ -309,8 +309,9 @@ $MYPWD/$LIBPROJ_OUTPUT/lib/*.a \
 $MYPWD/$LIBFREETYPE_OUTPUT/lib/*.a \
 $MYPWD/$LIBXML_OUTPUT/lib/*.a \
 $MYPWD/$ZLIB_OUTPUT/lib/*.a \
-$MYPWD/mapnik/src/*.a \
 -exec cp {} $MYPWD/mapnik-lib/lib/ ";"
+
+find $MYPWD/mapnik/ -name *.a -exec cp {} $MYPWD/mapnik-lib/lib/ ";"
 
 cp -r $MYPWD/mapnik/include/  $MYPWD/mapnik-lib/
 cp -r $MYPWD/mapnik/deps/mapbox/variant/include/mapbox/*  $MYPWD/mapnik-lib/include/mapbox/variant/
@@ -347,6 +348,8 @@ addlib libproj.a
 addlib libtiff.a
 addlib libxml2.a
 addlib libz.a
+addlib libmapnik-json.a
+addlib libmapnik-wkt.a
 save
 end
 " > mri_script

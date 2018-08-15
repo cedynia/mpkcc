@@ -1,30 +1,10 @@
 #! /bin/bash
+## DODAC KOPIOWANIE INCLUDOW AGG DO FOLDERU MAPNIK-LIB/INCLUDE/MAPNIK
 
 global_var="$(dirname "$0")"
 . "$global_var/global_var.sh"
 global_fun="$(dirname "$0")"
 . "$global_fun/global_fun.sh"
-
-# if [ ! -d $ARCHIVE_FOLDER ];then
-# 	echo ".arch doesnt exist!";
-# 	mkdir  $ARCHIVE_FOLDER
-# else
-# 	echo ".arch exist"
-# fi
-#
-# if [ ! -d $BUILD_FOLDER ];then
-# 	echo ".build doesnt exist!";
-# 	mkdir  $BUILD_FOLDER
-# else
-# 	echo "build exist"
-# fi
-#
-# if [ ! -d $OUTPUT_FOLDER ];then
-# 	echo "output doesnt exist!"
-# 	mkdir $OUTPUT_FOLDER
-# else
-# 	echo "output exist"
-# fi
 
 checkFold "$ARCHIVE_FOLDER"
 checkFold "$BUILD_FOLDER"
@@ -345,8 +325,9 @@ find $MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$LIBXML_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$ZLIB_OUTPUT/lib/*.a \
-		$MYPWD/mapnik/src/*.a \
 -exec cp {} $MYPWD/$MAPNIK_OUTPUT/lib/ ";"
+
+find $MYPWD/mapnik/ -name *.a -exec cp {} $MYPWD/mapnik-lib/lib/ ";"
 
 
 cp -r $MYPWD/mapnik/include/  $MYPWD/$MAPNIK_OUTPUT/
@@ -383,6 +364,8 @@ addlib libproj.a
 addlib libtiff.a
 addlib libxml2.a
 addlib libz.a
+addlib libmapnik-json.a
+addlib libmapnik-wkt.a
 save
 end
 " > mri_script
