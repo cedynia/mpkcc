@@ -35,7 +35,7 @@ LIBJPEG_OUTPUT=libjpeg
 LIBPNG_FOLDER=libpng-1.2.59.tar.gz
 LIBPNG_OUTPUT=libpng
 
-LIBPROJ_FOLDER=proj-4.5.0.tar.gz
+LIBPROJ_FOLDER=proj-5.1.0.tar.gz
 LIBPROJ_OUTPUT=libproj
 
 LIBFREETYPE_FOLDER=freetype-2.9.tar.gz
