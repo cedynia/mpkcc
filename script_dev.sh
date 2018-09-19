@@ -108,7 +108,7 @@ cdIntoSrc "$ZLIB_FOLDER"
 	--prefix=$MYPWD/$OUTPUT_FOLDER/$ZLIB_OUTPUT \
 	--static
 
-make install -j2
+make install -j$NPROC
 
 ###########LIBXML
 cd $MYPWD
@@ -124,7 +124,7 @@ cdIntoSrc "$LIBXML_FOLDER"
 		CC=$CC_COMPILER \
 		CXX=$CXX_COMPILER
 
-make install -j2
+make install -j$NPROC
 
 ############LIBTIFF
 cd $MYPWD
@@ -137,8 +137,9 @@ cdIntoSrc "$LIBTIFF_FOLDER"
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT \
 		CC=$CC_COMPILER \
 		CXX=$CXX_COMPILER
+		CFLAGS=-fexceptions
 
-make install -j2
+make install -j$NPROC
 
 ###########LIBJPEG
 cd $MYPWD
@@ -150,9 +151,10 @@ cdIntoSrc "$LIBJPEG_FOLDER"
 		--enable-static \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT \
 		CC=$CC_COMPILER \
-		CXX=$CXX_COMPILER
+		CXX=$CXX_COMPILER \
+		CFLAGS=-fexceptions
 
-make install -j2
+make install -j$NPROC
 
 ############LIBPNG
 cd $MYPWD
@@ -165,8 +167,9 @@ cdIntoSrc "$LIBPNG_FOLDER"
 		--host=arm-linux-androideabi \
 		CC=$CC_COMPILER \
 		CXX=$CXX_COMPILER
+		CFLAGS=-fexceptions
 
-make install -j2
+make install -j$NPROC
 
 #############LIBPROJ
 cd $MYPWD
@@ -180,7 +183,7 @@ cdIntoSrc "$LIBPROJ_FOLDER"
 			CC=$CC_COMPILER \
 			CXX=$CXX_COMPILER
 
-make install -j2
+make install -j$NPROC
 
 #############LIBFREETYPE
 cd $MYPWD
@@ -198,7 +201,7 @@ cdIntoSrc "$LIBFREETYPE_FOLDER"
 			CC=$CC_COMPILER \
 			CXX=$CXX_COMPILER
 
-make install -j2
+make install -j$NPROC
 
 # #harfbuzz hack allows to find freetype includes
 cp -r $MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/freetype2/* $MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/
@@ -222,7 +225,7 @@ patch ./configure < $MYPWD/patches/harfbuzz_freetype.patch
 		CC=$CC_COMPILER \
 		CXX=$CXX_COMPILER
 
-make install -j2
+make install -j$NPROC
 
 #############LIBICU
 cd $MYPWD
@@ -256,7 +259,7 @@ export CXX=$CXX_COMPILER
 		--disable-shared \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/libicu
 
-make install -j2
+make install -j$NPROC
 
 #############MAPNIK
 cd $MYPWD
@@ -269,10 +272,14 @@ git submodule update --init deps/mapbox/
 patch SConstruct < $MYPWD/patches/mapnik_scons.patch
 patch Makefile <  $MYPWD/patches/mapnik_makefile.patch
 patch include/mapnik/value_types.hpp <  $MYPWD/patches/mapnik_value_types.patch
+patch src/jpeg_reader.cpp < $MYPWD/patches/jpeg_reader.patch
+patch src/png_reader.cpp < $MYPWD/patches/png_reader.patch
+patch src/tiff_reader.cpp < $MYPWD/patches/tiff_reader.patch
 
 echo "
 CC='$CC_COMPILER'
 CXX='$CXX_COMPILER'
+CUSTOM_DEFINES='-DHAVE_JPEG -DHAVE_TIFF -DHAVE_PNG'
 RUNTIME_LINK='static'
 CUSTOM_CXXFLAGS = '-DU_HAVE_STD_STRING=1'
 LINKING='static'
@@ -385,8 +392,8 @@ echo "
 ################################################################
 add_library(mapnik STATIC IMPORTED)
 set_target_properties(mapnik PROPERTIES IMPORTED_LOCATION
-    $MYPWD/libmapnik-lib/lib/libmapnik4android.a)
-include_directories($MYPWD/libmapnik-lib/include/)
+    $MYPWD/mapnik-lib/lib/libmapnik4android.a)
+include_directories($MYPWD/mapnik-lib/include/)
 ################################################################
 "
 echo "**************************************************************************************"#

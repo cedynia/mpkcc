@@ -1,5 +1,7 @@
 #! /bin/bash
 
+NPROC=$(grep -c ^processor /proc/cpuinfo)
+
 NDK_ROOT=
 API_VERSION=
 MYPWD=$(pwd)
