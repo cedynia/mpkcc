@@ -86,6 +86,7 @@ cdIntoSrc "$BOOST_FOLDER"
 
 export PATH=$TOOLCHAIN_PATH:$PATH
 patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_filesystem.patch
+patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_operations.patch
 
 ./bootstrap.sh
 ./b2 install \
@@ -272,9 +273,12 @@ git submodule update --init deps/mapbox/
 patch SConstruct < $MYPWD/patches/mapnik_scons.patch
 patch Makefile <  $MYPWD/patches/mapnik_makefile.patch
 patch include/mapnik/value_types.hpp <  $MYPWD/patches/mapnik_value_types.patch
+#need to patch readers for png and jpeg for remove the anonymous namespace that wraps create_jpeg_reader and create_tiff_reader fn
 patch src/jpeg_reader.cpp < $MYPWD/patches/jpeg_reader.patch
 patch src/png_reader.cpp < $MYPWD/patches/png_reader.patch
-patch src/tiff_reader.cpp < $MYPWD/patches/tiff_reader.patch
+#no need to do the same with tiff_reader.cpp beacause we include the file in the project
+#doing the same with png reader generates an error (redefinition of the global function)
+#patch src/tiff_reader.cpp < $MYPWD/patches/tiff_reader.patch
 
 echo "
 CC='$CC_COMPILER'
@@ -313,6 +317,7 @@ RASTERLITE_INCLUDES = ''
 PLUGIN_LINKING = 'static'
 ENABLE_SONAME = False
 MAPNIK_INDEX = False
+JOBS=$NPROC
 
 " > config.py
 
@@ -328,9 +333,7 @@ mkdir -p $MYPWD/$MAPNIK_OUTPUT/include/mapbox/variant/
 cd $MYPWD
 find $MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$LIBICU_OUTPUT/lib/*.a \
-		$MYPWD/$OUTPUT_FOLDER/$LIBICU_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT/lib/*.a \
-		$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT/lib/*.a \
@@ -349,6 +352,8 @@ cp -r $MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/include/  $MYPWD/$MAPNIK_OUTPUT/
 cp -r $MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT/include/ $MYPWD/$MAPNIK_OUTPUT/
 cp -r $MYPWD/$OUTPUT_FOLDER/$LIBICU_OUTPUT/include/ $MYPWD/$MAPNIK_OUTPUT/
 cp    $MYPWD/mapnik/deps/agg/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
+#tiff_reader.cpp
+cp    $MYPWD/mapnik/src/tiff_reader.cpp $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
 
 
 cd $MYPWD/$MAPNIK_OUTPUT/lib/
