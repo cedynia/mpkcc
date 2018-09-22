@@ -321,9 +321,7 @@ JOBS=$NPROC
 
 " > config.py
 
-./configure
-
-make
+python scons/scons.py -j$NPROC
 
 cd $MYPWD
 
@@ -345,16 +343,19 @@ find $MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/lib/*.a \
 
 find $MYPWD/mapnik/ -name *.a -exec cp {} $MYPWD/mapnik-lib/lib/ ";"
 
-
 cp -r $MYPWD/mapnik/include/  $MYPWD/$MAPNIK_OUTPUT/
 cp -r $MYPWD/mapnik/deps/mapbox/variant/include/mapbox/*  $MYPWD/$MAPNIK_OUTPUT/include/mapbox/
 cp -r $MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/include/  $MYPWD/$MAPNIK_OUTPUT/
 cp -r $MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT/include/ $MYPWD/$MAPNIK_OUTPUT/
 cp -r $MYPWD/$OUTPUT_FOLDER/$LIBICU_OUTPUT/include/ $MYPWD/$MAPNIK_OUTPUT/
+cp    $MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include/
+cp -r $MYPWD/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
+cp -r $MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include/
+cp -r $MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/text/
 cp    $MYPWD/mapnik/deps/agg/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
 #tiff_reader.cpp
 cp    $MYPWD/mapnik/src/tiff_reader.cpp $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
-
+cp -r $MYPWD/mapnik/deps/mapnik/sparsehash/ $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
 
 cd $MYPWD/$MAPNIK_OUTPUT/lib/
 
