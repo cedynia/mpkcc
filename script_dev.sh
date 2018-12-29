@@ -79,10 +79,22 @@ CXX_COMPILER=$TOOLCHAIN_PATH/clang++
 export CC=$CC_COMPILER
 export CXX=$CXX_COMPILER
 
+###########SQLITE3
+cd $MYPWD
+
+cdIntoSrc "$LIBSQLITE3_FOLDER"
+
+./configure \
+  --host=$BUILD \
+	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT \
+
+make install -j$NPROC
+
 #############BOOST
 cd $MYPWD
 
 cdIntoSrc "$BOOST_FOLDER"
+
 
 export PATH=$TOOLCHAIN_PATH:$PATH
 patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_filesystem.patch
@@ -311,8 +323,8 @@ XML2_LIBS = '$MYPWD/$OUTPUT_FOLDER/$LIBXML_OUTPUT/lib'
 CPP_TESTS = False
 OCCI_INCLUDES = ''
 OCCI_LIBS = ''
-SQLITE_INCLUDES = ''
-SQLITE_LIBS = ''
+SQLITE_INCLUDES = '$MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT/include'
+SQLITE_LIBS = '$MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT/lib'
 RASTERLITE_INCLUDES = ''
 PLUGIN_LINKING = 'static'
 ENABLE_SONAME = False
@@ -339,6 +351,7 @@ find $MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$LIBXML_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$ZLIB_OUTPUT/lib/*.a \
+    $MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT/lib/*.a \
 -exec cp {} $MYPWD/$MAPNIK_OUTPUT/lib/ ";"
 
 find $MYPWD/mapnik/ -name *.a -exec cp {} $MYPWD/mapnik-lib/lib/ ";"
@@ -356,6 +369,7 @@ cp    $MYPWD/mapnik/deps/agg/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
 #tiff_reader.cpp
 cp    $MYPWD/mapnik/src/tiff_reader.cpp $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
 cp -r $MYPWD/mapnik/deps/mapnik/sparsehash/ $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
+cp -r $MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include
 
 cd $MYPWD/$MAPNIK_OUTPUT/lib/
 
@@ -386,6 +400,7 @@ addlib libxml2.a
 addlib libz.a
 addlib libmapnik-json.a
 addlib libmapnik-wkt.a
+addlib libsqlite3.a
 save
 end
 " > mri_script

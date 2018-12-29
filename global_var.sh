@@ -50,6 +50,9 @@ LIBICU_FOLDER=icu4c-50_1_2-src.tgz
 LIBICU_VERSION=50.1.2
 LIBICU_OUTPUT=libicu
 
+LIBSQLITE3_FOLDER=sqlite-autoconf-3260000.tar.gz
+LIBSQLITE3_OUTPUT=libsqlite3
+
 MAPNIK_VERSION=3.0.20
 #uncoment the line if you want to try to build the official master
 MAPNIK_MASTER=https://github.com/mapnik/mapnik.git
@@ -69,6 +72,7 @@ archArray=(
 						["$LIBFREETYPE_FOLDER"]=false
 						["$LIBHARFBUZZ_FOLDER"]=false
 						["$LIBICU_FOLDER"]=false
+						["$LIBSQLITE3_FOLDER"]=false
 	  			)
 
 declare -A linksArray
@@ -84,4 +88,5 @@ linksArray=(
 						["$LIBFREETYPE_FOLDER"]="https://download.savannah.gnu.org/releases/freetype/$LIBFREETYPE_FOLDER"
 						["$LIBHARFBUZZ_FOLDER"]="https://www.freedesktop.org/software/harfbuzz/release/$LIBHARFBUZZ_FOLDER"
 						["$LIBICU_FOLDER"]="http://download.icu-project.org/files/icu4c/$LIBICU_VERSION/$LIBICU_FOLDER"
+						["$LIBSQLITE3_FOLDER"]="https://www.sqlite.org/2018/$LIBSQLITE3_FOLDER"
 					)
