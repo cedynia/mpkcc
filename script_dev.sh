@@ -79,7 +79,7 @@ CXX_COMPILER=$TOOLCHAIN_PATH/clang++
 export CC=$CC_COMPILER
 export CXX=$CXX_COMPILER
 
-###########SQLITE3
+##########SQLITE3
 cd $MYPWD
 
 cdIntoSrc "$LIBSQLITE3_FOLDER"
@@ -275,14 +275,14 @@ export CXX=$CXX_COMPILER
 make install -j$NPROC
 
 #############MAPNIK
-cd $MYPWD
+ cd $MYPWD
 
 git clone $MAPNIK_MASTER mapnik
 cd $MYPWD/mapnik/
 git checkout v3.0.20
 git submodule update --init deps/mapbox/
 
-patch SConstruct < $MYPWD/patches/mapnik_scons.patch
+patch SConstruct < $MYPWD/patches/SCON.patch
 patch Makefile <  $MYPWD/patches/mapnik_makefile.patch
 patch include/mapnik/value_types.hpp <  $MYPWD/patches/mapnik_value_types.patch
 #need to patch readers for png and jpeg for remove the anonymous namespace that wraps create_jpeg_reader and create_tiff_reader fn
