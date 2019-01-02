@@ -282,6 +282,7 @@ cd $MYPWD/mapnik/
 git checkout v3.0.20
 git submodule update --init deps/mapbox/
 
+patch -p1 < ../patches/mapnik_twkb.patch
 patch SConstruct < $MYPWD/patches/SCON.patch
 patch Makefile <  $MYPWD/patches/mapnik_makefile.patch
 patch include/mapnik/value_types.hpp <  $MYPWD/patches/mapnik_value_types.patch
