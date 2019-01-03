@@ -8,7 +8,7 @@ global_fun="$(dirname "$0")"
 
 if [ $# -eq 0 ]
   then
-    echo "No arguments supplied. The following arguments are required: --ndk-root= --api= "
+    echo "No arguments supplied. The following arguments are required: --ndk-root= --api= --arch="
 		exit 1;
 fi
 
@@ -48,6 +48,10 @@ case $i in
     API_VERSION="${i#*=}"
     shift # past argument=value
     ;;
+    --arch=*)
+    ARCH="${i#*=}"
+    shift # past argument=value
+    ;;
     *)
           echo "unknown option: $i"
 					exit 1;
@@ -57,15 +61,22 @@ done
 
 echo $NDK_ROOT
 echo $API_VERSION
+echo $ARCH
 
-TOOLCHAIN_FOLDER=android-toolchain-API$API_VERSION-32
+if [ $ARCH -eq 32 ];then
+  ARCH_NDK=arm
+else
+  ARCH_NDK=arm64
+fi
+
+TOOLCHAIN_FOLDER=android-toolchain-API$API_VERSION-$ARCH_NDK
 
 if [ -d $TOOLCHAIN_FOLDER ];then
 	echo "no need to build one"
 else
 	echo "copying toolchain to: "  $TOOLCHAIN_FOLDER
 	$NDK_ROOT/build/tools/make_standalone_toolchain.py \
-		--arch=arm \
+		--arch=$ARCH_NDK \
 		--api=$API_VERSION \
 		--stl=libc++ \
 		--force \
@@ -73,11 +84,24 @@ else
 		--install-dir=$MYPWD/$TOOLCHAIN_FOLDER
 fi
 
+
 TOOLCHAIN_PATH=$MYPWD/$TOOLCHAIN_FOLDER/bin/
 CC_COMPILER=$TOOLCHAIN_PATH/clang
 CXX_COMPILER=$TOOLCHAIN_PATH/clang++
 export CC=$CC_COMPILER
 export CXX=$CXX_COMPILER
+
+##########LIBMICROHTTP
+cd $MYPWD
+
+cdIntoSrc "$LIBMICROHTTP_FOLDER"
+
+./configure \
+  --host=$BUILD \
+	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBMICROHTTP_OUTPUT \
+
+make install -j$NPROC
+
 
 ##########SQLITE3
 cd $MYPWD
@@ -105,6 +129,7 @@ patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_operations.patch
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT \
 	  toolset=clang-android \
 		target-os=android \
+    link=static \
 		--with-system \
 		--with-thread \
 		--with-regex \
@@ -353,6 +378,7 @@ find $MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$LIBXML_OUTPUT/lib/*.a \
 		$MYPWD/$OUTPUT_FOLDER/$ZLIB_OUTPUT/lib/*.a \
     $MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT/lib/*.a \
+    $MYPWD/$OUTPUT_FOLDER/$LIBMICROHTTP_OUTPUT/lib/*.a \
 -exec cp {} $MYPWD/$MAPNIK_OUTPUT/lib/ ";"
 
 find $MYPWD/mapnik/ -name *.a -exec cp {} $MYPWD/mapnik-lib/lib/ ";"
@@ -371,6 +397,7 @@ cp    $MYPWD/mapnik/deps/agg/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
 cp    $MYPWD/mapnik/src/tiff_reader.cpp $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
 cp -r $MYPWD/mapnik/deps/mapnik/sparsehash/ $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
 cp -r $MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include
+cp -r $MYPWD/$OUTPUT_FOLDER/$LIBMICROHTTP_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include
 
 cd $MYPWD/$MAPNIK_OUTPUT/lib/
 
@@ -402,6 +429,7 @@ addlib libz.a
 addlib libmapnik-json.a
 addlib libmapnik-wkt.a
 addlib libsqlite3.a
+addlib libmicrohttpd.a
 save
 end
 " > mri_script

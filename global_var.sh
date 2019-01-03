@@ -4,6 +4,8 @@ NPROC=$(grep -c ^processor /proc/cpuinfo)
 
 NDK_ROOT=
 API_VERSION=
+ARCH=
+ARCH_NDK=
 MYPWD=$(pwd)
 TOOLCHAIN_FOLDER=
 TOOLCHAIN_PATH=
@@ -53,6 +55,9 @@ LIBICU_OUTPUT=libicu
 LIBSQLITE3_FOLDER=sqlite-autoconf-3260000.tar.gz
 LIBSQLITE3_OUTPUT=libsqlite3
 
+LIBMICROHTTP_FOLDER=libmicrohttpd-0.9.59.tar.gz
+LIBMICROHTTP_OUTPUT=libmicrohttpd
+
 MAPNIK_VERSION=3.0.20
 #uncoment the line if you want to try to build the official master
 MAPNIK_MASTER=https://github.com/mapnik/mapnik.git
@@ -73,6 +78,7 @@ archArray=(
 						["$LIBHARFBUZZ_FOLDER"]=false
 						["$LIBICU_FOLDER"]=false
 						["$LIBSQLITE3_FOLDER"]=false
+						["$LIBMICROHTTP_FOLDER"]=false
 	  			)
 
 declare -A linksArray
@@ -89,4 +95,5 @@ linksArray=(
 						["$LIBHARFBUZZ_FOLDER"]="https://www.freedesktop.org/software/harfbuzz/release/$LIBHARFBUZZ_FOLDER"
 						["$LIBICU_FOLDER"]="http://download.icu-project.org/files/icu4c/$LIBICU_VERSION/$LIBICU_FOLDER"
 						["$LIBSQLITE3_FOLDER"]="https://www.sqlite.org/2018/$LIBSQLITE3_FOLDER"
+						["$LIBMICROHTTP_FOLDER"]="https://ftp.gnu.org/gnu/libmicrohttpd/$LIBMICROHTTP_FOLDER"
 					)

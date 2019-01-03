@@ -1,5 +1,5 @@
 .arch
-android-toolchain-API19-32
+android-toolchain-*
 build
 mapnik
 output
