@@ -4,7 +4,7 @@ NPROC=$(grep -c ^processor /proc/cpuinfo)
 
 NDK_ROOT=
 API_VERSION=
-ARCH=
+ARCH=32
 ARCH_NDK=
 MYPWD=$(pwd)
 TOOLCHAIN_FOLDER=
