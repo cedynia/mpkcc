@@ -1,0 +1,32 @@
+--- markers_placement.h_orig	2019-06-01 00:12:32.783746297 +0200
++++ markers_placement.h_new	2019-06-04 00:52:07.167199343 +0200
+@@ -43,7 +43,8 @@
+                              markers_placement_params const& params)
+         : placement_type_(placement_type)
+     {
+-        switch (placement_type)
++        const auto& pt = placement_type_;
++        switch (pt)
+         {
+         default:
+         case MARKER_POINT_PLACEMENT:
+@@ -66,7 +67,8 @@
+ 
+     ~markers_placement_finder()
+     {
+-        switch (placement_type_)
++        const auto& pt = placement_type_;
++        switch (pt)
+         {
+         default:
+         case MARKER_POINT_PLACEMENT:
+@@ -90,7 +92,8 @@
+     // Get next point where the marker should be placed. Returns true if a place is found, false if none is found.
+     bool get_point(double &x, double &y, double &angle, bool ignore_placement)
+     {
+-        switch (placement_type_)
++        const auto& pt = placement_type_;
++        switch (pt)
+         {
+         default:
+         case MARKER_POINT_PLACEMENT:
