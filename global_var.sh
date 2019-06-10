@@ -1,6 +1,7 @@
 #! /bin/bash
 
 NPROC=$(grep -c ^processor /proc/cpuinfo)
+CFLAGS="CFLAGS=-fPIC"
 
 NDK_ROOT=
 API_VERSION=
