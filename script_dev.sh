@@ -98,7 +98,7 @@ cdIntoSrc "$LIBMICROHTTP_FOLDER"
 
 CFLAGS=-fPIC ./configure \
   --host=$BUILD \
-	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBMICROHTTP_OUTPUT
+	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBMICROHTTP_OUTPUT \
 
 make install -j$NPROC
 
@@ -110,7 +110,7 @@ cdIntoSrc "$LIBSQLITE3_FOLDER"
 
 CFLAGS=-fPIC ./configure \
   --host=$BUILD \
-	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT
+	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT \
 
 make install -j$NPROC
 
@@ -130,20 +130,13 @@ patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_operations.patch
 	  toolset=clang-android \
 		target-os=android \
     link=static \
-    runtime-link=shared \
 		--with-system \
 		--with-thread \
 		--with-regex \
 		--with-program_options \
 		--with-filesystem \
-<<<<<<< HEAD
 	  cxxflags=-fPIC \
 	  cflags=-fPIC
-=======
-    cxxflags=-fPIC \
-    cflags=-fPIC
-
->>>>>>> 71486c2327422157ae42053e93a84a331bde6e73
 
 ###########ZLIB
 cd $MYPWD
@@ -183,8 +176,8 @@ CFLAGS=-fPIC ./configure \
 		--enable-static \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT \
 		CC=$CC_COMPILER \
-		CXX=$CXX_COMPILER\
-
+		CXX=$CXX_COMPILER
+		CFLAGS=-fexceptions
 
 make install -j$NPROC
 
@@ -193,20 +186,11 @@ cd $MYPWD
 
 cdIntoSrc "$LIBJPEG_FOLDER"
 
-<<<<<<< HEAD
 CFLAGS="-fPIC -fexceptions" ./configure \
 		--host=arm-linux \
 		--enable-static \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT \
 		CC=$CC_COMPILER
-=======
-CFLAGS=-fPIC ./configure \
-		--host=arm-linux \
-		--enable-static \
-		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT \
-		CC=$CC_COMPILER \
-		CXX=$CXX_COMPILER
->>>>>>> 71486c2327422157ae42053e93a84a331bde6e73
 
 
 make install -j$NPROC
@@ -221,8 +205,8 @@ CFLAGS=-fPIC ./configure \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT \
 		--host=arm-linux-androideabi \
 		CC=$CC_COMPILER \
-		CXX=$CXX_COMPILER \
-
+		CXX=$CXX_COMPILER
+		CFLAGS=-fexceptions
 
 make install -j$NPROC
 
@@ -237,7 +221,6 @@ CFLAGS=-fPIC ./configure \
 			--host=arm-linux \
 			CC=$CC_COMPILER \
 			CXX=$CXX_COMPILER
-
 
 make install -j$NPROC
 
@@ -269,23 +252,17 @@ cdIntoSrc "$LIBHARFBUZZ_FOLDER"
 
 patch ./configure < $MYPWD/patches/harfbuzz_freetype.patch
 
-<<<<<<< HEAD
 CXXFLAGS=-fPIC CFLAGS=-fPIC  ./configure \
-=======
-CXXFLAGS=-fPIC CFLAGS=-fPIC ./configure \
->>>>>>> 71486c2327422157ae42053e93a84a331bde6e73
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT \
 		--host=arm-linux-androideabi \
 		PKG_CONFIG='' \
-		CPPFLAGS="-I$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/  -fPIC "\
+		CPPFLAGS=-I$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/  \
 		LDFLAGS=-L$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/lib/ \
 		FREETYPE_LIBS=$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/lib/libfreetype.so  \
 		--enable-static  \
-    --enable-shared \
 		--without-icu \
 		CC=$CC_COMPILER \
 		CXX=$CXX_COMPILER
-
 
 make install -j$NPROC
 
@@ -305,11 +282,7 @@ cd dirA
 export CC=gcc
 export CXX=g++
 
-<<<<<<< HEAD
 CFLAGS=-fPIC ../source/runConfigureICU Linux --enable-static --disable-shared
-=======
-CFLAGS=-fPIC ../source/runConfigureICU Linux --enable-static --enable-shared
->>>>>>> 71486c2327422157ae42053e93a84a331bde6e73
 
 make
 
@@ -322,10 +295,8 @@ CXXFLAGS=-fPIC CFLAGS=-fPIC ../source/configure \
 		--host=arm-linux-androideabi \
 		--with-cross-build=$(pwd)/../dirA/ \
 		--enable-static \
-		--enable-shared \
+		--disable-shared \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/libicu
-
-
 
 make install -j$NPROC
 
@@ -354,7 +325,7 @@ CC='$CC_COMPILER'
 CXX='$CXX_COMPILER'
 CUSTOM_DEFINES='-DHAVE_JPEG -DHAVE_TIFF -DHAVE_PNG'
 RUNTIME_LINK='static'
-CUSTOM_CXXFLAGS = '-DU_HAVE_STD_STRING=1 -fPIC'
+CUSTOM_CXXFLAGS = '-DU_HAVE_STD_STRING=1'
 LINKING='static'
 INPUT_PLUGINS='shape,sqlite'
 BOOST_INCLUDES ='$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/include'
