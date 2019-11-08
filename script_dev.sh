@@ -102,7 +102,9 @@ CFLAGS="-fPIC" ./configure \
 
 make install -j$NPROC
 
+checkCompResult "$LIBMICROHTTP_OUTPUT"
 
+exit 1;
 ##########SQLITE3
 cd $MYPWD
 
