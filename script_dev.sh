@@ -135,14 +135,9 @@ patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_operations.patch
 		--with-regex \
 		--with-program_options \
 		--with-filesystem \
-<<<<<<< HEAD
     cxxflags="-fPIC" \
     cflags="-fPIC"
 
-=======
-	  cxxflags=-fPIC \
-	  cflags=-fPIC
->>>>>>> d522fbe1df654c8c596d3d1e3ebc55f947afaa93
 
 ###########ZLIB
 cd $MYPWD
@@ -182,11 +177,8 @@ CFLAGS="-fPIC -fexceptions" ./configure \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT \
 		CC=$CC_COMPILER \
 		CXX=$CXX_COMPILER
-<<<<<<< HEAD
+		CFLAGS="-fPIC -fexceptions"
 
-=======
-		CFLAGS=-fexceptions
->>>>>>> d522fbe1df654c8c596d3d1e3ebc55f947afaa93
 
 make install -j$NPROC
 
@@ -215,11 +207,8 @@ CFLAGS="-fPIC -fexceptions" ./configure \
 		--host=arm-linux-androideabi \
 		CC=$CC_COMPILER \
 		CXX=$CXX_COMPILER
-<<<<<<< HEAD
+		CFLAGS="-fPIC -fexceptions"
 
-=======
-		CFLAGS=-fexceptions
->>>>>>> d522fbe1df654c8c596d3d1e3ebc55f947afaa93
 
 make install -j$NPROC
 
@@ -265,11 +254,8 @@ cdIntoSrc "$LIBHARFBUZZ_FOLDER"
 
 patch ./configure < $MYPWD/patches/harfbuzz_freetype.patch
 
-<<<<<<< HEAD
+
 CXXFLAGS="-fPIC" CFLAGS="-fPIC"  ./configure \
-=======
-CXXFLAGS=-fPIC CFLAGS=-fPIC  ./configure \
->>>>>>> d522fbe1df654c8c596d3d1e3ebc55f947afaa93
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT \
 		--host=arm-linux-androideabi \
 		PKG_CONFIG='' \
@@ -299,11 +285,8 @@ cd dirA
 export CC=gcc
 export CXX=g++
 
-<<<<<<< HEAD
 CFLAGS="-fPIC" ../source/runConfigureICU Linux --enable-static --disable-shared
-=======
-CFLAGS=-fPIC ../source/runConfigureICU Linux --enable-static --disable-shared
->>>>>>> d522fbe1df654c8c596d3d1e3ebc55f947afaa93
+
 
 make
 
