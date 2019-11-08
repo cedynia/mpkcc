@@ -102,6 +102,7 @@ CFLAGS="-fPIC" ./configure \
 
 make install -j$NPROC
 
+checkCompResult "$LIBMICROHTTP_OUTPUT"
 
 ##########SQLITE3
 cd $MYPWD
@@ -113,6 +114,8 @@ CFLAGS="-fPIC" ./configure \
 	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT \
 
 make install -j$NPROC
+
+checkCompResult "$LIBSQLITE3_OUTPUT"
 
 #############BOOST
 cd $MYPWD
@@ -138,6 +141,7 @@ patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_operations.patch
     cxxflags="-fPIC" \
     cflags="-fPIC"
 
+checkCompResult "$BOOST_OUTPUT"
 
 ###########ZLIB
 cd $MYPWD
@@ -149,6 +153,8 @@ CFLAGS="-fPIC"  ./configure \
 	--static
 
 make install -j$NPROC
+
+checkCompResult "$ZLIB_OUTPUT"
 
 ###########LIBXML
 cd $MYPWD
@@ -166,6 +172,8 @@ CFLAGS="-fPIC" ./configure \
 
 make install -j$NPROC
 
+checkCompResult "$LIBXML_OUTPUT"
+
 ############LIBTIFF
 cd $MYPWD
 
@@ -182,6 +190,9 @@ CFLAGS="-fPIC -fexceptions" ./configure \
 
 make install -j$NPROC
 
+
+checkCompResult "$LIBTIFF_OUTPUT"
+
 ###########LIBJPEG
 cd $MYPWD
 
@@ -195,6 +206,8 @@ CFLAGS="-fPIC -fexceptions" ./configure \
 
 
 make install -j$NPROC
+
+checkCompResult "$LIBJPEG_OUTPUT"
 
 ############LIBPNG
 cd $MYPWD
@@ -212,6 +225,8 @@ CFLAGS="-fPIC -fexceptions" ./configure \
 
 make install -j$NPROC
 
+checkCompResult "$LIBPNG_OUTPUT"
+
 #############LIBPROJ
 cd $MYPWD
 
@@ -225,6 +240,8 @@ CFLAGS="-fPIC" ./configure \
 			CXX=$CXX_COMPILER
 
 make install -j$NPROC
+
+checkCompResult "$LIBPROJ_OUTPUT"
 
 #############LIBFREETYPE
 cd $MYPWD
@@ -243,6 +260,8 @@ CFLAGS="-fPIC" ./configure \
 			CXX=$CXX_COMPILER
 
 make install -j$NPROC
+
+checkCompResult "$LIBFREETYPE_OUTPUT"
 
 # #harfbuzz hack allows to find freetype includes
 cp -r $MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/freetype2/* $MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/
@@ -268,6 +287,8 @@ CXXFLAGS="-fPIC" CFLAGS="-fPIC"  ./configure \
 		CXX=$CXX_COMPILER
 
 make install -j$NPROC
+
+checkCompResult "$LIBHARFBUZZ_OUTPUT"
 
 #############LIBICU
 cd $MYPWD
@@ -303,6 +324,8 @@ CXXFLAGS="-fPIC" CFLAGS="-fPIC" ../source/configure \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/libicu
 
 make install -j$NPROC
+
+checkCompResult "$LIBICU_OUTPUT"
 
 #############MAPNIK
  cd $MYPWD
