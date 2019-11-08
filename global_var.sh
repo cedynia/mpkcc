@@ -92,7 +92,7 @@ linksArray=(
 						["$LIBPROJ_FOLDER"]="https://download.osgeo.org/proj/$LIBPROJ_FOLDER"
 						["$LIBFREETYPE_FOLDER"]="https://download.savannah.gnu.org/releases/freetype/$LIBFREETYPE_FOLDER"
 						["$LIBHARFBUZZ_FOLDER"]="https://www.freedesktop.org/software/harfbuzz/release/$LIBHARFBUZZ_FOLDER"
-						["$LIBICU_FOLDER"]="http://download.icu-project.org/files/icu4c/$LIBICU_VERSION/$LIBICU_FOLDER"
+						["$LIBICU_FOLDER"]="http://ftp.oregonstate.edu/.1/blfs/conglomeration/icu/$LIBICU_FOLDER"
 						["$LIBSQLITE3_FOLDER"]="https://www.sqlite.org/2018/$LIBSQLITE3_FOLDER"
 						["$LIBMICROHTTP_FOLDER"]="https://ftp.gnu.org/gnu/libmicrohttpd/$LIBMICROHTTP_FOLDER"
 					)
