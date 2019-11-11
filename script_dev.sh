@@ -63,10 +63,15 @@ echo $NDK_ROOT
 echo $API_VERSION
 echo $ARCH
 
-if [ $ARCH -eq 32 ];then
+
+if [ "$ARCH" == "arm" ];then
   ARCH_NDK=arm
-else
+elif [ "$ARCH" == "arm64" ];then
   ARCH_NDK=arm64
+elif [ "$ARCH" == "x86_64" ];then
+  ARCH_NDK=x86_64
+elif [ "$ARCH" == "x86" ];then
+  ARCH_NDK=x86
 fi
 
 TOOLCHAIN_FOLDER=android-toolchain-API$API_VERSION-$ARCH_NDK

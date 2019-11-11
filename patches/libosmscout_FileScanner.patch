@@ -1,0 +1,38 @@
+--- smieci/libosmscout/libosmscout/src/osmscout/util/FileScanner.cpp	2019-11-10 00:50:49.169218231 +0100
++++ /home/pawel/osmscout-dep/libosmscout/libosmscout/src/osmscout/util/FileScanner.cpp	2019-07-05 23:31:28.000000000 +0200
+@@ -375,12 +375,7 @@
+ 
+     clearerr(file);
+ 
+-#if defined(HAVE_FSEEKO)
+-    hasError=fseeko(file,(off_t)pos,SEEK_SET)!=0;
+-#elif defined(HAVE__FSEEKi64)
+-#else
+-    hasError=_fseeki64(file,(__int64)pos,SEEK_SET)!=0;
+-#endif
++
+ 
+     if (hasError) {
+       throw IOException(filename,"Cannot set position in file");
+@@ -2225,7 +2220,7 @@
+           Read(sizeByte);
+ 
+           nodeCount|=(sizeByte & 0x7f) << 11;
+-            
++
+           if ((sizeByte & 0x80) != 0) {
+              Read(sizeByte);
+ 
+@@ -2258,10 +2253,10 @@
+           Read(sizeByte);
+ 
+           nodeCount|=(sizeByte & 0x7f) << 12;
+-            
++
+           if ((sizeByte & 0x80) != 0) {
+             Read(sizeByte);
+-                
++
+             nodeCount|=sizeByte << 19;
+           }
+         }

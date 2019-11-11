@@ -1,0 +1,10 @@
+671c671,672
+<   while (!__sync_bool_compare_and_swap(&opq_, 0, 1)) {
+---
+>   int _one = 1;
+>   while (!__sync_bool_compare_and_swap(&opq_, 0, &_one)) {
+696c697,698
+<   return __sync_bool_compare_and_swap(&opq_, 0, 1);
+---
+>   int _one = 1;
+>   return __sync_bool_compare_and_swap(&opq_, 0, &_one);
