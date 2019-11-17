@@ -57,6 +57,9 @@ LIBSQLITE3_OUTPUT=libsqlite3
 LIBMICROHTTP_FOLDER=libmicrohttpd-0.9.59.tar.gz
 LIBMICROHTTP_OUTPUT=libmicrohttpd
 
+LIBKYOTOCABINET_FOLDER=kyotocabinet-1.2.77.tar.gz
+LIBKYOTOCABINET_OUTPUT=kyotocabinet
+
 MAPNIK_VERSION=3.0.20
 #uncoment the line if you want to try to build the official master
 MAPNIK_MASTER=https://github.com/mapnik/mapnik.git
@@ -78,6 +81,7 @@ archArray=(
 						["$LIBICU_FOLDER"]=false
 						["$LIBSQLITE3_FOLDER"]=false
 						["$LIBMICROHTTP_FOLDER"]=false
+						["$LIBKYOTOCABINET_FOLDER"]=false
 	  			)
 
 declare -A linksArray
@@ -95,4 +99,5 @@ linksArray=(
 						["$LIBICU_FOLDER"]="http://ftp.oregonstate.edu/.1/blfs/conglomeration/icu/$LIBICU_FOLDER"
 						["$LIBSQLITE3_FOLDER"]="https://www.sqlite.org/2018/$LIBSQLITE3_FOLDER"
 						["$LIBMICROHTTP_FOLDER"]="https://ftp.gnu.org/gnu/libmicrohttpd/$LIBMICROHTTP_FOLDER"
+						["$LIBKYOTOCABINET_FOLDER"]="https://fallabs.com/kyotocabinet/pkg/$LIBKYOTOCABINET_FOLDER"
 					)

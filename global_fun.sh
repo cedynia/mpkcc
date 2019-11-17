@@ -27,6 +27,19 @@ function validateLink(){
 
 }
 
+function cdIntoGitRepo(){
+
+  	wget -O /dev/null $1
+    if [ $? -ne 0 ];then
+      echo "Can't download $1, please download $1 manually to .arch folder"
+      exit 1;
+    fi
+
+    git clone --recurse-submodule $1 "$MYPWD/$BUILD_FOLDER/$2"
+    cd "$MYPWD/$BUILD_FOLDER/$2/$3"
+
+}
+
 function cdIntoSrc(){
 
   #FIXME:no connection handling
