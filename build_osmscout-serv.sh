@@ -10,8 +10,8 @@ global_var="$(dirname "$0")"
 . "$global_var/osmscout-server_var.sh"
 
 
-export CC_COMPILER="/home/pawel/mapnik4android/android-toolchain-API23-x86/bin/clang"
-export CXX_COMPILER="/home/pawel/mapnik4android/android-toolchain-API23-x86/bin/clang++"
+export CC_COMPILER="/home/pawel/mapnik4android/android-toolchain-API23-x86_64/bin/clang"
+export CXX_COMPILER="/home/pawel/mapnik4android/android-toolchain-API23-x86_64/bin/clang++"
 
 mkdir $SCOUT_OUT_FOLDER
 
