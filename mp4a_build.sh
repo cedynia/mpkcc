@@ -2,9 +2,7 @@
 
 global="$(dirname "$0")"
 . "$global/global_var.sh"
-global="$(dirname "$0")"
 . "$global/global_fun.sh"
-global="$(dirname "$0")"
 . "$global/osm_var.sh"
 
 
@@ -84,5 +82,6 @@ export CXX=$CXX_COMPILER
 
 global="$(dirname "$0")"
 . "$global/script_dev.sh"
+cd $MYPWD
 global="$(dirname "$0")"
 . "$global/build_osmscout-serv.sh"

@@ -28,19 +28,19 @@ function validateLink(){
 }
 
 function checkArchs(){
-  # for A in ${!archArray[@]};
-  # do
-  # 	if [ -f $ARCHIVE_FOLDER/$A ];then archArray[$A]=true; fi
-  # done
+  for A in ${!archArray[@]};
+  do
+  	if [ -f $ARCHIVE_FOLDER/$A ];then archArray[$A]=true; fi
+  done
 
-  # for arch in ${!archArray[@]};
-  # do
-  # 	if [ ${archArray[$arch]} = false ] && ! validateLink ${linksArray[$arch]} ;then
-  # 		echo "the download link for $arch is not responding, please download $arch manually to $ARCHIVE_FOLDER folder";
-  # 		exit 1;
-  # 	fi
-  # done
-echo 1;
+  for arch in ${!archArray[@]};
+  do
+  	if [ ${archArray[$arch]} = false ] && ! validateLink ${linksArray[$arch]} ;then
+  		echo "the download link for $arch is not responding, please download $arch manually to $ARCHIVE_FOLDER folder";
+  		exit 1;
+  	fi
+  done
+
 }
 
 function cdIntoGitRepo(){
