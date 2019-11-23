@@ -1,10 +1,6 @@
 #! /bin/bash
 
 
-
-global_var="$(dirname "$0")"
-. "$global_var/global_var.sh"
-
 SCOUT_OUT=scout_dep
 SCOUT_OUT_FOLDER=$MYPWD/$SCOUT_OUT
 
@@ -20,3 +16,7 @@ LIBOSMSCOUT_FOLDER=libosmscout
 LIBOSMSCOUT_BUILD=libosmscout
 LIBOSMSCOUTMAP_BUILD=libosmscout-map
 LIBOSMSCOUT_GIT="https://github.com/rinigus/libosmscout.git"
+
+LIBOPENSSL_BUILD=libopenssl
+LIBOPENSSL_FOLDER=libopenssl
+LIBOPENSSL_GIT="https://github.com/KDAB/android_openssl.git"

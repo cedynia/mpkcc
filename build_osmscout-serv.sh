@@ -2,20 +2,13 @@
 
 ##sudo apt-get install dh-autoreconf
 
-#firstly compile the mapnik library with their dependencies
-# global_var="$(dirname "$0")"
-# . "$global_var/script_dev.sh"
-
-global_var="$(dirname "$0")"
-. "$global_var/global_fun.sh"
-
-global_var="$(dirname "$0")"
-. "$global_var/osmscout-server_var.sh"
-
-
-export CC_COMPILER="/home/pawel/mapnik4android/android-toolchain-API23-x86_64/bin/clang"
-export CXX_COMPILER="/home/pawel/mapnik4android/android-toolchain-API23-x86_64/bin/clang++"
-
+# global="$(dirname "$0")"
+# . "$global/global_var.sh"
+# . "$global/global_fun.sh"
+# . "$global/osm_var.sh"
+#
+# export CC=/home/pawel/mapnik4android/android-toolchain-API23-x86_64/bin/clang
+# export CXX=/home/pawel/mapnik4android/android-toolchain-API23-x86_64/bin/clang++
 
 #now try to build osmscout-server dependencies...
 ####libpostal##############################################################
@@ -118,6 +111,7 @@ patch kcthread.cc < $MYPWD/patches/kyoto_kcthread.patch
 
 CXXFLAGS="-D_MYGCCATOMIC -fPIC" ./configure   \
         --disable-atomic \
+        --disable-zlib  \
         --prefix="$MYPWD/$OUTPUT_FOLDER/$LIBKYOTOCABINET_OUTPUT" \
         CC=$CC_COMPILER \
         CXX=$CXX_COMPILER \
@@ -130,5 +124,21 @@ CXXFLAGS="-D_MYGCCATOMIC -fPIC" ./configure   \
 
 sed -i 's/-D_FILE_OFFSET_BITS=64//g' Makefile
 
+make -j$NPROC
+make install
+
+
+##build openssl libs for android and build custom qt for android
+
+cdIntoGitRepo "$LIBOPENSSL_GIT" "$LIBOPENSSL_FOLDER"
+##for version compability 1.1.1d see configure qt
+git checkout 433f924a9dc6df5b35d5e7e76453c200b84
+sed -i "s/ANDROID_NDK_HOME=.*/ANDROID_NDK_HOME=$NDK_ROOT/g" ./build_ssl.sh
+./build_ssl.sh
+cp -rf $MYPWD/$BUILD_FOLDER/$LIBOPENSSL_FOLDER $MYPWD/$OUTPUT_FOLDER/
+
+##download and buid qt src
+cdIntoSrc $LIBQT_FOLDER
+./configure -xplatform android-clang --disable-rpath -nomake tests -nomake examples -android-arch $ARCH -android-ndk $NDK_ROOT -android-sdk $SDK_ROOT -android-ndk-host linux-x86_64 -android-toolchain-version 4.9 -no-warnings-are-errors -android-ndk-platform android-$API_VERSION -skip qttools -skip qttranslations -skip qtwebengine -skip qtserialport -skip qtserialbus -I$LIBOPENSSL_FOLDER/openssl-1.1.1d/include/ -openssl -prefix $LIBQT_OUTPUT -opensource
 make -j$NPROC
 make install
