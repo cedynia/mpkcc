@@ -2,13 +2,20 @@
 
 ##sudo apt-get install dh-autoreconf
 
-# global="$(dirname "$0")"
-# . "$global/global_var.sh"
-# . "$global/global_fun.sh"
-# . "$global/osm_var.sh"
-#
-# export CC=/home/pawel/mapnik4android/android-toolchain-API23-x86_64/bin/clang
-# export CXX=/home/pawel/mapnik4android/android-toolchain-API23-x86_64/bin/clang++
+#firstly compile the mapnik library with their dependencies
+#global_var="$(dirname "$0")"
+#. "$global_var/script_dev.sh"
+
+global_var="$(dirname "$0")"
+. "$global_var/global_fun.sh"
+
+global_var="$(dirname "$0")"
+. "$global_var/osmscout-server_var.sh"
+
+
+export CC_COMPILER="/home/pawel/mapnik4android/android-toolchain-API23-x86_64/bin/clang"
+export CXX_COMPILER="/home/pawel/mapnik4android/android-toolchain-API23-x86_64/bin/clang++"
+
 
 #now try to build osmscout-server dependencies...
 ####libpostal##############################################################
