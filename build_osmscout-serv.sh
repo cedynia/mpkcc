@@ -13,9 +13,6 @@
 #now try to build osmscout-server dependencies...
 ####libpostal##############################################################
 cd "$MYPWD"
-mkdir "$SCOUT_OUT_FOLDER/libpostal"
-git clone --recurse-submodule https://github.com/rinigus/pkg-libpostal.git
-cd "$MYPWD/pkg-libpostal/libpostal"
 cdIntoGitRepo "$LIBPOSTAL_GIT" "$LIBPOSTAL_FOLDER" "$LIBPOSTAL_BUILD"
 
 ./bootstrap.sh
@@ -128,8 +125,7 @@ make -j$NPROC
 make install
 
 
-##build openssl libs for android and build custom qt for android
-NDK_ROOT=/home/pawel/Android/Sdk/android-ndk-r18b
+
 cdIntoGitRepo "$LIBOPENSSL_GIT" "$LIBOPENSSL_FOLDER"
 ##for version compability 1.1.1d see configure qt
 git checkout 433f924a9dc6df5b35d5e7e76453c200b84
@@ -141,6 +137,6 @@ cp -rf $MYPWD/$BUILD_FOLDER/$LIBOPENSSL_FOLDER $MYPWD/$OUTPUT_FOLDER/
 
 ##download and buid qt src
 cdIntoSrc $LIBQT_FOLDER
-./configure -confirm-license -xplatform android-clang --disable-rpath -nomake tests -nomake examples -android-arch $ARCH -android-ndk $NDK_ROOT -android-sdk $SDK_ROOT -android-ndk-host linux-x86_64 -android-toolchain-version 4.9 -no-warnings-are-errors -android-ndk-platform android-$API_VERSION -skip qttools -skip qttranslations -skip qtwebengine -skip qtserialport -skip qtserialbus -I$MYPWD/OUTPUT_FOLDER/$LIBOPENSSL_FOLDER/openssl-1.1.1d/include/ -openssl -prefix $LIBQT_OUTPUT -opensource
+./configure -confirm-license -xplatform android-clang --disable-rpath -nomake tests -nomake examples -android-arch $ARCH -android-ndk $NDK_ROOT -android-sdk $SDK_ROOT -android-ndk-host linux-x86_64 -android-toolchain-version 4.9 -no-warnings-are-errors -android-ndk-platform android-$API_VERSION -skip qttools -skip qttranslations -skip qtwebengine -skip qtserialport -skip qtserialbus -I$MYPWD/$OUTPUT_FOLDER/$LIBOPENSSL_FOLDER/openssl-1.1.1d/include/ -openssl -prefix $LIBQT_OUTPUT -opensource
 make -j$NPROC
 make install
