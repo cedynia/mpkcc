@@ -51,12 +51,16 @@ echo $ARCH
 
 if [ "$ARCH" == "arm" ];then
   ARCH_NDK=arm
+  ARCHQT=armeabi-v7a
 elif [ "$ARCH" == "arm64" ];then
   ARCH_NDK=arm64
+  ARCHQT=arm64-v8a
 elif [ "$ARCH" == "x86_64" ];then
   ARCH_NDK=x86_64
+  ARCHQT=x86_64
 elif [ "$ARCH" == "x86" ];then
   ARCH_NDK=x86
+  ARCHQT=x86
 fi
 
 TOOLCHAIN_FOLDER=android-toolchain-API$API_VERSION-$ARCH_NDK

@@ -5,6 +5,7 @@ SDK_ROOT=
 NDK_ROOT=
 API_VERSION=
 ARCH=32
+ARCHQT=
 ARCH_NDK=
 MYPWD=$(pwd)
 TOOLCHAIN_FOLDER=
@@ -61,12 +62,11 @@ LIBMICROHTTP_OUTPUT=libmicrohttpd
 LIBKYOTOCABINET_FOLDER=kyotocabinet-1.2.77.tar.gz
 LIBKYOTOCABINET_OUTPUT=kyotocabinet
 
-<<<<<<< HEAD
+
 LIBQT_FOLDER=qt-everywhere-src-5.13.2.tar.xz
 LIBQT_OUTPUT=libqt
 
-=======
->>>>>>> db1ac123b58853a1b58c52f04f3befee2f7528dc
+
 MAPNIK_VERSION=3.0.20
 #uncoment the line if you want to try to build the official master
 MAPNIK_MASTER=https://github.com/mapnik/mapnik.git
@@ -89,10 +89,8 @@ archArray=(
 						["$LIBSQLITE3_FOLDER"]=false
 						["$LIBMICROHTTP_FOLDER"]=false
 						["$LIBKYOTOCABINET_FOLDER"]=false
-<<<<<<< HEAD
 						["$LIBQT_FOLDER"]=false
-=======
->>>>>>> db1ac123b58853a1b58c52f04f3befee2f7528dc
+
 	  			)
 
 declare -A linksArray
@@ -111,8 +109,6 @@ linksArray=(
 						["$LIBSQLITE3_FOLDER"]="https://www.sqlite.org/2018/$LIBSQLITE3_FOLDER"
 						["$LIBMICROHTTP_FOLDER"]="https://ftp.gnu.org/gnu/libmicrohttpd/$LIBMICROHTTP_FOLDER"
 						["$LIBKYOTOCABINET_FOLDER"]="https://fallabs.com/kyotocabinet/pkg/$LIBKYOTOCABINET_FOLDER"
-<<<<<<< HEAD
 						["$LIBQT_FOLDER"]="https://download.qt.io/archive/qt/5.13/5.13.2/single/$LIBQT_FOLDER"
-=======
->>>>>>> db1ac123b58853a1b58c52f04f3befee2f7528dc
+
 					)
