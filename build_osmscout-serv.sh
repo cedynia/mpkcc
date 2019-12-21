@@ -142,8 +142,9 @@ sed -i 's,ANDROID_NDK_HOME=.*,ANDROID_NDK_HOME='"$NDK_ROOT"',g' ./build_ssl.sh
 ./build_ssl.sh
 cp -rf $MYPWD/$BUILD_FOLDER/$LIBOPENSSL_FOLDER $MYPWD/$OUTPUT_FOLDER/
 
+
 ##download and buid qt src
-cdIntoSrc $LIBQT_FOLDER
+cdIntoSrc "$LIBQT_FOLDER"
 ./configure -confirm-license -xplatform android-clang --disable-rpath -nomake tests -nomake examples -android-arch $ARCHQT -android-ndk $NDK_ROOT -android-sdk $SDK_ROOT -android-ndk-host linux-x86_64 -android-toolchain-version 4.9 -no-warnings-are-errors -android-ndk-platform android-$API_VERSION -skip qttools -skip qttranslations -skip qtwebengine -skip qtserialport -skip qtserialbus -I$MYPWD/$OUTPUT_FOLDER/$LIBOPENSSL_FOLDER/openssl-1.1.1d/include/ -openssl -prefix $LIBQT_OUTPUT -opensource
 make -j$NPROC
 make install

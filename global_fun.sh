@@ -57,8 +57,10 @@ function cdIntoGitRepo(){
 }
 
 function cdIntoSrc(){
+  cd "$MYPWD"
 
   #FIXME:no connection handling
+  echo "sciezka ktora sciagam: ${linksArray[$1]}"
   if [ ${archArray[$1]} = false ];then
   	wget -O $ARCHIVE_FOLDER/$1 ${linksArray[$1]}
     if [ $? -ne 0 ];then
