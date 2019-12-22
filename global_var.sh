@@ -66,6 +66,10 @@ LIBKYOTOCABINET_OUTPUT=kyotocabinet
 LIBQT_FOLDER=qt-everywhere-src-5.13.2.tar.xz
 LIBQT_OUTPUT=libqt
 
+#NDK LINKS
+ndk_r18b="https://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip"
+ndk_r19c="https://dl.google.com/android/repository/android-ndk-r19c-linux-x86_64.zip"
+
 
 MAPNIK_VERSION=3.0.20
 #uncoment the line if you want to try to build the official master

@@ -104,3 +104,37 @@ function checkFold(){
   fi
 
 }
+
+function make_toolchain(){
+
+	NDK_VER=$(dialog --backtitle "Step 1" \
+	--title "SELECT NDK VERSION TO DOWNLOAD..." --clear "$@" \
+	--stdout \
+        --radiolist "" 10 61 5 \
+        "r19c" "" on \
+	"r18b" "" off )
+
+	case "$NDK_VER" in
+		"r19c") echo "wybrano 19";
+		wget "$ndk_r19c" -O /tmp/ndk;;
+		"r18b") echo "wybrano 18";
+		wget "$ndk_r18b" -O /tmp/ndk;;
+
+	esac
+   
+    if [ $? -ne 0 ];then
+      echo "cant download ndk toolchain!"
+      exit 1;
+    fi
+
+    echo "copying toolchain to: "  $TOOLCHAIN_FOLDER
+    /tmp/ndk/build/tools/make_standalone_toolchain.py \
+		--arch=$ARCH_NDK \
+		--api=$API_VERSION \
+		--stl=libc++ \
+		--force \
+		--verbose \
+		--install-dir=$MYPWD/$TOOLCHAIN_FOLDER
+
+	exit 1;
+}

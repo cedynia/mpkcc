@@ -8,7 +8,7 @@ global="$(dirname "$0")"
 
 if [ $# -eq 0 ]
   then
-    echo "No arguments supplied. The following arguments are required: --ndk-root= --api= --arch= --sdk-root="
+    echo "No arguments supplied. The following arguments are required: --api= --arch= --sdk-root="
 		exit 1;
 fi
 
@@ -16,18 +16,13 @@ checkFold "$ARCHIVE_FOLDER"
 checkFold "$BUILD_FOLDER"
 checkFold "$OUTPUT_FOLDER"
 
-checkArchs
+#checkArchs
 
 for i in "$@"
 do
 case $i in
     --sdk-root=*)
     SDK_ROOT="${i#*=}"
-    shift # past argument=value
-    ;;
-    --ndk-root=*)
-    NDK_ROOT="${i#*=}"
-    echo "jest ndk root"
     shift # past argument=value
     ;;
     --api=*)
@@ -68,14 +63,7 @@ TOOLCHAIN_FOLDER=android-toolchain-API$API_VERSION-$ARCH_NDK
 if [ -d $TOOLCHAIN_FOLDER ];then
 	echo "no need to build one"
 else
-	echo "copying toolchain to: "  $TOOLCHAIN_FOLDER
-	$NDK_ROOT/build/tools/make_standalone_toolchain.py \
-		--arch=$ARCH_NDK \
-		--api=$API_VERSION \
-		--stl=libc++ \
-		--force \
-		--verbose \
-		--install-dir=$MYPWD/$TOOLCHAIN_FOLDER
+	make_toolchain
 fi
 
 TOOLCHAIN_PATH=$MYPWD/$TOOLCHAIN_FOLDER/bin/
