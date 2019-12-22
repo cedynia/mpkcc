@@ -154,8 +154,10 @@ function make_toolchain(){
       exit 1;
     fi
 
+    unzip -qo /tmp/ndk/ -d /tmp/ndk_
+
     echo "copying toolchain to: "  $TOOLCHAIN_FOLDER
-    /tmp/ndk/build/tools/make_standalone_toolchain.py \
+    /tmp/ndk_/android-ndk-$NDK_VER/build/tools/make_standalone_toolchain.py \
 		--arch=$ARCH_NDK \
 		--api=$API_VERSION \
 		--stl=libc++ \

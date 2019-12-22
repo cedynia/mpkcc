@@ -9,7 +9,7 @@ checkFold "$ARCHIVE_FOLDER"
 checkFold "$BUILD_FOLDER"
 checkFold "$OUTPUT_FOLDER"
 
-#checkArchs
+checkArchs
 store_vars
 
 echo $NDK_ROOT
