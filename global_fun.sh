@@ -140,11 +140,18 @@ function store_vars(){
 }
 
 function make_toolchain(){
+
+	cd $MYPWD;
+
 	case "$NDK_VER" in
 		"r19c") echo "wybrano 19";
-		wget "$ndk_r19c" -O /tmp/ndk;;
+		if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r19c.zip" ];then
+		  wget "$ndk_r19c" -O "./$ARCHIVE_FOLDER/android-ndk-r19c.zip";
+		fi;;
 		"r18b") echo "wybrano 18";
-		wget "$ndk_r18b" -O /tmp/ndk;;
+		if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r18b.zip" ];then
+		  wget "$ndk_r18b" -O "./$ARCHIVE_FOLDER/android-ndk-r18b.zip";
+		fi;;
 
 	esac
    
@@ -152,18 +159,20 @@ function make_toolchain(){
       echo "cant download ndk toolchain!"
       exit 1;
     fi
+    echo "extracting ndk toolchain";
 
-    unzip -qo /tmp/ndk -d /tmp/ndk_
-
+    unzip -qo $MYPWD/$ARCHIVE_FOLDER/android-ndk-$NDK_VER.zip \
+	    -d $MYPWD/$BUILD_FOLDER/ndk
+	
      
-    /tmp/ndk_/android-ndk-$NDK_VER/build/tools/make_standalone_toolchain.py \
+    $MYPWD/$BUILD_FOLDER/ndk/android-ndk-$NDK_VER/build/tools/make_standalone_toolchain.py \
 		--arch=$ARCH_NDK \
 		--api=$API_VERSION \
 		--stl=libc++ \
 		--force \
 		--verbose \
 		--install-dir=$MYPWD/$TOOLCHAIN_FOLDER
-	
-	NDK_ROOT="$MYPWD/$TOOLCHAIN_FOLDER"
+		
+   NDK_ROOT="$MYPWD/$TOOLCHAIN_FOLDER"
 
 }
