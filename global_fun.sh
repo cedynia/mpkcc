@@ -140,6 +140,8 @@ function store_vars(){
 }
 
 function make_toolchain(){
+
+
 	case "$NDK_VER" in
 		"r19c") echo "wybrano 19";
 		wget "$ndk_r19c" -O /tmp/ndk;;
@@ -154,7 +156,7 @@ function make_toolchain(){
     fi
 
     unzip -qo /tmp/ndk -d /tmp/ndk_
-
+    echo "extracting ndk toolchain"
      
     /tmp/ndk_/android-ndk-$NDK_VER/build/tools/make_standalone_toolchain.py \
 		--arch=$ARCH_NDK \
@@ -164,6 +166,6 @@ function make_toolchain(){
 		--verbose \
 		--install-dir=$MYPWD/$TOOLCHAIN_FOLDER
 	
-	NDK_ROOT="$MYPWD/$TOOLCHAIN_FOLDER"
+	NDK_ROOT="/tmp/ndk_/android-ndk-$NDK_VER/"
 
 }
