@@ -67,6 +67,7 @@ LIBQT_FOLDER=qt-everywhere-src-5.13.2.tar.xz
 LIBQT_OUTPUT=libqt
 
 #NDK LINKS
+NDK_VER=
 ndk_r18b="https://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip"
 ndk_r19c="https://dl.google.com/android/repository/android-ndk-r19c-linux-x86_64.zip"
 

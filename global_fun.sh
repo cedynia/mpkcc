@@ -105,7 +105,7 @@ function checkFold(){
 
 }
 
-function make_toolchain(){
+function store_vars(){
 
 	NDK_VER=$(dialog --backtitle "Step 1" \
 	--title "SELECT NDK VERSION TO DOWNLOAD..." --clear "$@" \
@@ -113,6 +113,33 @@ function make_toolchain(){
         --radiolist "" 10 61 5 \
         "r19c" "" on \
 	"r18b" "" off )
+
+	ARCH=$(dialog --backtitle "Step 2" \
+	--title "CHOOSE ARCHITECTURE..." --clear "$@" \
+	--stdout \
+        --radiolist "" 10 61 5 \
+        "arm" "" on \
+        "arm64" "" off \
+        "x86_64" "" off \
+	"x86" "" off )
+	
+	API_VERSION=$(dialog --backtitle "Step 3" \
+	--title "CHOOSE MIN. API VERSION..." --clear "$@" \
+	--stdout \
+        --radiolist "" 10 61 5 \
+        "23" "" on )
+	
+	exec 3>&1
+	SDK_ROOT="$(dialog --title "Please choose a file" \
+		  "$@" \
+		  --fselect $HOME/ \
+		  10 48 28 2>&1 1>&3)"
+	exec 3>&-
+
+
+}
+
+function make_toolchain(){
 
 	case "$NDK_VER" in
 		"r19c") echo "wybrano 19";

@@ -5,40 +5,12 @@ global="$(dirname "$0")"
 . "$global/global_fun.sh"
 . "$global/osm_var.sh"
 
-
-if [ $# -eq 0 ]
-  then
-    echo "No arguments supplied. The following arguments are required: --api= --arch= --sdk-root="
-		exit 1;
-fi
-
 checkFold "$ARCHIVE_FOLDER"
 checkFold "$BUILD_FOLDER"
 checkFold "$OUTPUT_FOLDER"
 
 #checkArchs
-
-for i in "$@"
-do
-case $i in
-    --sdk-root=*)
-    SDK_ROOT="${i#*=}"
-    shift # past argument=value
-    ;;
-    --api=*)
-    API_VERSION="${i#*=}"
-    shift # past argument=value
-    ;;
-    --arch=*)
-    ARCH="${i#*=}"
-    shift # past argument=value
-    ;;
-    *)
-          echo "unknown option: $i"
-					exit 1;
-    ;;
-esac
-done
+store_vars
 
 echo $NDK_ROOT
 echo $API_VERSION
