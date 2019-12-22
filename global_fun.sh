@@ -165,5 +165,5 @@ function make_toolchain(){
 		--verbose \
 		--install-dir=$MYPWD/$TOOLCHAIN_FOLDER
 
-	exit 1;
+
 }
