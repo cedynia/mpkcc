@@ -94,11 +94,9 @@ function checkCompResult(){
 function checkFold(){
 
   if [ ! -d "$MYPWD/$1" ];then
-    echo "$MYPWD/$1 doesnt exist!"
-    mkdir $MYPWD/$1
+     mkdir $MYPWD/$1
   else
-    echo "$MYPWD/$1 exist"
-    if [ $1 != $ARCHIVE_FOLDER ];then
+      if [ $1 != $ARCHIVE_FOLDER ];then
       rm -rf $MYPWD/$1
     fi
   fi
