@@ -1,4 +1,8 @@
 #! /bin/bash
+
+echo "######################################"
+echo $AR
+
 ##########LIBMICROHTTP
 cd $MYPWD
 
