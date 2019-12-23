@@ -6,11 +6,12 @@ global="$(dirname "$0")"
 . "$global/osm_var.sh"
 
 store_vars
-echo "Vlidate links..."
+echo "Validate links..."
 
 checkFold "$ARCHIVE_FOLDER"
 checkFold "$BUILD_FOLDER"
 checkFold "$OUTPUT_FOLDER"
+rm -rf "android-toolchain*"
 checkArchs
 
 #echo $NDK_ROOT
@@ -32,13 +33,9 @@ elif [ "$ARCH" == "x86" ];then
 fi
 
 TOOLCHAIN_FOLDER=android-toolchain-API$API_VERSION-$ARCH_NDK
+make_toolchain
 
-if [ -d $TOOLCHAIN_FOLDER ];then
-	echo "no need to build one"
-else
-	make_toolchain
-fi
-
+NDK_ROOT=$MYPWD/$BUILD_FOLDER/ndk/android-ndk-$NDK_VER/
 TOOLCHAIN_PATH=$MYPWD/$TOOLCHAIN_FOLDER/bin/
 CC_COMPILER=$TOOLCHAIN_PATH/clang
 CXX_COMPILER=$TOOLCHAIN_PATH/clang++
