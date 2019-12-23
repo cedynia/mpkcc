@@ -174,7 +174,4 @@ function make_toolchain(){
   --verbose \
   --install-dir=$MYPWD/$TOOLCHAIN_FOLDER
 
-  NDK_ROOT=$MYPWD/$BUILD_FOLDER/ndk/android-ndk-$NDK_VER/
-
-
 }
