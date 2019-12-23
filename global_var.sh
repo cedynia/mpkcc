@@ -70,6 +70,7 @@ LIBQT_OUTPUT=libqt
 NDK_VER=
 ndk_r18b="https://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip"
 ndk_r19c="https://dl.google.com/android/repository/android-ndk-r19c-linux-x86_64.zip"
+ndk_r20b="https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip"
 
 
 MAPNIK_VERSION=3.0.20
