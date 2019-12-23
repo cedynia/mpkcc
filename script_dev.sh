@@ -233,6 +233,8 @@ CXXFLAGS="-fPIC" CFLAGS="-fPIC" ../source/configure \
 		--with-cross-build=$(pwd)/../dirA/ \
 		--enable-static \
 		--disable-shared \
+		--enable-tools=no \
+		--enable-extras=no \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/libicu
 
 make install -j$NPROC
