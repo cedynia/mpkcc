@@ -5,16 +5,17 @@ global="$(dirname "$0")"
 . "$global/global_fun.sh"
 . "$global/osm_var.sh"
 
+store_vars
+echo "Vlidate links..."
+
 checkFold "$ARCHIVE_FOLDER"
 checkFold "$BUILD_FOLDER"
 checkFold "$OUTPUT_FOLDER"
-
 checkArchs
-store_vars
 
-echo $NDK_ROOT
-echo $API_VERSION
-echo $ARCH
+#echo $NDK_ROOT
+#echo $API_VERSION
+#echo $ARCH
 
 if [ "$ARCH" == "arm" ];then
   ARCH_NDK=arm
