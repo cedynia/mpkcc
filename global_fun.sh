@@ -94,10 +94,11 @@ function checkCompResult(){
 function checkFold(){
 
   if [ ! -d "$MYPWD/$1" ];then
-     mkdir $MYPWD/$1
+      mkdir $MYPWD/$1
   else
       if [ $1 != $ARCHIVE_FOLDER ];then
       rm -rf $MYPWD/$1
+      mkdir $MYPWD/$1
     fi
   fi
 
@@ -131,7 +132,7 @@ function store_vars(){
   exec 3>&1
   SDK_ROOT="$(dialog --title "Please choose a folder" \
   	  "$@" \
-  	  --fselect $HOME/ \
+  	  --dselect $HOME/ \
   	  10 48 28 2>&1 1>&3)"
   exec 3>&-
 
