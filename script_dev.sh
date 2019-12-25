@@ -3,157 +3,157 @@
 echo "######################################"
 echo $AR
 
-# ##########LIBMICROHTTP
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBMICROHTTP_FOLDER"
-#
-# CFLAGS="-fPIC" ./configure \
-#   --host=$BUILD \
-# 	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBMICROHTTP_OUTPUT \
-#
-# make install -j$NPROC
-#
-# checkCompResult "$LIBMICROHTTP_OUTPUT"
-#
-# ##########SQLITE3
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBSQLITE3_FOLDER"
-#
-# CFLAGS="-fPIC" ./configure \
-#   --host=$BUILD \
-# 	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT \
-#
-# make install -j$NPROC
-#
-# checkCompResult "$LIBSQLITE3_OUTPUT"
-#
-# #############BOOST
-# cd $MYPWD
-#
-# cdIntoSrc "$BOOST_FOLDER"
-#
-#
-# export PATH=$TOOLCHAIN_PATH:$PATH
-# patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_filesystem.patch
-# patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_operations.patch
-#
-# ./bootstrap.sh
-# ./b2 install \
-# 		--prefix=$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT \
-# 	  toolset=clang-android \
-# 		target-os=android \
-#     link=static \
-# 		--with-system \
-# 		--with-thread \
-# 		--with-regex \
-# 		--with-program_options \
-# 		--with-filesystem \
-#     cxxflags="-fPIC" \
-#     cflags="-fPIC"
-#
-# checkCompResult "$BOOST_OUTPUT"
-#
-# ###########ZLIB
-# cd $MYPWD
-#
-# cdIntoSrc "$ZLIB_FOLDER"
-#
-# CFLAGS="-fPIC"  ./configure \
-# 	--prefix=$MYPWD/$OUTPUT_FOLDER/$ZLIB_OUTPUT \
-# 	--static
-#
-# make install -j$NPROC
-#
-# checkCompResult "$ZLIB_OUTPUT"
-#
-# ###########LIBXML
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBXML_FOLDER"
-#
-# CFLAGS="-fPIC" ./configure \
-# 		--host=$BUILD \
-# 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBXML_OUTPUT \
-# 		--without-zlib \
-# 		--without-lzma \
-# 		--without-python \
-# 		CC=$CC_COMPILER \
-# 		CXX=$CXX_COMPILER
-#
-# make install -j$NPROC
-#
-# checkCompResult "$LIBXML_OUTPUT"
-#
-# ############LIBTIFF
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBTIFF_FOLDER"
-#
-# CFLAGS="-fPIC -fexceptions" ./configure \
-# 		--host=arm-linux \
-# 		--enable-static \
-# 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT \
-# 		CC=$CC_COMPILER \
-# 		CXX=$CXX_COMPILER
-# 		CFLAGS="-fPIC -fexceptions"
-#
-#
-# make install -j$NPROC
-#
-#
-# checkCompResult "$LIBTIFF_OUTPUT"
-#
-# ###########LIBJPEG
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBJPEG_FOLDER"
-#
-# CFLAGS="-fPIC -fexceptions" ./configure \
-# 		--host=arm-linux \
-# 		--enable-static \
-# 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT \
-# 		CC=$CC_COMPILER
-#
-#
-# make install -j$NPROC
-#
-# checkCompResult "$LIBJPEG_OUTPUT"
-#
-# ############LIBPNG
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBPNG_FOLDER"
-#
-# CFLAGS="-fPIC -fexceptions" ./configure \
-# 		--enable-static \
-# 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT \
-# 		--host=arm-linux-androideabi \
-# 		CC=$CC_COMPILER \
-# 		CXX=$CXX_COMPILER
-# 		CFLAGS="-fPIC -fexceptions"
-#
-#
-# make install -j$NPROC
-#
-# checkCompResult "$LIBPNG_OUTPUT"
-#
-# #############LIBPROJ
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBPROJ_FOLDER"
-#
-# CFLAGS="-fPIC" ./configure \
-# 			--enable-static \
-# 			--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT \
-# 			--host=arm-linux \
-# 			CC=$CC_COMPILER \
-# 			CXX=$CXX_COMPILER
-#
-# make install -j$NPROC
-#
-# checkCompResult "$LIBPROJ_OUTPUT"
+##########LIBMICROHTTP
+cd $MYPWD
+
+cdIntoSrc "$LIBMICROHTTP_FOLDER"
+
+CFLAGS="-fPIC" ./configure \
+  --host=$BUILD \
+	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBMICROHTTP_OUTPUT \
+
+make install -j$NPROC
+
+checkCompResult "$LIBMICROHTTP_OUTPUT"
+
+##########SQLITE3
+cd $MYPWD
+
+cdIntoSrc "$LIBSQLITE3_FOLDER"
+
+CFLAGS="-fPIC" ./configure \
+  --host=$BUILD \
+	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT \
+
+make install -j$NPROC
+
+checkCompResult "$LIBSQLITE3_OUTPUT"
+
+#############BOOST
+cd $MYPWD
+
+cdIntoSrc "$BOOST_FOLDER"
+
+
+export PATH=$TOOLCHAIN_PATH:$PATH
+patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_filesystem.patch
+patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_operations.patch
+
+./bootstrap.sh
+./b2 install \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT \
+	  toolset=clang-android \
+		target-os=android \
+    link=static \
+		--with-system \
+		--with-thread \
+		--with-regex \
+		--with-program_options \
+		--with-filesystem \
+    cxxflags="-fPIC" \
+    cflags="-fPIC"
+
+checkCompResult "$BOOST_OUTPUT"
+
+###########ZLIB
+cd $MYPWD
+
+cdIntoSrc "$ZLIB_FOLDER"
+
+CFLAGS="-fPIC"  ./configure \
+	--prefix=$MYPWD/$OUTPUT_FOLDER/$ZLIB_OUTPUT \
+	--static
+
+make install -j$NPROC
+
+checkCompResult "$ZLIB_OUTPUT"
+
+###########LIBXML
+cd $MYPWD
+
+cdIntoSrc "$LIBXML_FOLDER"
+
+CFLAGS="-fPIC" ./configure \
+		--host=$BUILD \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBXML_OUTPUT \
+		--without-zlib \
+		--without-lzma \
+		--without-python \
+		CC=$CC_COMPILER \
+		CXX=$CXX_COMPILER
+
+make install -j$NPROC
+
+checkCompResult "$LIBXML_OUTPUT"
+
+############LIBTIFF
+cd $MYPWD
+
+cdIntoSrc "$LIBTIFF_FOLDER"
+
+CFLAGS="-fPIC -fexceptions" ./configure \
+		--host=arm-linux \
+		--enable-static \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT \
+		CC=$CC_COMPILER \
+		CXX=$CXX_COMPILER
+		CFLAGS="-fPIC -fexceptions"
+
+
+make install -j$NPROC
+
+
+checkCompResult "$LIBTIFF_OUTPUT"
+
+###########LIBJPEG
+cd $MYPWD
+
+cdIntoSrc "$LIBJPEG_FOLDER"
+
+CFLAGS="-fPIC -fexceptions" ./configure \
+		--host=arm-linux \
+		--enable-static \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT \
+		CC=$CC_COMPILER
+
+
+make install -j$NPROC
+
+checkCompResult "$LIBJPEG_OUTPUT"
+
+############LIBPNG
+cd $MYPWD
+
+cdIntoSrc "$LIBPNG_FOLDER"
+
+CFLAGS="-fPIC -fexceptions" ./configure \
+		--enable-static \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT \
+		--host=arm-linux-androideabi \
+		CC=$CC_COMPILER \
+		CXX=$CXX_COMPILER
+		CFLAGS="-fPIC -fexceptions"
+
+
+make install -j$NPROC
+
+checkCompResult "$LIBPNG_OUTPUT"
+
+#############LIBPROJ
+cd $MYPWD
+
+cdIntoSrc "$LIBPROJ_FOLDER"
+
+CFLAGS="-fPIC" ./configure \
+			--enable-static \
+			--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT \
+			--host=arm-linux \
+			CC=$CC_COMPILER \
+			CXX=$CXX_COMPILER
+
+make install -j$NPROC
+
+checkCompResult "$LIBPROJ_OUTPUT"
 
 #############LIBFREETYPE
 cd $MYPWD
@@ -207,8 +207,8 @@ cd $MYPWD
 
 cdIntoSrc "$LIBICU_FOLDER"
 
-patch source/common/ucnvmbcs.c < $MYPWD/patches/icu_50_1_2_ucnvmbcs.patch
-patch source/i18n/uspoof.cpp < $MYPWD/patches/icu_50_1_2_uspoof.patch
+#patch source/common/ucnvmbcs.c < $MYPWD/patches/icu_50_1_2_ucnvmbcs.patch
+#patch source/i18n/uspoof.cpp < $MYPWD/patches/icu_50_1_2_uspoof.patch
 
 mkdir dirA
 mkdir dirB
