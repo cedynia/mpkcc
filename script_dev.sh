@@ -217,8 +217,7 @@ export CXX=g++
 
 CFLAGS="-fPIC" ../source/runConfigureICU Linux --enable-static --disable-shared
 
-
-make
+make -j$NPROC
 
 cd ../dirB
 

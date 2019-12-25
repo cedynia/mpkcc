@@ -60,7 +60,6 @@ function cdIntoSrc(){
   cd "$MYPWD"
 
   #FIXME:no connection handling
-  echo "sciezka ktora sciagam: ${linksArray[$1]}"
   if [ ${archArray[$1]} = false ];then
   	wget -O $ARCHIVE_FOLDER/$1 ${linksArray[$1]}
     if [ $? -ne 0 ];then
@@ -142,15 +141,15 @@ function store_vars(){
 function make_toolchain(){
 
   case "$NDK_VER" in
-  	"r19c") echo "wybrano 19";
+  	"r19c") echo "";
   	if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r19c.zip" ];then
   	  wget "$ndk_r19c" -O "./$ARCHIVE_FOLDER/android-ndk-r19c.zip";
   	fi;;
-  	"r18b") echo "wybrano 18";
+  	"r18b") echo "";
   	if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r18b.zip" ];then
   	  wget "$ndk_r18b" -O "./$ARCHIVE_FOLDER/android-ndk-r18b.zip";
   	fi;;
-    "r20b") echo "wybrano 20";
+    "r20b") echo "";
     if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r20b.zip" ];then
       wget "$ndk_r20b" -O "./$ARCHIVE_FOLDER/android-ndk-r20b.zip";
     fi;;
