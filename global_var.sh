@@ -50,7 +50,6 @@ LIBHARFBUZZ_FOLDER=harfbuzz-2.6.3.tar.xz
 LIBHARFBUZZ_OUTPUT=libharfbuzz
 
 LIBICU_FOLDER=icu4c-65_1-src.tgz
-LIBICU_VERSION=50.1.2
 LIBICU_OUTPUT=libicu
 
 LIBSQLITE3_FOLDER=sqlite-autoconf-3260000.tar.gz
