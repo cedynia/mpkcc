@@ -30,44 +30,44 @@
 # checkCompResult "$LIBSQLITE3_OUTPUT"
 #
 # #############BOOST
-# cd $MYPWD
-#
-# cdIntoSrc "$BOOST_FOLDER"
-#
-#
-# export PATH=$TOOLCHAIN_PATH:$PATH
-# patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_filesystem.patch
-# patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_operations.patch
-#
-# ./bootstrap.sh
-# ./b2 install \
-# 		--prefix=$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT \
-# 	  toolset=clang-android \
-# 		target-os=android \
-#     link=static \
-# 		--with-system \
-# 		--with-thread \
-# 		--with-regex \
-# 		--with-program_options \
-# 		--with-filesystem \
-#     cxxflags="-fPIC" \
-#     cflags="-fPIC"
-#
-# checkCompResult "$BOOST_OUTPUT"
-#
+cd $MYPWD
+
+cdIntoSrc "$BOOST_FOLDER"
+
+
+export PATH=$TOOLCHAIN_PATH:$PATH
+patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_filesystem.patch
+patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_operations.patch
+
+./bootstrap.sh
+./b2 install \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT \
+	  toolset=clang-android \
+		target-os=android \
+    link=static \
+		--with-system \
+		--with-thread \
+		--with-regex \
+		--with-program_options \
+		--with-filesystem \
+    cxxflags="-fPIC" \
+    cflags="-fPIC"
+
+checkCompResult "$BOOST_OUTPUT"
+
 # ###########ZLIB
-# cd $MYPWD
-#
-# cdIntoSrc "$ZLIB_FOLDER"
-#
-# CFLAGS="-fPIC"  ./configure \
-# 	--prefix=$MYPWD/$OUTPUT_FOLDER/$ZLIB_OUTPUT \
-# 	--static
-#
-# make install -j$NPROC
-#
-# checkCompResult "$ZLIB_OUTPUT"
-#
+cd $MYPWD
+
+cdIntoSrc "$ZLIB_FOLDER"
+
+CFLAGS="-fPIC"  ./configure \
+	--prefix=$MYPWD/$OUTPUT_FOLDER/$ZLIB_OUTPUT \
+	--static
+
+make install -j$NPROC
+
+checkCompResult "$ZLIB_OUTPUT"
+
 # ###########LIBXML
 cd $MYPWD
 
