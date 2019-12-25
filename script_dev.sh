@@ -69,91 +69,91 @@
 # checkCompResult "$ZLIB_OUTPUT"
 #
 # ###########LIBXML
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBXML_FOLDER"
-#
-# CFLAGS="-fPIC" ./configure \
-# 		--host=$BUILD \
-# 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBXML_OUTPUT \
-# 		--without-zlib \
-# 		--without-lzma \
-# 		--without-python \
-# 		CC=$CC_COMPILER \
-# 		CXX=$CXX_COMPILER
-#
-# make install -j$NPROC
-#
-# checkCompResult "$LIBXML_OUTPUT"
-#
-# ############LIBTIFF
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBTIFF_FOLDER"
-#
-# CFLAGS="-fPIC -fexceptions" ./configure \
-# 		--host=arm-linux \
-# 		--enable-static \
-# 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT \
-# 		CC=$CC_COMPILER \
-# 		CXX=$CXX_COMPILER
-# 		CFLAGS="-fPIC -fexceptions"
-#
-#
-# make install -j$NPROC
-#
-#
-# checkCompResult "$LIBTIFF_OUTPUT"
-#
-# ###########LIBJPEG
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBJPEG_FOLDER"
-#
-# CFLAGS="-fPIC -fexceptions" ./configure \
-# 		--host=arm-linux \
-# 		--enable-static \
-# 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT \
-# 		CC=$CC_COMPILER
-#
-#
-# make install -j$NPROC
-#
-# checkCompResult "$LIBJPEG_OUTPUT"
-#
-# ############LIBPNG
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBPNG_FOLDER"
-#
-# CFLAGS="-fPIC -fexceptions" ./configure \
-# 		--enable-static \
-# 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT \
-# 		--host=arm-linux-androideabi \
-# 		CC=$CC_COMPILER \
-# 		CXX=$CXX_COMPILER
-# 		CFLAGS="-fPIC -fexceptions"
-#
-#
-# make install -j$NPROC
-#
-# checkCompResult "$LIBPNG_OUTPUT"
-#
-# #############LIBPROJ
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBPROJ_FOLDER"
-#
-# CFLAGS="-fPIC" ./configure \
-# 			--enable-static \
-# 			--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT \
-# 			--host=arm-linux \
-# 			CC=$CC_COMPILER \
-# 			CXX=$CXX_COMPILER
-#
-# make install -j$NPROC
-#
-# checkCompResult "$LIBPROJ_OUTPUT"
+cd $MYPWD
+
+cdIntoSrc "$LIBXML_FOLDER"
+
+CFLAGS="-fPIC" ./configure \
+		--host=$BUILD \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBXML_OUTPUT \
+		--without-zlib \
+		--without-lzma \
+		--without-python \
+		CC=$CC_COMPILER \
+		CXX=$CXX_COMPILER
+
+make install -j$NPROC
+
+checkCompResult "$LIBXML_OUTPUT"
+
+############LIBTIFF
+cd $MYPWD
+
+cdIntoSrc "$LIBTIFF_FOLDER"
+
+CFLAGS="-fPIC -fexceptions" ./configure \
+		--host=arm-linux \
+		--enable-static \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT \
+		CC=$CC_COMPILER \
+		CXX=$CXX_COMPILER
+		CFLAGS="-fPIC -fexceptions"
+
+
+make install -j$NPROC
+
+
+checkCompResult "$LIBTIFF_OUTPUT"
+
+###########LIBJPEG
+cd $MYPWD
+
+cdIntoSrc "$LIBJPEG_FOLDER"
+
+CFLAGS="-fPIC -fexceptions" ./configure \
+		--host=arm-linux \
+		--enable-static \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT \
+		CC=$CC_COMPILER
+
+
+make install -j$NPROC
+
+checkCompResult "$LIBJPEG_OUTPUT"
+
+############LIBPNG
+cd $MYPWD
+
+cdIntoSrc "$LIBPNG_FOLDER"
+
+CFLAGS="-fPIC -fexceptions" ./configure \
+		--enable-static \
+		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT \
+		--host=arm-linux-androideabi \
+		CC=$CC_COMPILER \
+		CXX=$CXX_COMPILER
+		CFLAGS="-fPIC -fexceptions"
+
+
+make install -j$NPROC
+
+checkCompResult "$LIBPNG_OUTPUT"
+
+#############LIBPROJ
+cd $MYPWD
+
+cdIntoSrc "$LIBPROJ_FOLDER"
+
+CFLAGS="-fPIC" ./configure \
+			--enable-static \
+			--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT \
+			--host=arm-linux \
+			CC=$CC_COMPILER \
+			CXX=$CXX_COMPILER
+
+make install -j$NPROC
+
+checkCompResult "$LIBPROJ_OUTPUT"
 
 #############LIBFREETYPE
 cd $MYPWD
@@ -391,3 +391,5 @@ include_directories($MYPWD/mapnik-lib/include/)
 ################################################################
 "
 echo "**************************************************************************************"#
+
+exit 1;
