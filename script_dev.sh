@@ -1,22 +1,19 @@
 #! /bin/bash
 
-# echo "######################################"
-# echo $AR
-#
-# ##########LIBMICROHTTP
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBMICROHTTP_FOLDER"
-#
-# CFLAGS="-fPIC" ./configure \
-#   --host=$BUILD \
-# 	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBMICROHTTP_OUTPUT \
-#
-# make install -j$NPROC
-#
-# checkCompResult "$LIBMICROHTTP_OUTPUT"
-#
-# ##########SQLITE3
+############LIBMICROHTTP
+cd $MYPWD
+
+cdIntoSrc "$LIBMICROHTTP_FOLDER"
+
+CFLAGS="-fPIC" ./configure \
+  --host=$BUILD \
+	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBMICROHTTP_OUTPUT \
+
+make install -j$NPROC
+
+checkCompResult "$LIBMICROHTTP_OUTPUT"
+
+###########SQLITE3
 cd $MYPWD
 
 cdIntoSrc "$LIBSQLITE3_FOLDER"
