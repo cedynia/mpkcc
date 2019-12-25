@@ -204,9 +204,6 @@ cd $MYPWD
 
 cdIntoSrc "$LIBICU_FOLDER"
 
-#patch source/common/ucnvmbcs.c < $MYPWD/patches/icu_50_1_2_ucnvmbcs.patch
-#patch source/i18n/uspoof.cpp < $MYPWD/patches/icu_50_1_2_uspoof.patch
-
 mkdir dirA
 mkdir dirB
 
@@ -261,7 +258,6 @@ patch include/mapnik/markers_placement.hpp < $MYPWD/patches/markers_placement.pa
 echo "
 CC='$CC_COMPILER'
 CXX='$CXX_COMPILER'
-CUSTOM_DEFINES='-DHAVE_TIFF -DHAVE_PNG'
 RUNTIME_LINK='static'
 CUSTOM_CXXFLAGS = '-DU_HAVE_STD_STRING=1'
 LINKING='static'
@@ -386,6 +382,4 @@ set_target_properties(mapnik PROPERTIES IMPORTED_LOCATION
 include_directories($MYPWD/$MAPNIK_OUTPUT/mapnik-lib/include/)
 ################################################################
 "
-echo "**************************************************************************************"#
-
-exit 1;
+echo "**************************************************************************************"
