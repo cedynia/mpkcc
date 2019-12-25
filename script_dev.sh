@@ -240,14 +240,14 @@ make install -j$NPROC
 checkCompResult "$LIBICU_OUTPUT"
 
 #############MAPNIK
- cd $MYPWD
+cd $MYPWD
 
-git clone $MAPNIK_MASTER mapnik
-cd $MYPWD/mapnik/
+git clone $MAPNIK_MASTER $MYPWD/$BUILD_FOLDER/mapnik
+cd $MYPWD/$BUILD_FOLDER/mapnik/
 git checkout v3.0.20
 git submodule update --init deps/mapbox/
 
-patch -p1 < ../patches/mapnik_twkb.patch
+patch -p1 < $MYPWD/patches/mapnik_twkb.patch
 patch SConstruct < $MYPWD/patches/SCON.patch
 patch Makefile <  $MYPWD/patches/mapnik_makefile.patch
 patch include/mapnik/value_types.hpp <  $MYPWD/patches/mapnik_value_types.patch
@@ -262,7 +262,7 @@ patch include/mapnik/markers_placement.hpp < $MYPWD/patches/markers_placement.pa
 echo "
 CC='$CC_COMPILER'
 CXX='$CXX_COMPILER'
-CUSTOM_DEFINES='-DHAVE_JPEG -DHAVE_TIFF -DHAVE_PNG'
+CUSTOM_DEFINES='-DHAVE_TIFF -DHAVE_PNG'
 RUNTIME_LINK='static'
 CUSTOM_CXXFLAGS = '-DU_HAVE_STD_STRING=1'
 LINKING='static'
@@ -322,21 +322,21 @@ find $MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/lib/*.a \
     $MYPWD/$OUTPUT_FOLDER/$LIBMICROHTTP_OUTPUT/lib/*.a \
 -exec cp {} $MYPWD/$MAPNIK_OUTPUT/lib/ ";"
 
-find $MYPWD/mapnik/ -name *.a -exec cp {} $MYPWD/mapnik-lib/lib/ ";"
+find $MYPWD/$BUILD_FOLDER/mapnik/ -name *.a -exec cp {} $MYPWD/$MAPNIK_OUTPUT/lib/ ";"
 
-cp -r $MYPWD/mapnik/include/  $MYPWD/$MAPNIK_OUTPUT/
-cp -r $MYPWD/mapnik/deps/mapbox/variant/include/mapbox/*  $MYPWD/$MAPNIK_OUTPUT/include/mapbox/
-cp -r $MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/include/  $MYPWD/$MAPNIK_OUTPUT/
-cp -r $MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT/include/ $MYPWD/$MAPNIK_OUTPUT/
-cp -r $MYPWD/$OUTPUT_FOLDER/$LIBICU_OUTPUT/include/ $MYPWD/$MAPNIK_OUTPUT/
-cp -r  $MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include/
-cp -r $MYPWD/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
-cp -r $MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include/
-cp -r $MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/text/
-cp -r  $MYPWD/mapnik/deps/agg/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
+cp -r $MYPWD/$BUILD_FOLDER/mapnik/include/  $MYPWD/$MAPNIK_OUTPUT/
+cp -r $MYPWD/$BUILD_FOLDER/mapnik/deps/mapbox/variant/include/mapbox/*  $MYPWD/$MAPNIK_OUTPUT/include/mapbox/
+cp -r $MYPWD/$BUILD_FOLDER/$OUTPUT_FOLDER/$BOOST_OUTPUT/include/  $MYPWD/$MAPNIK_OUTPUT/
+cp -r $MYPWD/$BUILD_FOLDER/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT/include/ $MYPWD/$MAPNIK_OUTPUT/
+cp -r $MYPWD/$BUILD_FOLDER/$OUTPUT_FOLDER/$LIBICU_OUTPUT/include/ $MYPWD/$MAPNIK_OUTPUT/
+cp -r $MYPWD/$BUILD_FOLDER/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include/
+cp -r $MYPWD/$BUILD_FOLDER/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
+cp -r $MYPWD/$BUILD_FOLDER/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include/
+cp -r $MYPWD/$BUILD_FOLDER/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/text/
+cp -r $MYPWD/$BUILD_FOLDER/mapnik/deps/agg/include/* $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
 #tiff_reader.cpp
-cp -r  $MYPWD/mapnik/src/tiff_reader.cpp $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
-cp -r $MYPWD/mapnik/deps/mapnik/sparsehash/ $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
+cp -r $MYPWD/$BUILD_FOLDER/mapnik/src/tiff_reader.cpp $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
+cp -r $MYPWD/$BUILD_FOLDER/mapnik/deps/mapnik/sparsehash/ $MYPWD/$MAPNIK_OUTPUT/include/mapnik/
 cp -r $MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include
 cp -r $MYPWD/$OUTPUT_FOLDER/$LIBMICROHTTP_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT/include
 
@@ -383,8 +383,8 @@ echo "
 ################################################################
 add_library(mapnik STATIC IMPORTED)
 set_target_properties(mapnik PROPERTIES IMPORTED_LOCATION
-    $MYPWD/mapnik-lib/lib/libmapnik4android.a)
-include_directories($MYPWD/mapnik-lib/include/)
+    $MYPWD/$MAPNIK_OUTPUT/lib/libmapnik4android.a)
+include_directories($MYPWD/$MAPNIK_OUTPUT/mapnik-lib/include/)
 ################################################################
 "
 echo "**************************************************************************************"#
