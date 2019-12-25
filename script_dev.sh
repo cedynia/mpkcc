@@ -17,18 +17,18 @@
 # checkCompResult "$LIBMICROHTTP_OUTPUT"
 #
 # ##########SQLITE3
-# cd $MYPWD
-#
-# cdIntoSrc "$LIBSQLITE3_FOLDER"
-#
-# CFLAGS="-fPIC" ./configure \
-#   --host=$BUILD \
-# 	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT \
-#
-# make install -j$NPROC
-#
-# checkCompResult "$LIBSQLITE3_OUTPUT"
-#
+cd $MYPWD
+
+cdIntoSrc "$LIBSQLITE3_FOLDER"
+
+CFLAGS="-fPIC" ./configure \
+  --host=$BUILD \
+	--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBSQLITE3_OUTPUT \
+
+make install -j$NPROC
+
+checkCompResult "$LIBSQLITE3_OUTPUT"
+
 # #############BOOST
 cd $MYPWD
 
