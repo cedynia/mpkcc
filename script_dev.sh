@@ -235,6 +235,8 @@ CXXFLAGS="-fPIC" CFLAGS="-fPIC" ../source/configure \
 		--disable-shared \
 		--enable-tools=no \
 		--enable-extras=no \
+		--enable-tests=no \
+		--enable-samples=no \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/libicu
 
 make install -j$NPROC
