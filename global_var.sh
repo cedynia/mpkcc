@@ -49,7 +49,7 @@ LIBFREETYPE_OUTPUT=libfreetype
 LIBHARFBUZZ_FOLDER=harfbuzz-2.6.3.tar.xz
 LIBHARFBUZZ_OUTPUT=libharfbuzz
 
-LIBICU_FOLDER=icu4c-65_1-src.tgz
+LIBICU_FOLDER=icu4c-61_1-src.tgz
 LIBICU_OUTPUT=libicu
 
 LIBSQLITE3_FOLDER=sqlite-autoconf-3260000.tar.gz
