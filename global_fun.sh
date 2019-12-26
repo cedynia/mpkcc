@@ -109,9 +109,9 @@ function store_vars(){
   --title "SELECT NDK VERSION TO DOWNLOAD..." --clear "$@" \
   --stdout \
         --radiolist "" 10 61 5 \
-        "r19c" "" on \
-        "r18b" "" off \
-        "r20b" "" off )
+        "r18b" "" on )
+        #"r19c" "" off \
+        #"r20b" "" off )
 
   ARCH=$(dialog --backtitle "Step 2" \
   --title "CHOOSE ARCHITECTURE..." --clear "$@" \

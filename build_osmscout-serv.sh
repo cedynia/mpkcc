@@ -120,6 +120,8 @@ CXXFLAGS="-D_MYGCCATOMIC -fPIC" ./configure   \
         CC=$CC_COMPILER \
         CXX=$CXX_COMPILER \
         --host=arm-linux \
+        --enable-static \
+        --disable-shared  \
         PKG_CONFIG=""  \
         ac_cv_c_bigendian=yes \
         LIBS=-ldl
