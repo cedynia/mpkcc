@@ -12,7 +12,7 @@
 # global_var="$(dirname "$0")"
 # . "$global_var/osmscout-server_var.sh"
 
-# 
+#
 # export CC_COMPILER="/home/pawel/mapnik4android/android-toolchain-API23-x86_64/bin/clang"
 # export CXX_COMPILER="/home/pawel/mapnik4android/android-toolchain-API23-x86_64/bin/clang++"
 
@@ -145,6 +145,6 @@ cp -rf $MYPWD/$BUILD_FOLDER/$LIBOPENSSL_FOLDER $MYPWD/$OUTPUT_FOLDER/
 
 ##download and buid qt src
 cdIntoSrc "$LIBQT_FOLDER"
-./configure -confirm-license -xplatform android-clang --disable-rpath -nomake tests -nomake examples -android-arch $ARCHQT -android-ndk $NDK_ROOT -android-sdk $SDK_ROOT -android-ndk-host linux-x86_64 -android-toolchain-version 4.9 -no-warnings-are-errors -android-ndk-platform android-$API_VERSION -skip qttools -skip qttranslations -skip qtwebengine -skip qtserialport -skip qtserialbus -I$MYPWD/$OUTPUT_FOLDER/$LIBOPENSSL_FOLDER/openssl-1.1.1d/include/ -openssl -prefix $LIBQT_OUTPUT -opensource
+./configure -confirm-license -extprefix "$MYPWD/OUTPUT_FOLDER/QT/" -xplatform android-clang --disable-rpath -nomake tests -nomake examples -android-arch $ARCHQT -android-ndk $NDK_ROOT -android-sdk $SDK_ROOT -android-ndk-host linux-x86_64 -android-toolchain-version 4.9 -no-warnings-are-errors -android-ndk-platform android-$API_VERSION -skip qttools -skip qttranslations -skip qtwebengine -skip qtserialport -skip qtserialbus -I$MYPWD/$OUTPUT_FOLDER/$LIBOPENSSL_FOLDER/openssl-1.1.1d/include/ -openssl -prefix $LIBQT_OUTPUT -opensource
 make -j$NPROC
 make install
