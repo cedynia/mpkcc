@@ -225,11 +225,9 @@ CXXFLAGS="-fPIC" CFLAGS="-fPIC" ../source/configure \
 		--host=arm-linux-androideabi \
 		--with-cross-build=$(pwd)/../dirA/ \
 		--enable-static \
-		--enable-tools=no \
-		--enable-extras=no \
-		--enable-tests=no \
-		--enable-samples=no \
+		--disable-shared \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/libicu
+
 
 make install -j$NPROC
 
