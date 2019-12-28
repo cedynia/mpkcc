@@ -18,7 +18,7 @@ BUILD_FOLDER='build'
 OUTPUT_FOLDER='output'
 ARCHIVE_FOLDER='.arch'
 
-MAPNIK_OUTPUT=mapnik-lib
+MAPNIK_OUTPUT="/$OUTPUT_FOLDER/mapnik-lib/"
 
 BOOST_FOLDER=boost_1_64_0.tar.gz
 BOOST_VERSION=1.64.0
@@ -46,11 +46,10 @@ LIBPROJ_OUTPUT=libproj
 LIBFREETYPE_FOLDER=freetype-2.9.tar.gz
 LIBFREETYPE_OUTPUT=libfreetype
 
-LIBHARFBUZZ_FOLDER=harfbuzz-1.8.0.tar.bz2
+LIBHARFBUZZ_FOLDER=harfbuzz-2.6.3.tar.xz
 LIBHARFBUZZ_OUTPUT=libharfbuzz
 
-LIBICU_FOLDER=icu4c-50_1_2-src.tgz
-LIBICU_VERSION=50.1.2
+LIBICU_FOLDER=icu4c-51_2-src.tgz
 LIBICU_OUTPUT=libicu
 
 LIBSQLITE3_FOLDER=sqlite-autoconf-3260000.tar.gz
@@ -65,6 +64,12 @@ LIBKYOTOCABINET_OUTPUT=kyotocabinet
 
 LIBQT_FOLDER=qt-everywhere-src-5.13.2.tar.xz
 LIBQT_OUTPUT=libqt
+
+#NDK LINKS
+NDK_VER=
+ndk_r18b="https://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip"
+ndk_r19c="https://dl.google.com/android/repository/android-ndk-r19c-linux-x86_64.zip"
+ndk_r20b="https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip"
 
 
 MAPNIK_VERSION=3.0.20

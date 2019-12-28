@@ -60,7 +60,6 @@ function cdIntoSrc(){
   cd "$MYPWD"
 
   #FIXME:no connection handling
-  echo "sciezka ktora sciagam: ${linksArray[$1]}"
   if [ ${archArray[$1]} = false ];then
   	wget -O $ARCHIVE_FOLDER/$1 ${linksArray[$1]}
     if [ $? -ne 0 ];then
@@ -69,17 +68,17 @@ function cdIntoSrc(){
     fi
   fi
 
-	#local foldName=$(echo $1 | sed 's/\(.*\)\.\(.*\)\.\(.*\)/\1/g')
-	local foldName=$(echo $1 | awk -F. '{ print $1 }')
-	echo $foldName
+  #local foldName=$(echo $1 | sed 's/\(.*\)\.\(.*\)\.\(.*\)/\1/g')
+  local foldName=$(echo $1 | awk -F. '{ print $1 }')
+  echo $foldName
 
-	if [ -d "$MYPWD/$BUILD_FOLDER/$foldName" ];then
-		cd "$MYPWD/$BUILD_FOLDER/$foldName"
-	else
-		mkdir -p "$MYPWD/$BUILD_FOLDER/$foldName"
-		tar -xvf "$MYPWD/$ARCHIVE_FOLDER/$1" --strip-components 1 -C "$MYPWD/$BUILD_FOLDER/$foldName"
-		cd "$MYPWD/$BUILD_FOLDER/$foldName"
-	fi
+  if [ -d "$MYPWD/$BUILD_FOLDER/$foldName" ];then
+  	cd "$MYPWD/$BUILD_FOLDER/$foldName"
+  else
+  	mkdir -p "$MYPWD/$BUILD_FOLDER/$foldName"
+  	tar -xf "$MYPWD/$ARCHIVE_FOLDER/$1" --strip-components 1 -C "$MYPWD/$BUILD_FOLDER/$foldName"
+  	cd "$MYPWD/$BUILD_FOLDER/$foldName"
+  fi
 }
 
 function checkCompResult(){
@@ -94,13 +93,84 @@ function checkCompResult(){
 function checkFold(){
 
   if [ ! -d "$MYPWD/$1" ];then
-    echo "$MYPWD/$1 doesnt exist!"
-    mkdir $MYPWD/$1
+      mkdir $MYPWD/$1
   else
-    echo "$MYPWD/$1 exist"
-    if [ $1 != $ARCHIVE_FOLDER ];then
+      if [ $1 != $ARCHIVE_FOLDER ];then
       rm -rf $MYPWD/$1
+      mkdir $MYPWD/$1
     fi
   fi
+
+}
+
+function store_vars(){
+
+  NDK_VER=$(dialog --backtitle "Step 1" \
+  --title "SELECT NDK VERSION TO DOWNLOAD..." --clear "$@" \
+  --stdout \
+        --radiolist "" 10 61 5 \
+        "r18b" "" on )
+        #"r19c" "" off \
+        #"r20b" "" off )
+
+  ARCH=$(dialog --backtitle "Step 2" \
+  --title "CHOOSE ARCHITECTURE..." --clear "$@" \
+  --stdout \
+        --radiolist "" 10 61 5 \
+        "arm" "" on \
+        "arm64" "" off \
+        "x86_64" "" off \
+  "x86" "" off )
+
+  API_VERSION=$(dialog --backtitle "Step 3" \
+  --title "CHOOSE MIN. API VERSION..." --clear "$@" \
+  --stdout \
+        --radiolist "" 10 61 5 \
+        "23" "" on )
+
+  exec 3>&1
+  SDK_ROOT="$(dialog --title "Please choose a folder" \
+  	  "$@" \
+  	  --dselect $HOME/ \
+  	  10 48 28 2>&1 1>&3)"
+  exec 3>&-
+
+
+}
+
+function make_toolchain(){
+
+  case "$NDK_VER" in
+  	"r19c") echo "";
+  	if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r19c.zip" ];then
+  	  wget "$ndk_r19c" -O "./$ARCHIVE_FOLDER/android-ndk-r19c.zip";
+  	fi;;
+  	"r18b") echo "";
+  	if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r18b.zip" ];then
+  	  wget "$ndk_r18b" -O "./$ARCHIVE_FOLDER/android-ndk-r18b.zip";
+  	fi;;
+    "r20b") echo "";
+    if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r20b.zip" ];then
+      wget "$ndk_r20b" -O "./$ARCHIVE_FOLDER/android-ndk-r20b.zip";
+    fi;;
+  esac
+
+  if [ $? -ne 0 ];then
+    echo "cant download ndk toolchain!"
+    exit 1;
+  fi
+  echo "extracting ndk toolchain";
+
+
+  unzip -qo $MYPWD/$ARCHIVE_FOLDER/android-ndk-$NDK_VER.zip \
+    -d $MYPWD/$BUILD_FOLDER/ndk
+
+  $MYPWD/$BUILD_FOLDER/ndk/android-ndk-$NDK_VER/build/tools/make_standalone_toolchain.py \
+  --arch=$ARCH_NDK \
+  --api=$API_VERSION \
+  --stl=libc++ \
+  --force \
+  --verbose \
+  --install-dir=$MYPWD/$TOOLCHAIN_FOLDER
 
 }
