@@ -43,6 +43,11 @@ else
   echo "Building for PC"
   CC_COMPILER=gcc
   CXX_COMPILER=g++
+  BUILD=
+  HOST=
+  TOOLSET=
+  TARGETOS=linux
+  TOOLSET=gcc
 fi
 
 export CC=$CC_COMPILER

@@ -13,6 +13,9 @@ TOOLCHAIN_PATH=
 CC_COMPILER=
 CXX_COMPILER=
 BUILD=arm-linux-androideabi
+HOST=arm-linux
+TOOLSET=clang-android
+TARGETOS=android
 
 BUILD_FOLDER='build'
 OUTPUT_FOLDER='output'

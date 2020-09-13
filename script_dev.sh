@@ -39,8 +39,8 @@ patch libs/filesystem/src/operations.cpp < $MYPWD/patches/boost_operations.patch
 ./bootstrap.sh
 ./b2 install \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT \
-	  toolset=clang-android \
-		target-os=android \
+	  toolset=$TOOLSET \
+		target-os=$TARGETOS \
     link=static \
 		--with-system \
 		--with-thread \
@@ -89,7 +89,7 @@ cd $MYPWD
 cdIntoSrc "$LIBTIFF_FOLDER"
 
 CFLAGS="-fPIC -fexceptions" ./configure \
-		--host=arm-linux \
+		--host=$HOST \
 		--enable-static \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBTIFF_OUTPUT \
 		CC=$CC_COMPILER \
@@ -108,7 +108,7 @@ cd $MYPWD
 cdIntoSrc "$LIBJPEG_FOLDER"
 
 CFLAGS="-fPIC -fexceptions" ./configure \
-		--host=arm-linux \
+		--host=$HOST \
 		--enable-static \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBJPEG_OUTPUT \
 		CC=$CC_COMPILER
@@ -126,7 +126,7 @@ cdIntoSrc "$LIBPNG_FOLDER"
 CFLAGS="-fPIC -fexceptions" ./configure \
 		--enable-static \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPNG_OUTPUT \
-		--host=arm-linux-androideabi \
+		--host=$BUILD \
 		CC=$CC_COMPILER \
 		CXX=$CXX_COMPILER
 		CFLAGS="-fPIC -fexceptions"
@@ -144,7 +144,7 @@ cdIntoSrc "$LIBPROJ_FOLDER"
 CFLAGS="-fPIC" ./configure \
 			--enable-static \
 			--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT \
-			--host=arm-linux \
+			--host=$HOST \
 			CC=$CC_COMPILER \
 			CXX=$CXX_COMPILER
 
@@ -161,7 +161,7 @@ cdIntoSrc "$LIBFREETYPE_FOLDER"
 CFLAGS="-fPIC" ./configure \
 			--enable-static \
 			--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT \
-			--host=arm-linux-androideabi  \
+			--host=$BUILD  \
 			--without-harfbuzz \
 			--without-zlib \
 			--without-png \
@@ -185,7 +185,7 @@ patch ./configure < $MYPWD/patches/harfbuzz_freetype.patch
 
 CXXFLAGS="-fPIC" CFLAGS="-fPIC"  ./configure \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBHARFBUZZ_OUTPUT \
-		--host=arm-linux-androideabi \
+		--host=$BUILD \
 		PKG_CONFIG='' \
 		CPPFLAGS=-I$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/include/  \
 		LDFLAGS=-L$MYPWD/$OUTPUT_FOLDER/$LIBFREETYPE_OUTPUT/lib/ \
@@ -222,7 +222,7 @@ export CC=$CC_COMPILER
 export CXX=$CXX_COMPILER
 
 CXXFLAGS="-fPIC" CFLAGS="-fPIC" ../source/configure \
-		--host=arm-linux-androideabi \
+		--host=$BUILD \
 		--with-cross-build=$(pwd)/../dirA/ \
 		--enable-static \
 		--disable-shared \
