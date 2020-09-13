@@ -105,39 +105,44 @@ function checkFold(){
 
 function store_vars(){
 
-  NDK_VER=$(dialog --backtitle "Step 1" \
-  --title "SELECT NDK VERSION TO DOWNLOAD..." --clear "$@" \
-  --stdout \
-        --radiolist "" 10 61 5 \
-        "r18b" "" on )
-        #"r19c" "" off \
-        #"r20b" "" off )
-
   ARCH=$(dialog --backtitle "Step 2" \
   --title "CHOOSE ARCHITECTURE..." --clear "$@" \
   --stdout \
         --radiolist "" 10 61 5 \
-        "arm" "" on \
-        "arm64" "" off \
-        "x86_64" "" off \
-  "x86" "" off )
+        "x86_64_PC" "" off \
+        "arm_ANDROID" "" on \
+        "arm64_ANDROID" "" off \
+        "x86_64_ANDROID" "" off \
+        "x86_ANDROID" "" off  )
 
-  API_VERSION=$(dialog --backtitle "Step 3" \
-  --title "CHOOSE MIN. API VERSION..." --clear "$@" \
-  --stdout \
-        --radiolist "" 10 61 5 \
-        "23" "" on )
+  if [ ! $ARCH == "x86_64_PC" ];then
+    NDK_VER=$(dialog --backtitle "Step 1" \
+    --title "SELECT NDK VERSION TO DOWNLOAD..." --clear "$@" \
+    --stdout \
+          --radiolist "" 10 61 5 \
+          "r18b" "" on )
+          #"r19c" "" off \
+          #"r20b" "" off )
 
-  exec 3>&1
-  SDK_ROOT="$(dialog --title "Please choose a root SDK folder." \
-  	  "$@" \
-  	  --dselect $HOME/ \
-  	  10 48 28 2>&1 1>&3)"
-  exec 3>&-
+    API_VERSION=$(dialog --backtitle "Step 3" \
+    --title "CHOOSE MIN. API VERSION..." --clear "$@" \
+    --stdout \
+          --radiolist "" 10 61 5 \
+          "23" "" on )
 
-  if [ ! -f "$SDK_ROOT/platform-tools/api/api-versions.xml" ];then
-    echo "This is not a root SDK folder! Please try again."
-    exit 1;
+    exec 3>&1
+    SDK_ROOT="$(dialog --title "Please choose a root SDK folder." \
+    	  "$@" \
+    	  --dselect $HOME/ \
+    	  10 48 28 2>&1 1>&3)"
+    exec 3>&-
+
+    if [ ! -f "$SDK_ROOT/platform-tools/api/api-versions.xml" ];then
+      echo "This is not a root SDK folder! Please try again."
+      exit 1;
+    fi
+  else
+    echo "Compiling for x86_64_PC"
   fi
 }
 
