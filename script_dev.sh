@@ -212,7 +212,7 @@ cd dirA
 export CC=gcc
 export CXX=g++
 
-CFLAGS="-fPIC" ../source/runConfigureICU Linux --enable-static --disable-shared
+CFLAGS="-fPIC" ../source/runConfigureICU Linux --enable-static
 
 make -j$NPROC
 
@@ -225,13 +225,14 @@ CXXFLAGS="-fPIC" CFLAGS="-fPIC" ../source/configure \
 		--host=$BUILD \
 		--with-cross-build=$(pwd)/../dirA/ \
 		--enable-static \
-		--disable-shared \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/libicu
 
 
 make install -j$NPROC
 
 checkCompResult "$LIBICU_OUTPUT"
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MYPWD/$OUTPUT_FOLDER/libicu/lib
 
 #############MAPNIK
 cd $MYPWD
@@ -256,9 +257,9 @@ patch include/mapnik/markers_placement.hpp < $MYPWD/patches/markers_placement.pa
 echo "
 CC='$CC_COMPILER'
 CXX='$CXX_COMPILER'
-RUNTIME_LINK='static'
+RUNTIME_LINK='shared'
 CUSTOM_CXXFLAGS = '-DU_HAVE_STD_STRING=1'
-LINKING='static'
+LINKING='shared'
 INPUT_PLUGINS='shape,sqlite'
 BOOST_INCLUDES ='$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/include'
 BOOST_LIBS ='$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/lib'
@@ -343,14 +344,12 @@ addlib libboost_regex.a
 addlib libboost_system.a
 addlib libboost_thread.a
 addlib libfreetype.a
-addlib libharfbuzz-subset.a
 addlib libharfbuzz.a
 addlib libicudata.a
 addlib libicui18n.a
 addlib libicuio.a
 addlib libicule.a
 addlib libiculx.a
-addlib libicutest.a
 addlib libicutu.a
 addlib libicuuc.a
 addlib libjpeg.a
