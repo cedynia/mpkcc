@@ -257,7 +257,7 @@ patch include/mapnik/markers_placement.hpp < $MYPWD/patches/markers_placement.pa
 echo "
 CC='$CC_COMPILER'
 CXX='$CXX_COMPILER'
-RUNTIME_LINK='shared'
+RUNTIME_LINK='static'
 CUSTOM_CXXFLAGS = '-DU_HAVE_STD_STRING=1'
 LINKING='shared'
 INPUT_PLUGINS='shape,sqlite'
