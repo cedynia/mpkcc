@@ -110,10 +110,10 @@ function store_vars(){
   --stdout \
         --radiolist "" 10 61 5 \
         "x86_64_PC" "" off \
-        "arm_ANDROID" "" on \
-        "arm64_ANDROID" "" off \
-        "x86_64_ANDROID" "" off \
-        "x86_ANDROID" "" off  )
+        "arm" "" on \
+        "arm64" "" off \
+        "x86_64" "" off \
+        "x86" "" off  )
 
   if [ ! $ARCH == "x86_64_PC" ];then
     NDK_VER=$(dialog --backtitle "Step 1" \

@@ -141,7 +141,7 @@ cd $MYPWD
 
 cdIntoSrc "$LIBPROJ_FOLDER"
 
-CFLAGS="-fPIC" ./configure \
+CFLAGS="-fPIC -Wl,-soname=libproj.so" ./configure \
 			--enable-static \
 			--prefix=$MYPWD/$OUTPUT_FOLDER/$LIBPROJ_OUTPUT \
 			--host=$HOST \

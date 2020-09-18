@@ -56,7 +56,7 @@ export CXX=$CXX_COMPILER
 global="$(dirname "$0")"
 . "$global/script_dev.sh"
 cd $MYPWD
-if [ ! $ARCH = "x86_64_PC" ];then
-  global="$(dirname "$0")"
-  . "$global/build_osmscout-serv.sh"
-fi
+# if [ ! $ARCH = "x86_64_PC" ];then
+#   global="$(dirname "$0")"
+#   . "$global/build_osmscout-serv.sh"
+# fi
