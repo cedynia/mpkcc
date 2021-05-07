@@ -97,7 +97,7 @@ archArray=(
 						["$LIBICU_FOLDER"]=false
 						["$LIBSQLITE3_FOLDER"]=false
 						["$LIBMICROHTTP_FOLDER"]=false
-						["$LIBKYOTOCABINET_FOLDER"]=true
+						["$LIBKYOTOCABINET_FOLDER"]=false
 						["$LIBQT_FOLDER"]=false
 
 	  			)
