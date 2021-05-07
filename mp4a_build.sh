@@ -8,6 +8,12 @@ global="$(dirname "$0")"
 #echo "$1"
 #echo "$2"
 
+if [ $# -eq 0 ]
+then            
+ echo "No arguments supplied. The following arguments are required: --api= --arch= "
+exit 1;                                                        
+fi        
+
 store_vars "$1" "$2"
 echo "Validate links..."
 
