@@ -36,7 +36,7 @@ function checkArchs(){
   for arch in ${!archArray[@]};
   do
   	if [ ${archArray[$arch]} = false ] && ! validateLink ${linksArray[$arch]} ;then
-  		echo "the download link for $arch is not responding, please download $arch manually to $ARCHIVE_FOLDER folder";
+  		echo "the download link: ${linksArray[$arch]} is not responding, please download $arch manually to $ARCHIVE_FOLDER folder";
   		exit 1;
   	fi
   done
