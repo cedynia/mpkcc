@@ -97,7 +97,7 @@ archArray=(
 						["$LIBICU_FOLDER"]=false
 						["$LIBSQLITE3_FOLDER"]=false
 						["$LIBMICROHTTP_FOLDER"]=false
-						["$LIBKYOTOCABINET_FOLDER"]=false
+						["$LIBKYOTOCABINET_FOLDER"]=true
 						["$LIBQT_FOLDER"]=false
 
 	  			)
@@ -105,7 +105,7 @@ archArray=(
 declare -A linksArray
 
 linksArray=(
-						["$BOOST_FOLDER"]="https://sourceforge.net/projects/boost/files/boost/$BOOST_VERSION/$BOOST_FOLDER/download"
+						["$BOOST_FOLDER"]="http://sourceforge.net/projects/boost/files/boost/$BOOST_VERSION/$BOOST_FOLDER/download"
 						["$ZLIB_FOLDER"]="https://zlib.net/$ZLIB_FOLDER"
 						["$LIBXML_FOLDER"]="ftp://xmlsoft.org/libxml2/$LIBXML_FOLDER"
 						["$LIBTIFF_FOLDER"]="https://download.osgeo.org/libtiff/$LIBTIFF_FOLDER"
