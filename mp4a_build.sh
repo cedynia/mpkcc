@@ -5,7 +5,10 @@ global="$(dirname "$0")"
 . "$global/global_fun.sh"
 . "$global/osm_var.sh"
 
-store_vars
+#echo "$1"
+#echo "$2"
+
+store_vars "$1" "$2"
 echo "Validate links..."
 
 checkFold "$ARCHIVE_FOLDER"
