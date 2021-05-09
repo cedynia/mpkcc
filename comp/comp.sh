@@ -246,7 +246,7 @@ patch -p1 < $MYPWD/patches/mapnik_twkb.patch
 patch SConstruct < $MYPWD/patches/SCON.patch
 patch Makefile <  $MYPWD/patches/mapnik_makefile.patch
 patch include/mapnik/value_types.hpp <  $MYPWD/patches/mapnik_value_types.patch
-#need to patch readers for png and jpeg for remove the anonymous namespace that wraps create_jpeg_reader and create_tiff_reader fn
+#remove the anonymous namespace that wraps create_jpeg_reader and create_tiff_reader fn
 patch src/jpeg_reader.cpp < $MYPWD/patches/jpeg_reader.patch
 patch src/png_reader.cpp < $MYPWD/patches/png_reader.patch
 #no need to do the same with tiff_reader.cpp beacause we include the file in the project
