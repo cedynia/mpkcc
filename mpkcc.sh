@@ -1,36 +1,34 @@
 #! /bin/bash
 
-global="$(dirname "$0")"
-. "$global/global_var.sh"
-. "$global/global_fun.sh"
-. "$global/osm_var.sh"
+root="$(dirname "$0")"
+. "$root/global/global_var.sh"
+. "$root/global/global_fun.sh"
 
-store_vars
-echo "Validate links..."
+if [ $# -eq 0 ]
+then
+ echo "No arguments supplied. The following arguments are required: --api= --arch= "
+ exit 1;
+fi
+
+store_vars "$1" "$2"
 
 checkFold "$ARCHIVE_FOLDER"
 checkFold "$BUILD_FOLDER"
 checkFold "$OUTPUT_FOLDER"
 rm -rf "android-toolchain*"
-checkArchs
 
-#echo $NDK_ROOT
-#echo $API_VERSION
-#echo $ARCH
+echo "Validate links..."
+checkArchs
 
 if [ ! $ARCH = "x86_64_PC" ];then
   if [ "$ARCH" == "arm" ];then
     ARCH_NDK=arm
-    ARCHQT=armeabi-v7a
   elif [ "$ARCH" == "arm64" ];then
     ARCH_NDK=arm64
-    ARCHQT=arm64-v8a
   elif [ "$ARCH" == "x86_64" ];then
     ARCH_NDK=x86_64
-    ARCHQT=x86_64
   elif [ "$ARCH" == "x86" ];then
     ARCH_NDK=x86
-    ARCHQT=x86
   fi
 
   TOOLCHAIN_FOLDER=android-toolchain-API$API_VERSION-$ARCH_NDK
@@ -53,10 +51,5 @@ fi
 export CC=$CC_COMPILER
 export CXX=$CXX_COMPILER
 
-global="$(dirname "$0")"
-. "$global/script_dev.sh"
+. "$root/comp/comp.sh"
 cd $MYPWD
-# if [ ! $ARCH = "x86_64_PC" ];then
-#   global="$(dirname "$0")"
-#   . "$global/build_osmscout-serv.sh"
-# fi

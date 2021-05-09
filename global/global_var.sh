@@ -69,10 +69,11 @@ LIBQT_FOLDER=qt-everywhere-src-5.13.2.tar.xz
 LIBQT_OUTPUT=libqt
 
 #NDK LINKS
-NDK_VER=
+NDK_VER="r21e"
 ndk_r18b="https://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip"
 ndk_r19c="https://dl.google.com/android/repository/android-ndk-r19c-linux-x86_64.zip"
 ndk_r20b="https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip"
+ndk_r21e="https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zip"
 
 
 MAPNIK_VERSION=3.0.20
@@ -96,7 +97,7 @@ archArray=(
 						["$LIBICU_FOLDER"]=false
 						["$LIBSQLITE3_FOLDER"]=false
 						["$LIBMICROHTTP_FOLDER"]=false
-						["$LIBKYOTOCABINET_FOLDER"]=false
+						["$LIBKYOTOCABINET_FOLDER"]=true
 						["$LIBQT_FOLDER"]=false
 
 	  			)
@@ -104,7 +105,7 @@ archArray=(
 declare -A linksArray
 
 linksArray=(
-						["$BOOST_FOLDER"]="https://sourceforge.net/projects/boost/files/boost/$BOOST_VERSION/$BOOST_FOLDER/download"
+						["$BOOST_FOLDER"]="http://sourceforge.net/projects/boost/files/boost/$BOOST_VERSION/$BOOST_FOLDER/download"
 						["$ZLIB_FOLDER"]="https://zlib.net/$ZLIB_FOLDER"
 						["$LIBXML_FOLDER"]="ftp://xmlsoft.org/libxml2/$LIBXML_FOLDER"
 						["$LIBTIFF_FOLDER"]="https://download.osgeo.org/libtiff/$LIBTIFF_FOLDER"

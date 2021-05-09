@@ -36,7 +36,7 @@ function checkArchs(){
   for arch in ${!archArray[@]};
   do
   	if [ ${archArray[$arch]} = false ] && ! validateLink ${linksArray[$arch]} ;then
-  		echo "the download link for $arch is not responding, please download $arch manually to $ARCHIVE_FOLDER folder";
+  		echo "the download link: ${linksArray[$arch]} is not responding, please download $arch manually to $ARCHIVE_FOLDER folder";
   		exit 1;
   	fi
   done
@@ -103,7 +103,38 @@ function checkFold(){
 
 }
 
+
 function store_vars(){
+
+	if [ $# -eq 0 ]
+	then
+		echo "No arguments supplied. The following arguments are required: --api= --arch= "
+	exit 1;
+      	fi
+
+       for i in "$@"
+	do
+	case $i in
+	 --api=*)
+	 API_VERSION="${i#*=}"
+	 shift # past argument=value
+	 ;;
+	 --arch=*)
+	 ARCH="${i#*=}"
+	 shift # past argument=value
+	 ;;
+	  *)
+	  echo "unknown option: $i"
+	  exit 1;
+	;;
+	esac
+	done
+
+
+}
+
+
+function store_vars_with_dialog(){
 
   ARCH=$(dialog --backtitle "Step 2" \
   --title "CHOOSE ARCHITECTURE..." --clear "$@" \
@@ -120,7 +151,7 @@ function store_vars(){
     --title "SELECT NDK VERSION TO DOWNLOAD..." --clear "$@" \
     --stdout \
           --radiolist "" 10 61 5 \
-          "r18b" "" on )
+          "r21e" "" on )
           #"r19c" "" off \
           #"r20b" "" off )
 
@@ -131,16 +162,7 @@ function store_vars(){
           "23" "" on )
 
     exec 3>&1
-    SDK_ROOT="$(dialog --title "Please choose a root SDK folder." \
-    	  "$@" \
-    	  --dselect $HOME/ \
-    	  10 48 28 2>&1 1>&3)"
-    exec 3>&-
-
-    if [ ! -f "$SDK_ROOT/platform-tools/api/api-versions.xml" ];then
-      echo "This is not a root SDK folder! Please try again."
-      exit 1;
-    fi
+   
   else
     echo "Compiling for x86_64_PC"
   fi
@@ -157,10 +179,15 @@ function make_toolchain(){
   	if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r18b.zip" ];then
   	  wget "$ndk_r18b" -O "./$ARCHIVE_FOLDER/android-ndk-r18b.zip";
   	fi;;
-    "r20b") echo "";
-    if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r20b.zip" ];then
-      wget "$ndk_r20b" -O "./$ARCHIVE_FOLDER/android-ndk-r20b.zip";
-    fi;;
+    	"r20b") echo "";
+    	if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r20b.zip" ];then
+      	  wget "$ndk_r20b" -O "./$ARCHIVE_FOLDER/android-ndk-r20b.zip";
+    	fi;;
+	"r21e") echo "";
+	if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r21e.zip" ];then
+      	  wget "$ndk_r21e" -O "./$ARCHIVE_FOLDER/android-ndk-r21e.zip";
+    	fi;;
+
   esac
 
   if [ $? -ne 0 ];then
