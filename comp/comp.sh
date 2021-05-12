@@ -337,7 +337,7 @@ cp -r $MYPWD/$OUTPUT_FOLDER/$LIBMICROHTTP_OUTPUT/include/* $MYPWD/$MAPNIK_OUTPUT
 cd $MYPWD/$MAPNIK_OUTPUT/lib/
 
 echo "
-create libmapnik4android.a
+create libmpkcc.a
 addlib libboost_filesystem.a
 addlib libboost_program_options.a
 addlib libboost_regex.a
@@ -375,8 +375,8 @@ echo "
 ################################################################
 add_library(mapnik STATIC IMPORTED)
 set_target_properties(mapnik PROPERTIES IMPORTED_LOCATION
-    $MYPWD/$MAPNIK_OUTPUT/lib/libmapnik4android.a)
-include_directories($MYPWD/$MAPNIK_OUTPUT/mapnik-lib/include/)
+    $MYPWD/$MAPNIK_OUTPUT/lib/libmpkcc.a)
+include_directories($MYPWD/$MAPNIK_OUTPUT/include/)
 ################################################################
 "
 echo "**************************************************************************************"
