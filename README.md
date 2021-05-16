@@ -19,5 +19,4 @@ Now you can add the path to the include and library folder into your CMAKE proje
 `add_library(mpkcc STATIC IMPORTED)
 set_target_properties(mpkcc PROPERTIES IMPORTED_LOCATION
     <path to build directory>/mpkcc//output/mpkcc/lib/libmpkcc.a)
-    
 include_directories(<path to build directory>/output/mpkcc/include/)`
