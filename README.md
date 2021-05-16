@@ -9,7 +9,7 @@ It's better known as the the openstreetmap.org render engine.
 
 To cross-compile the library you have two options:
 
-- clone the repo and run the script
+- clone the repo and run the script (tested only on Debian 10)
 
 ```bash
 #install required dependencies
@@ -18,12 +18,8 @@ apt-get update -q -y && \
         apt-get upgrade -q -y && \
         apt-get install -q -y binutils wget make git ssh unzip python gcc g++
 
-```
-  ./mpkcc.sh --api=<minimum 21> --arch=<android hardware platform>
-
-  android hardware platforms: x86_64, x86, arm, arm64
-
-  tested only on Debian 10
+./mpkcc.sh --api=<minimum 21> --arch=<android hardware platform: x86_64|x86|arm|arm64>
+ ```
 
 - or download the actual binary version from the Releases section.
 
