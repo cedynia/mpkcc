@@ -1,8 +1,8 @@
-Mpkcc (mapnik cross compiled) provide an automated way for compiling the mapnik c++ library for other cpu architectures than x86_64 (currently supports only the Android platform).
+Mpkcc (mapnik cross compiled) script cross-compiles the mapnik c++ library for other cpu architectures than x86_64 (currently supports only the Android platform).
 
 What is Mapnik?
 Mapnik is the open source C++ library that you can use to develop a map applications.<br>
-It's better know as be the render engine of the openstreetmap.org portal.
+It's better known as the the openstreetmap.org render engine.
 
 To cross-compile the library you have two options:
 
