@@ -9,17 +9,29 @@ It's better known as the the openstreetmap.org render engine.
 
 To cross-compile the library you have two options:
 
-- clone the repo and run the script:
+- clone the repo and run the script
 
+```bash
+#install required dependencies
+
+apt-get update -q -y && \
+        apt-get upgrade -q -y && \
+        apt-get install -q -y binutils wget make git ssh unzip python gcc g++
+
+```
   ./mpkcc.sh --api=<minimum 21> --arch=<android hardware platform>
 
   android hardware platforms: x86_64, x86, arm, arm64
+
+  tested only on Debian 10
 
 - or download the actual binary version from the Releases section.
 
 Now you can add the path to the include and library folder into your CMAKE project in Android Studio:
 
-`add_library(mpkcc STATIC IMPORTED)
+```CMAKE
+add_library(mpkcc STATIC IMPORTED)
 set_target_properties(mpkcc PROPERTIES IMPORTED_LOCATION
-    <path to build directory>/mpkcc//output/mpkcc/lib/libmpkcc.a)
+    <path to build directory>/mpkcc/output/mpkcc/lib/libmpkcc.a)
 include_directories(<path to build directory>/output/mpkcc/include/)`
+```
