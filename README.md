@@ -1,6 +1,6 @@
 # Mpkcc
 
-Mpkcc (mapnik cross compiled) script cross-compiles the [mapnik](https://github.com/mapnik/mapnik) c++ library for other cpu architectures than x86_64 (currently supports only the Android platform).
+Mpkcc (mapnik cross compiled) cross-compiles the [mapnik](https://github.com/mapnik/mapnik) c++ library for other cpu architectures than x86_64 (currently supports only the Android platform).
 
 # What is Mapnik?
 
