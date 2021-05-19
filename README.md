@@ -23,7 +23,7 @@ apt-get update -q -y && \
 
 - or download the actual binary version from the Releases section.
 
-Now you can add the path to the include and library folder into your CMAKE project in Android Studio:
+Now, you can add the path to the include and library folder to your CMAKE file in Android Studio:
 
 ```CMAKE
 add_library(mpkcc STATIC IMPORTED)
