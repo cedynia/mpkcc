@@ -1,6 +1,6 @@
 # Mpkcc
 
-Mpkcc (mapnik cross compiled) cross-compiles the [mapnik](https://github.com/mapnik/mapnik) c++ library for other cpu architectures than x86_64 (currently supports only the Android platform).
+Mpkcc (mapnik cross compiled) is bash script that automates the cross-compilation process of the [mapnik](https://github.com/mapnik/mapnik) c++ library for other cpu architectures than x86_64 (currently supports only the Android platform).
 
 # What is Mapnik?
 
@@ -9,10 +9,10 @@ It's better known as the the openstreetmap.org render engine.
 
 To cross-compile the library you have two options:
 
-- clone the repo and run the script (tested only on Debian 10)
+- install dependencies, clone the repo and run the script (tested only on Debian 10)
 
 ```bash
-#install required dependencies
+#required dependencies
 
 apt-get update -q -y && \
         apt-get upgrade -q -y && \
