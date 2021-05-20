@@ -8,9 +8,9 @@ Mpkcc currently supports the following features.
 | ------ | ------ |
 | Mapnik | 5.0.2 |
 | Platform | Android |
-| NDK | 21e |
-| API | min. 21 |
-| Arch | arm,arm64,x86,x86_64 |
+| Android NDK | 21e |
+| Android API | min. 21 |
+| Android Arch | arm,arm64,x86,x86_64 |
 
 # What is Mapnik?
 
