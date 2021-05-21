@@ -4,7 +4,7 @@ Mpkcc (mapnik cross compiled) is a bash script that automates the cross-compilat
 
 Mpkcc currently supports the following features.
 
-|  | version |
+| feature | version |
 | ------ | ------ |
 | Mapnik | 5.0.2 |
 | Platform | Android |
