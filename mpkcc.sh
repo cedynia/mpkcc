@@ -6,7 +6,7 @@ root="$(dirname "$0")"
 
 if [ $# -eq 0 ]
 then
- echo "No arguments supplied. The following arguments are required: --api= --arch= "
+ echo "No arguments supplied. The following arguments are required: --api=<min. 21> --arch=<arm|arm64|x86|x86_64> "
  exit 1;
 fi
 
@@ -37,6 +37,7 @@ if [ ! $ARCH = "x86_64_PC" ];then
   TOOLCHAIN_PATH=$MYPWD/$TOOLCHAIN_FOLDER/bin/
   CC_COMPILER=$TOOLCHAIN_PATH/clang
   CXX_COMPILER=$TOOLCHAIN_PATH/clang++
+  RELEASE_FOLDER=mpkcc_android_$ARCH
 else
   echo "Building for PC"
   CC_COMPILER=gcc
@@ -46,6 +47,7 @@ else
   TOOLSET=
   TARGETOS=linux
   TOOLSET=gcc
+  RELEASE_FOLDER='mpkcc_pc'
 fi
 
 export CC=$CC_COMPILER

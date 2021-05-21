@@ -369,14 +369,19 @@ end
 
 ar -M < mri_script
 
+cd $MYPWD
+mkdir -p $RELEASE_FOLDER/lib
+cp -r $MYPWD/$MAPNIK_OUTPUT/include $MYPWD/$RELEASE_FOLDER/
+cp -r $MYPWD/$MAPNIK_OUTPUT/lib/libmpkcc.a $MYPWD/$RELEASE_FOLDER/lib/
+
 echo "*****************ADD THIS TO YOUR CMAKELISTS IN ANDROIDSTUDIO PROJECT*****************"
 echo "**************************************************************************************"
 echo "
 ################################################################
 add_library(mapnik STATIC IMPORTED)
 set_target_properties(mapnik PROPERTIES IMPORTED_LOCATION
-    $MYPWD/$MAPNIK_OUTPUT/lib/libmpkcc.a)
-include_directories($MYPWD/$MAPNIK_OUTPUT/include/)
+    $MYPWD/$RELEASE_FOLDER/lib/libmpkcc.a)
+include_directories($MYPWD/$RELEASE_FOLDER/include/)
 ################################################################
 "
 echo "**************************************************************************************"
