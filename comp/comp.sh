@@ -212,7 +212,7 @@ cd dirA
 export CC=gcc
 export CXX=g++
 
-CFLAGS="-fPIC" ../source/runConfigureICU Linux --enable-static
+CFLAGS="-fPIC" ../source/runConfigureICU Linux --enable-static --disable-shared
 
 make -j$NPROC
 
@@ -220,11 +220,14 @@ cd ../dirB
 
 export CC=$CC_COMPILER
 export CXX=$CXX_COMPILER
+#export ar=$MYPWD//android-toolchain-API21-arm64/aarch64-linux-android/bin/ar
+#export ranlib=$MYPWD//android-toolchain-API21-arm64/aarch64-linux-android/bin/ranlib
 
-CXXFLAGS="-fPIC" CFLAGS="-fPIC" ../source/configure \
+LDFLAGS="-fuse-ld=lld" CXXFLAGS="-fPIC " CFLAGS="-fPIC " ../source/configure \
 		--host=$BUILD \
 		--with-cross-build=$(pwd)/../dirA/ \
 		--enable-static \
+		--disable-shared \
 		--prefix=$MYPWD/$OUTPUT_FOLDER/libicu
 
 
@@ -259,6 +262,7 @@ CC='$CC_COMPILER'
 CXX='$CXX_COMPILER'
 RUNTIME_LINK='static'
 CUSTOM_CXXFLAGS = '-DU_HAVE_STD_STRING=1'
+CUSTOM_LDFLAGS= '-fuse-ld=lld'
 LINKING='static'
 INPUT_PLUGINS='shape,sqlite'
 BOOST_INCLUDES ='$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/include'

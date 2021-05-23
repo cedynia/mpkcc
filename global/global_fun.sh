@@ -162,7 +162,7 @@ function store_vars_with_dialog(){
           "23" "" on )
 
     exec 3>&1
-   
+
   else
     echo "Compiling for x86_64_PC"
   fi
