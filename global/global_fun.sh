@@ -180,13 +180,18 @@ function make_toolchain(){
   	  wget "$ndk_r18b" -O "./$ARCHIVE_FOLDER/android-ndk-r18b.zip";
   	fi;;
     	"r20b") echo "";
-    	if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r20b.zip" ];then
+    if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r20b.zip" ];then
       	  wget "$ndk_r20b" -O "./$ARCHIVE_FOLDER/android-ndk-r20b.zip";
-    	fi;;
-	"r21e") echo "";
-	if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r21e.zip" ];then
+    fi;;
+	     "r21e") echo "";
+	  if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r21e.zip" ];then
       	  wget "$ndk_r21e" -O "./$ARCHIVE_FOLDER/android-ndk-r21e.zip";
-    	fi;;
+    fi;;
+      "r22b") echo "";
+    if [ ! -f "./$ARCHIVE_FOLDER/android-ndk-r22b.zip" ];then
+       wget "$ndk_r22b" -O "./$ARCHIVE_FOLDER/android-ndk-r22b.zip";
+     fi;;
+
 
   esac
 

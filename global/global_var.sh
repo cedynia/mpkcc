@@ -70,11 +70,12 @@ LIBQT_FOLDER=qt-everywhere-src-5.13.2.tar.xz
 LIBQT_OUTPUT=libqt
 
 #NDK LINKS
-NDK_VER="r19c"
+NDK_VER="r20b"
 ndk_r18b="https://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip"
 ndk_r19c="https://dl.google.com/android/repository/android-ndk-r19c-linux-x86_64.zip"
 ndk_r20b="https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip"
 ndk_r21e="https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zip"
+ndk_r22b="https://dl.google.com/android/repository/android-ndk-r22b-linux-x86_64.zip"
 
 
 MAPNIK_VERSION=3.0.20
