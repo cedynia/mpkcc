@@ -9,7 +9,7 @@ Mpkcc currently supports only the Android platform with the the following featur
 | ------ | ------ |
 | Mapnik | 5.0.2 |
 | Platform | Android |
-| Android NDK | 21e |
+| Android NDK | r20b |
 | Android API | min. 21 |
 | Android Arch | arm,arm64,x86,x86_64 |
 

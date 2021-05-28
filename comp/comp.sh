@@ -220,8 +220,6 @@ cd ../dirB
 
 export CC=$CC_COMPILER
 export CXX=$CXX_COMPILER
-#export ar=$MYPWD//android-toolchain-API21-arm64/aarch64-linux-android/bin/ar
-#export ranlib=$MYPWD//android-toolchain-API21-arm64/aarch64-linux-android/bin/ranlib
 
 LDFLAGS="-fuse-ld=lld" CXXFLAGS="-fPIC " CFLAGS="-fPIC " ../source/configure \
 		--host=$BUILD \
