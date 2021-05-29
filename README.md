@@ -1,7 +1,7 @@
 # Mpkcc
 
 Mpkcc (mapnik cross compiled) is a bash script that automates the cross-compilation process of the [mapnik](https://github.com/mapnik/mapnik) c++ library for other cpu architectures than x86_64 PC.
-You can use it as the static library in your NDK project.
+You can use it as the static library in your Android NDK or Qt Android project.
 
 Mpkcc currently supports only the Android platform with the the following features.
 
@@ -16,7 +16,6 @@ Mpkcc currently supports only the Android platform with the the following featur
 # What is Mapnik?
 
 Mapnik is the open source C++ library that you can use to develop a map applications.
-It's better known as the the openstreetmap.org render engine.
 
 To cross-compile the library you have two options:
 
