@@ -240,12 +240,12 @@ cd $MYPWD
 
 git clone $MAPNIK_MASTER $MYPWD/$BUILD_FOLDER/mapnik
 cd $MYPWD/$BUILD_FOLDER/mapnik/
-git checkout v3.0.20
+git checkout v3.0.21
 git submodule update --init deps/mapbox/
 
 patch -p1 < $MYPWD/patches/mapnik_twkb.patch
-patch SConstruct < $MYPWD/patches/SCON.patch
-patch Makefile <  $MYPWD/patches/mapnik_makefile.patch
+#patch SConstruct < $MYPWD/patches/SCON.patch
+#patch Makefile <  $MYPWD/patches/mapnik_makefile.patch
 patch include/mapnik/value_types.hpp <  $MYPWD/patches/mapnik_value_types.patch
 #remove the anonymous namespace that wraps create_jpeg_reader and create_tiff_reader fn
 patch src/jpeg_reader.cpp < $MYPWD/patches/jpeg_reader.patch
@@ -259,9 +259,12 @@ echo "
 CC='$CC_COMPILER'
 CXX='$CXX_COMPILER'
 RUNTIME_LINK='static'
+CAIRO='False'
+CUSTOM_LDFLAGS= ''
 CUSTOM_CXXFLAGS = '-DU_HAVE_STD_STRING=1'
 CUSTOM_LDFLAGS= '-fuse-ld=lld'
 LINKING='static'
+HOST='$HOST'
 INPUT_PLUGINS='shape,sqlite'
 BOOST_INCLUDES ='$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/include'
 BOOST_LIBS ='$MYPWD/$OUTPUT_FOLDER/$BOOST_OUTPUT/lib'
