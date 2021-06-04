@@ -78,7 +78,7 @@ ndk_r21e="https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64
 ndk_r22b="https://dl.google.com/android/repository/android-ndk-r22b-linux-x86_64.zip"
 
 
-MAPNIK_VERSION=3.0.20
+MAPNIK_VERSION=3.0.21
 #uncoment the line if you want to try to build the official master
 MAPNIK_MASTER=https://github.com/mapnik/mapnik.git
 #...or the snapshot master from VI 2018

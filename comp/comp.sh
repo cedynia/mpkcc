@@ -244,15 +244,7 @@ git checkout v3.0.21
 git submodule update --init deps/mapbox/
 
 patch -p1 < $MYPWD/patches/mapnik_twkb.patch
-#patch SConstruct < $MYPWD/patches/SCON.patch
-#patch Makefile <  $MYPWD/patches/mapnik_makefile.patch
 patch include/mapnik/value_types.hpp <  $MYPWD/patches/mapnik_value_types.patch
-#remove the anonymous namespace that wraps create_jpeg_reader and create_tiff_reader fn
-patch src/jpeg_reader.cpp < $MYPWD/patches/jpeg_reader.patch
-patch src/png_reader.cpp < $MYPWD/patches/png_reader.patch
-#no need to do the same with tiff_reader.cpp beacause we include the file in the project
-#doing the same with png reader generates an error (redefinition of the global function)
-#patch src/tiff_reader.cpp < $MYPWD/patches/tiff_reader.patch
 patch include/mapnik/markers_placement.hpp < $MYPWD/patches/markers_placement.patch
 
 echo "
